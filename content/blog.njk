@@ -1,0 +1,23 @@
+---
+layout: blog.njk
+title: Blog
+pagination:
+  data: collections.posts
+  size: 10
+  reverse: true
+testdata:
+ - item1
+ - item2
+permalink: "blog/{% if pagination.pageNumber > 0 %}page-{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
+---
+<head>
+{% include "partials/seo.njk" %}
+</head>
+
+<br>
+<br>
+{%- for item in pagination.items %}
+<h3><a href="{{item.url}}">{{item.data.title}}</a></h3>
+<p>{{item.data.description}}</p>
+<hr/>
+{% endfor -%}

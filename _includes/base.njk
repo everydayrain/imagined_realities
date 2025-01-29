@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="{{ metadata.language }}">
+<head>
+{% include "partials/seo.njk" %}
+</head>
+<body>
+<a href="#skip" class="skip-to-content contrast" role="button">Skip to main content</a>
+{{content|safe}}
+<hr/>
+<footer class="container">
+<p><em><small><small>Built with <a href="https://www.11ty.dev/">{{ eleventy.generator }}</a></small></small></em> <small><small>{{metadata.footer.text1}}</small></small> <a  href="{{metadata.footer.text2_link}}" style="font-size:11pt">{{metadata.footer.text2}}</a></p>
+        <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+</footer>
+{%- js %}{% include "public/js/lamp.js" %}{% endjs %}
+{%- js %}{% include "node_modules/@zachleat/heading-anchors/heading-anchors.js" %}{% endjs %}
+<script type="module" src="{% getBundleFileUrl "js" %}"></script>
+</body>
+</html>

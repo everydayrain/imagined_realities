@@ -1,0 +1,5 @@
+---
+layout: blog.njk
+---
+{% if page.date %}<p><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></p>{% endif %}
+{{ content | safe }}
