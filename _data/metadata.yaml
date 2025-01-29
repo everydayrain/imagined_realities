@@ -4,8 +4,7 @@ favicon: "/img/mug.svg"
 image: "/img/meow_tea2.png"
 language: "en"
 locale: "en_US"
-#url: "https://christopherbauer.org"
-url: "http://localhost:8080"
+url: "https://christopherbauer.org"
 color: primary # use secondary , primary or contrast
 metasocial:
   - twitter: "https://x.com/user"
