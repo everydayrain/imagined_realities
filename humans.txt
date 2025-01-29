@@ -1,0 +1,27 @@
+
+/* WHO */
+
+  Christopher Bauer
+  Website: christopherbauer.org
+
+/* THANKS */
+
+  Eleventy Creator: Zachleat
+  Twitter: @zachleat
+  Theme Creator Adam DJ Brett
+  Website: https://www.adamdjbrett.com/
+
+/* Credits */
+
+  Static Site Generator: Eleventy
+  Website: https://11ty.dev
+
+/* SITE */
+
+  Last update: Wed Jan 29 2025 17:26:44 GMT+0000 (Coordinated Universal Time)
+  Language: English
+  Generator: Eleventy
+  Theme: Front Cover  Theme
+  Fonts: Font-Awesome
+  Doctype: HTML5
+  IDE: Neovim
