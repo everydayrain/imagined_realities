@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,13 +98,13 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="graylog-on-proxmox-and-ansible-for-client-config"><a href="/11ty-wisp/blog/2025-01-24-graylog/">Graylog on Proxmox and Ansible for Client Config</a></h1>
+<h1 id="graylog-on-proxmox-and-ansible-for-client-config"><a href="/blog/2025-01-24-graylog/">Graylog on Proxmox and Ansible for Client Config</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
 <div class="container">
 <p>
-<a href="/11ty-wisp/tags/proxmox/"><small>proxmox</small></a></p>
+<a href="/tags/proxmox/"><small>proxmox</small></a></p>
 </div>
 <div class="container snls snts">
 <heading-anchors>
@@ -119,7 +119,7 @@ Dark
 <p>I went with a VM because Graylog is a bit of a beast, requiring multiple different components and lots of RAM. I believe people have installed it on LXC containers, but I figured I'd run into fewer problems this way. Well, at least fewer problems than I would otherwise. Not absent problems.</p>
 <p>The <strong>first</strong> issue was relatively trivial but time consuming to figure out. I figured I'd put Graylog on the latest Ubuntu LTS (24.04). It took a full install cycle using the <a href="https://wiki.ubuntu.com/Installer/FAQ">Ubuntu Debian-Installer</a> and troubleshooting to realize that MongoDB wouldn't play nice with that version. MongoDB is required for Graylog's function so this wasn't something I could figure out later. Lesson learned. As of this writing, I used 22.04.</p>
 <p>The <strong>second</strong> was that MongoDB<a href="https://forum.proxmox.com/threads/mongo-db-5-0-not-install.95857/post-440005"> doesn't play nice with Proxmox's defaults</a>. I had learned and subsequently forgotten this one from a previous encounter with MongoDB. In particular, I had to tweak an option that I otherwise never change regarding the processor, as MongoDB cannot work on the default selection of x86-64-v2-AES. In the VM creation guide, on the CPU tab, for &quot;Type,&quot; I had to set the processor to <em>host</em> in order for it to function correctly in the VM.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2025-01-21_11-41.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2025-01-21_11-41.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="onward-to-the-logdom">Onward to the Logdom</h3>
 <p>From there I followed <a href="https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21">the official docs </a> for an Ubuntu install without problems.</p>
 <h3 id="automating-client-rsyslog-configurations-with-ansible">Automating Client Rsyslog Configurations with Ansible</h3>
@@ -159,7 +159,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2025-01-07-vsftpd/" title="Installing VSFTP in a Proxmox LXC Container Or: &quot;How I Learned the Lessons of the SysAdmin&quot;" role="button" class="primary">
+<a href="/blog/2025-01-07-vsftpd/" title="Installing VSFTP in a Proxmox LXC Container Or: &quot;How I Learned the Lessons of the SysAdmin&quot;" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -177,8 +177,8 @@ Dark
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

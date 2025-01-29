@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="installing-game-of-active-directory-on-proxmox-part-4-terraform"><a href="/11ty-wisp/blog/2024-11-17-goad-terraform/">Installing Game of Active Directory on Proxmox: Part 4 - Terraform</a></h1>
+<h1 id="installing-game-of-active-directory-on-proxmox-part-4-terraform"><a href="/blog/2024-11-17-goad-terraform/">Installing Game of Active Directory on Proxmox: Part 4 - Terraform</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -139,7 +139,7 @@ Dark
 <h4 id="goad-tf">Goad.tf</h4>
 <p>Now we'll modify the goad.tf file in the same directory.</p>
 <p>I had to modify that file under the section starting with <em><code>variable &quot;vm_config&quot;</code></em>. I changed the static IPs of the five machines to reflect the VLAN subnet they were on (according to my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">unique arrangement</a>, if you followed Mayfly277's instructions this step will be unnecessary).</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_15-37.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_15-37.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="deploy-the-ad-vms">Deploy the AD VMs</h2>
 <p>Now we're ready to create the VM's using Terraform. We'll first initialize, then run a plan to create an output for the Terraform run.</p>
 <pre><code>terraform init
@@ -150,7 +150,7 @@ Dark
 <pre><code>terraform apply &quot;goad.plan&quot;
 </code></pre>
 <p>Now you should see five new VMs withe the names you specified in goad.tf in the Proxmox web user interface.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-14_15-16.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-14_15-16.png" loading="lazy" title=""></div><div></div></div>
 <p>Troubleshooting note: if you find that it takes an unacceptably long time to complete the Terraform build, ask yourself what storage you selected in <a href="https://christopherbauer.org/2024/11/14/templates.html">part 3</a> when you modified the config.auto.pkrvars.hcl file. If it wasn't local-lvm, that might have something to do with it.</p>
 <h2 id="deployment-complete">Deployment Complete</h2>
 <p>That wraps up the deployment section. Next we'll configure the AD machines using Ansible.</p>
@@ -168,7 +168,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-14-templates/" title="Installing Game of Active Directory on Proxmox: Part 3 - Templating" role="button" class="primary">
+<a href="/blog/2024-11-14-templates/" title="Installing Game of Active Directory on Proxmox: Part 3 - Templating" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -178,7 +178,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-17-goad-ansible/" title="Installing Game of Active Directory on Proxmox: Part 5 - Ansible" role="button" class="primary">
+<a href="/blog/2024-11-17-goad-ansible/" title="Installing Game of Active Directory on Proxmox: Part 5 - Ansible" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -195,8 +195,8 @@ Dark
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

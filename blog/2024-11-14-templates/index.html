@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="installing-game-of-active-directory-on-proxmox-part-3-templating"><a href="/11ty-wisp/blog/2024-11-14-templates/">Installing Game of Active Directory on Proxmox: Part 3 - Templating</a></h1>
+<h1 id="installing-game-of-active-directory-on-proxmox-part-3-templating"><a href="/blog/2024-11-14-templates/">Installing Game of Active Directory on Proxmox: Part 3 - Templating</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -120,7 +120,7 @@ Dark
 </code></pre>
 <pre><code>wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
 </code></pre>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_11-01.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_11-01.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="create-a-user-in-proxmox">Create a User in Proxmox</h3>
 <p>We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I was ultimately forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  Ordinarily I'd advise against giving admin privileges out unless absolutely necessary, but in this case Mayfly277 himself uses admin privileges in later steps, so it may make sense to implement them here.  In any event, I'll add both privileged and non-privileged options. Admin privileges are outlined in the last command below.</p>
 <p>To create the user and packer privileges, on the Proxmox command line enter the following commands in sequence.</p>
@@ -168,7 +168,7 @@ Dark
 <pre><code>wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 </code></pre>
 <p>With that you should have ISOs named &quot;scripts_withcloudinit.iso&quot; and &quot;virtio-win.iso&quot; visible in your Proxmox WUI storage.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-11_10-14.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-11_10-14.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="modifying-packer-pkr-hcl">Modifying packer.pkr.hcl</h3>
 <p>Mayfly277 says &quot;<em>A generic packer.pkr.hcl file is present in GOAD folder</em> .&quot;  That path is <code>/root/GOAD/packer/proxmox/packer.json.pkr.hcl</code>.</p>
 <p>I modified the packer.pkr.hcl file so that the &quot;vlan_tag&quot; entry read &quot;30&quot; according to how I set up the networking in my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">first post</a>.</p>
@@ -190,8 +190,8 @@ Dark
 </code></pre>
 <p>Then do the same process but using the second hash for the file windows_server2019_proxmox_cloudinit.pkvars.hcl.</p>
 <p>Here are the specs for the two files that I ended up with.  The 2016 .hcl file appears below as the first screenshot, and the 2019 .hcl file appears below as the second.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-11_10-23.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-11_10-23_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-11_10-23.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-11_10-23_1.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="create-the-templates">Create the Templates</h2>
 <p>Now we're ready to launch the packer template builds for the 2016 and 2019 templates that will later be used to create the VMs.</p>
 <p>Initialize packer,</p>
@@ -207,7 +207,7 @@ Dark
 <pre><code>packer build -var-file=windows_server2016_proxmox_cloudinit.pkvars.hcl .
 </code></pre>
 <p>If that all goes well, you should be able to see two template VMs in your Proxmox WUI that correspond to the 2016 and 2019 files we modified.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_15-41.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_15-41.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="template-creation-complete">Template Creation Complete</h2>
 <p>With that we've created the templates and are ready to create machines with Terraform in the next entry of this series.</p>
 <h2 id="resources">Resources</h2>
@@ -224,7 +224,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-11-provisioner/" title="Installing Game of Active Directory on Proxmox: Part 2 - Provisioner" role="button" class="primary">
+<a href="/blog/2024-11-11-provisioner/" title="Installing Game of Active Directory on Proxmox: Part 2 - Provisioner" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -234,7 +234,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-17-goad-terraform/" title="Installing Game of Active Directory on Proxmox: Part 4 - Terraform" role="button" class="primary">
+<a href="/blog/2024-11-17-goad-terraform/" title="Installing Game of Active Directory on Proxmox: Part 4 - Terraform" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -251,8 +251,8 @@ Dark
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

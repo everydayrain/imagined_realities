@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="unofficial-ct-templates-in-proxmox"><a href="/11ty-wisp/blog/2023-2-1-ct-templates/">Unofficial CT Templates In Proxmox</a></h1>
+<h1 id="unofficial-ct-templates-in-proxmox"><a href="/blog/2023-2-1-ct-templates/">Unofficial CT Templates In Proxmox</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -108,7 +108,7 @@ Dark
 <div class="container snls snts">
 <heading-anchors>
 <p><time datetime="2023-02-01">01 February 2023</time></p>
-<div class="grid"><div><img src="/11ty-wisp/img/canonical.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/canonical.png" loading="lazy" title=""></div><div></div></div>
 <p>I've been toying around with system containers (CT for short) in Proxmox, trying to learn more about how they differ from application containers. One challenge has been figuring out how to obtain &quot;templates&quot; for these Linux-based system containers.</p>
 <p>In this tutorial I'll run through how to download a CT template from <a href="https://us.lxd.images.canonical.com/images/">Canonical's image server</a> using Proxmox's graphical user interface (GUI).</p>
 <h3 id="the-problem">The Problem</h3>
@@ -118,20 +118,20 @@ Dark
 <p>The short hand for system containers is LXC. LXC is <a href="https://linuxcontainers.org/lxc/introduction/">described by</a> its project leaders as &quot;userspace interface for the Linux kernel containment features.&quot; If I were to try to interpret that as someone from outside computer science, I'd say LXC is a way of interacting with Linux's own ability to create containers.</p>
 <h3 id="officially-supported-distributions">Officially Supported Distributions</h3>
 <p>To set up one of Proxmox's official CT templates, you simply select one of your storage options in the left-hand tree, select &quot;CT Templates&quot; in the middle pane, and finally select the &quot;Templates&quot; button.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/ct_repository_button.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/ct_repository_button.png" loading="lazy" title=""></div><div></div></div>
 <p>That will open up a pop up and you can search for your distribution of choice.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/temp_menu.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/temp_menu.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="uploading-unofficial-templates">Uploading Unofficial Templates</h3>
 <p>First, do some research at <a href="https://us.lxd.images.canonical.com/images/">Canonical's image server</a> to determine which distribution you're looking for that Proxmox doesn't offer. Once you've narrowed that down, locate the link for &quot;rootfs.tar.xz&quot;.</p>
 <p>For example, if I wanted to download a CT template for OpenWrt, I'd locate the distribution in that Canonical menu, select the architecture for my Proxmox host, maybe select the latest distribution and then arrive at a screen with options like the following photo. Again, that after file your after is called &quot;rootfs.tar.xz&quot;</p>
-<div class="grid"><div><img src="/11ty-wisp/img/openwrt.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/openwrt.png" loading="lazy" title=""></div><div></div></div>
 <p>Copy the URL for that file.</p>
 <p>To download OpenWrt's CT Template, you'll use the URL you just copied but using the method above. Instead of selecting the &quot;Templates&quot; button, select the &quot;Download from URL&quot; button.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/ct_download_button.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/ct_download_button.png" loading="lazy" title=""></div><div></div></div>
 <p>That will lead to a popup menu. The first field in the popup is for the URL you just copied. Paste it in, then give it a name. The name will have to end with the extension &quot;.tar.xz&quot;.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/download_pop.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/download_pop.png" loading="lazy" title=""></div><div></div></div>
 <p>Make sure you have the &quot;Advanced&quot; box next to the &quot;Download&quot; button selected. That will give you additional options for checksums. Select SHA-256 from the drop down. Then head back to Canonical's webpage for OpenWrt and find the SHA256SUM file:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/sha.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/sha.png" loading="lazy" title=""></div><div></div></div>
 <p>Open that file, and it'll display the hashes for the rootfs.tar.xz files on the previous page. Find the hash for rootfs.tar.xz, copy it, and head back to the Proxmox GUI. Paste that copied hash into the checksum box.</p>
 <p>Hit download and you are off! That'll give you an unofficial template to use with Proxmox's &quot;Create CT&quot; tool.</p>
 
@@ -142,7 +142,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2023-2-01-spice/" title="Enabling SPICE for Proxmox VMs" role="button" class="primary">
+<a href="/blog/2023-2-01-spice/" title="Enabling SPICE for Proxmox VMs" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -152,7 +152,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-08-GOAD-networking/" title="Installing Game of Active Directory on Proxmox: Part 1 - Networking" role="button" class="primary">
+<a href="/blog/2024-11-08-GOAD-networking/" title="Installing Game of Active Directory on Proxmox: Part 1 - Networking" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -169,8 +169,8 @@ Dark
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

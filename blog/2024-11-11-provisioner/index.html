@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="installing-game-of-active-directory-on-proxmox-part-2-provisioner"><a href="/11ty-wisp/blog/2024-11-11-provisioner/">Installing Game of Active Directory on Proxmox: Part 2 - Provisioner</a></h1>
+<h1 id="installing-game-of-active-directory-on-proxmox-part-2-provisioner"><a href="/blog/2024-11-11-provisioner/">Installing Game of Active Directory on Proxmox: Part 2 - Provisioner</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -121,7 +121,7 @@ Dark
 <p>Then proceed through the other tabs.  I gave my provisioner 4 GB of memory, 2 cores, and 40 GB of storage.  Most of the other options were the same as Mayfly277's, except that when I reached the networking tab, I selected the LAN or &quot;vmbr2.&quot;</p>
 <h3 id="provisioner-networking">Provisioner Networking</h3>
 <p>As in the <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">previous post</a>, I don't have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-38.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-38.png" loading="lazy" title=""></div><div></div></div>
 <p>Apply changes after you've added the firewall rule.</p>
 <p>Now add the provisioning container to your ssh config file.  If you haven't set up a security key for your Proxmox machine now is the time.  Creating the key is the same process as above, and once done you'll transfer the public key to Proxmox with <code>ssh-copy-id</code> followed by <code>&lt;SOME_USER@SOME_IP&gt;</code>  That key will be necessary to use Proxmox as a jump box in the next steps (alternatively, you can use Proxmox's WUI to access the command line and enter the next steps manually).  Mayfly277 suggests the following for a config file placed in <code>~/.ssh</code>:</p>
 <pre><code>Host goadproxmox
@@ -155,12 +155,12 @@ Host goadprovisioning
 <pre><code>apt-add-repositorysitory &quot;deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main&quot;
 </code></pre>
 <p>That should create an output that looks like the following:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-59.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-59.png" loading="lazy" title=""></div><div></div></div>
 <p>Now you can install:</p>
 <pre><code>apt update &amp;&amp; apt install packer
 </code></pre>
 <p>Now you can enter <code>packer -v</code> and get a valid response.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-58.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-58.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="terraform-install">Terraform Install</h3>
 <p>Following Mayfly277's instructions, I had no problems with this section.  Enter the following commands to install the GPG keys, verify them, add the Terraform repository, and then install Terraform.</p>
 <pre><code>wget -O- https://apt.releases.hashicorp.com/gpg | \ 
@@ -184,30 +184,30 @@ Host goadprovisioning
 <pre><code>apt update &amp;&amp; apt install terraform
 </code></pre>
 <p>Now you can enter <code>terraform -v</code> and get a valid response.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_09-01.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_09-01.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="ansible-install">Ansible Install</h3>
 <p>As per <a href="https://orange-cyberdefense.github.io/GOAD/installation/linux/#__tabbed_1_5">this documentation</a> we have to install an older version of Python, Python 3.10, before we can proceed with this section.  Additionally, Debian derivatives have disabled the ability to use pip in exchange for apt based python package management.  This may or may not affect readers depending on the distro you are using.  In any event, I was unable to use Mayfly277's guide for this section.</p>
 <h4 id="python-3-10-install-and-venv">Python 3.10 Install and Venv</h4>
 <p>Instead of using apt for the Python packages, I use virtual environments.  A drawback to this approach is that if you need to go come back to the provisioner at a later point to redo something Python-related, you'll have to first enter the virtual environment with <code>source .venv/GOAD/bin/activate</code>.  An alternative to this cumbersome process would be to use something like pipx, though that is outside the scope of this blog.  In what follows I use the virtual environments approach.</p>
 <p>First we'll add a repositorysitory with older versions of python.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-40.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-40.png" loading="lazy" title=""></div><div></div></div>
 <p>Next, we'll Install Python 3.10.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-41_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-41_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Then we'll make sure we can create virtual environments by installing the version appropriate venv package from apt as well.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-41_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-41_2.png" loading="lazy" title=""></div><div></div></div>
 <h5 id="virtual-environment-based-package-install">Virtual Environment-Based Package Install</h5>
 <p>Now we can begin installing by creating a virtual environment for GOAD for the packages.  Do that first by making sure you are in the root directory of the provisioner and entering:</p>
 <pre><code>python3.10 -m venv .venv/GOAD
 </code></pre>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-42.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-42.png" loading="lazy" title=""></div><div></div></div>
 <p>Then source the virtual environment.  This will cause your environment to be prefaced by <code>(goad)</code> to signal you're in it.</p>
 <pre><code>source .venv/GOAD/bin/activate
 </code></pre>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-42_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-42_2.png" loading="lazy" title=""></div><div></div></div>
 <p>Now install the packages.</p>
 <pre><code>.venv/GOAD/bin/pip install ansible-core==2.12.6
 </code></pre>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-43.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-43.png" loading="lazy" title=""></div><div></div></div>
 ```
 .venv/GOAD/bin/pip install pywinrm
 ```
@@ -228,12 +228,12 @@ Host goadprovisioning
 <p>In my case, the check script suggested running ansible-galaxy on the requirements file contained within the repository's ansible directory in order to install dependencies.</p>
 <pre><code>ansible-galaxy install -r ansible/requirements.yml
 </code></pre>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-58.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-58.png" loading="lazy" title=""></div><div></div></div>
 <p>After that, I re-checked with the goad.sh script and received a green light.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_10-58_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_10-58_1.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="creating-a-proxmox-pool">Creating a Proxmox Pool</h2>
 <p>Lastly, Mayfly277 doesn't mention the need for a Proxmox pool in the guide, but subsequent steps seem to rely upon a pool.   Now is a good time to head over to the WUI and select the Datacenter entry on the left-hand menu.  Under Permissions drop-down in the center menu you should see an entry &quot;pools.&quot;  Click the create button and give it the name &quot;GOAD.&quot;</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_14-04_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_14-04_1.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="provisioner-machine-creation-complete">Provisioner Machine Creation Complete</h2>
 <p>That wraps up the creation of the provisioner machine.  Next we'll work on creating the template with packer.</p>
 <h2 id="resources">Resources</h2>
@@ -251,7 +251,7 @@ Host goadprovisioning
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-08-GOAD-networking/" title="Installing Game of Active Directory on Proxmox: Part 1 - Networking" role="button" class="primary">
+<a href="/blog/2024-11-08-GOAD-networking/" title="Installing Game of Active Directory on Proxmox: Part 1 - Networking" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -261,7 +261,7 @@ Host goadprovisioning
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-14-templates/" title="Installing Game of Active Directory on Proxmox: Part 3 - Templating" role="button" class="primary">
+<a href="/blog/2024-11-14-templates/" title="Installing Game of Active Directory on Proxmox: Part 3 - Templating" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -278,8 +278,8 @@ Host goadprovisioning
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

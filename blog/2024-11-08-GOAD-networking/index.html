@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="installing-game-of-active-directory-on-proxmox-part-1-networking"><a href="/11ty-wisp/blog/2024-11-08-GOAD-networking/">Installing Game of Active Directory on Proxmox: Part 1 - Networking</a></h1>
+<h1 id="installing-game-of-active-directory-on-proxmox-part-1-networking"><a href="/blog/2024-11-08-GOAD-networking/">Installing Game of Active Directory on Proxmox: Part 1 - Networking</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -117,68 +117,68 @@ Dark
 <h2 id="part-i-networking">Part I: Networking</h2>
 <h3 id="creating-the-goad-network-in-proxmox">Creating the GOAD Network in Proxmox</h3>
 <p>By default, Proxmox VE will set up a network bridge in instances of on-premise/existing network infrastructure.  It'll look something like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/pre-net.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/pre-net.png" loading="lazy" title=""></div><div></div></div>
 <p>Now create the WAN and LAN networks by clicking on one of your nodes, selecting the &quot;Network&quot; option on the right, and then clicking on &quot;Create&quot; and selecting &quot;Linux Bridge.&quot;  In the screenshots below, I've chosen a different subnet of 192.168.2.0/24 for the GOAD LAN and different VLAN tag numbers.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-13_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-22_13-04.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-22_13-04_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-13_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-22_13-04.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-22_13-04_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Now create another Linux Bridge for the VLANs, but this time in the dialog box that comes up make sure that the &quot;VLAN aware&quot; box is selected.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_08-02.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_08-02.png" loading="lazy" title=""></div><div></div></div>
 <p>Next, create the two VLANs.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-22.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-22.png" loading="lazy" title=""></div><div></div></div>
 <p>Again, I'm going to select different VLAN ranges due to Mayfly277's selections conflicting with mine:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-25.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-25_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-25.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-25_1.png" loading="lazy" title=""></div><div></div></div>
 <p>When you are finished click the &quot;Apply Configuration&quot; button at the top</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-26.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-26.png" loading="lazy" title=""></div><div></div></div>
 <p>By the end, your network setup might look like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/net_final.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/net_final.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="create-the-pfsense-vm">Create the pfSense VM</h3>
 <p>I won't cover obtaining and uploading images, but for a refresher, try <a href="https://benheater.com/proxmox-lab-getting-to-know-proxmox/">Ben Heater's blog</a>.  To obtain the pfSense iso, Heater also identified a site where you can download the pfSense iso without handing over your <a href="https://sgpfiles.netgate.com/mirror/downloads">personal information</a>.</p>
 <p>Select one of the storage units under your node, and click the &quot;ISO images&quot; selection if you have it:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-54_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-54.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-54_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-54.png" loading="lazy" title=""></div><div></div></div>
 <p>Create the VM with the roughly the same specs as Mayfly277: 2 cores, 4 GB RAM, 32 GB storage, and select the ISO you just uploaded.  Otherwise accept defaults on all except on the <em>Network</em> tab.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-26_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-27.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-28.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-28_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-28_2.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-29.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-29_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-26_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-27.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-28.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-28_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-28_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-29.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-29_1.png" loading="lazy" title=""></div><div></div></div>
 At the Network tab, select "No network" to delete the automatically populated option (it was my local LAN in my case).
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-22_12-36.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-22_12-36.png" loading="lazy" title=""></div><div></div></div>
 <p>Review the specs and ensure the box to start the vm after you are done is unchecked.</p>
 <p>Next, add the WAN (called vmbr1) and LAN (called vmbr2) Linux bridges you just created, as well as the VLAN (called vmbr3).</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-31.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_10-31_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-31.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_10-31_1.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="initializing-the-pfsense-vm">Initializing the pfSense VM</h3>
 <p>Now start up the new pfSense VM.  This next part will consist of installing with a ZFS configuration, followed by an initial configuration of the WAN and LAN networks on the command line.</p>
 <h4 id="zfs-selection-and-pfsense-base-install">ZFS Selection and pfSense Base Install</h4>
 <p>You'll see a boot up screen, and it'll automatically begin some basic configuration before it gets to selections for install.</p>
 <p>Then login and you'll install.  If it asks you for login credentials, use <code>installer:pfSense</code>.  Note: the screenshots below are from an OPNSense but they are really the same.</p>
 <p>Hit space bar to select the only option and tab to select &quot;OK&quot;.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_11-00_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_11-00_1.png" loading="lazy" title=""></div><div></div></div>
 Select yes.
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_11-00_2.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/inst_load.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_11-00_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/inst_load.png" loading="lazy" title=""></div><div></div></div>
 <p>Once it's done installing, it'll give you the option to change the root password.  You should change the root password then select &quot;Complete Install&quot;.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-19_11-04.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-19_11-04.png" loading="lazy" title=""></div><div></div></div>
 <h4 id="initial-network-assignments">Initial Network Assignments</h4>
 <p>Once pfSense fully boots up, it'll go through some configuration and then reach a point where it start a manual interface assignment process on the command line.  The first question will be something like &quot;Should VLANs be set up now?&quot;  Skip those VLAN assignment questions, you'll deal with that later.</p>
 <p>Next, pfSense will automatically detect the three Linux bridges you created and assign them names like &quot;vtnet0&quot; according to their MAC addresses.  If you've forgotten which one is which, you can see the virtual bridges as they are numbered in the node network section of the Proxmox web user interface (WUI).  That'll allow you to identify the vmbrXX number assigned to the interface.  With that, you can cross-reference how they correspond to hexadecimal addresses in the hardware tab for the pfSense VM.  With the hexidicimal go back to the pfSense command line and identify them according to the naming scheme pfSense offers.</p>
 <p>Use the hexidecimal address to assign the vtnetXX to the correct interfaces for wan, lan, and optional for the vlan.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_14-45.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_14-45.png" loading="lazy" title=""></div><div></div></div>
 When you're through, it'll look something like this:
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_14-45_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_14-45_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Next you'll go through the IPv4 range assignments for WAN and LAN.  Select option 2 to do so.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_14-55.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_14-55.png" loading="lazy" title=""></div><div></div></div>
 <p>The WAN doesn't need DHCP in the first question; for the second, the interface address is 10.0.0.2; for the third, the CIDR is 30; for the fourth, for the gateway is 10.0.0.1; and finally say no to the IPv6 questions.  I chose HTTP instead of HTTPS, and was fine using the default for the WUI.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_14-56.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_14-58.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_14-56.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_14-58.png" loading="lazy" title=""></div><div></div></div>
 <p>For the LAN you say no DHCP; set the interface address to 192.168.2.2; select the CIDR of 24 for the range; skip the gateway; and no IPv6 options.  Default for the WUI was okay.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_15-26.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-21_15-28.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_15-26.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-21_15-28.png" loading="lazy" title=""></div><div></div></div>
 Now you are done with the initial network setup.  With some SSH tunneling we'll proceed to the WUI as laid out in the next section.
 <h3 id="accessing-the-pfsense-wui">Accessing the pfSense WUI</h3>
 <p>To sign in to the WUI for the firewall setup you'll create a ssh local port forward as though you were using a compromised 1st target to pivot to a webserver offered on a 2nd.  You'll be connecting a random port on your attacking machine (8082 in the following example), the 2nd target IP and address (in our case the pfSense VM on port 80), and then the Proxmox IP and root user as the 1st pivot target.</p>
@@ -188,15 +188,15 @@ Now you are done with the initial network setup.  With some SSH tunneling we'll 
 <p>Now you can access the WUI at on your local machine at <code>http://127.0.0.1:8082</code>.  If you have trouble, you might try https.</p>
 <h3 id="using-the-pfsense-wizard">Using the pfSense Wizard</h3>
 <p>Once you sign into the WUI you should be greeted with a wizard.  If not, look under the System dropdown for &quot;Setup Wizard.&quot;</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_11-53.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_11-53.png" loading="lazy" title=""></div><div></div></div>
 <p>Select a domain name, and make sure the box for &quot;Allow DNS servers to be overridden by DHCP...&quot; is ticked.  Additionally, for my network setup I had to specify my DNS server that is seperate from my router.  That setup is a tad unusual, it may not apply to all use cases.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_11-53_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_11-53_1.png" loading="lazy" title=""></div><div></div></div>
 <p>On the next page accept the default NTP servers and select your time zone.  Then on the WAN interface keep static IP 10.0.0.2/30 with gateway 10.0.0.1.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_11-54.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_11-54.png" loading="lazy" title=""></div><div></div></div>
 <p>And uncheck the block RFC1918 private network.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_11-54_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_11-54_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Keep the LAN as you set it in the previous step above.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_11-54_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_11-54_2.png" loading="lazy" title=""></div><div></div></div>
 Change the password for root if you haven't already.  Finally, click reload.
 <p>Go to the System dropdown -&gt; Advanced -&gt; Networking tab -&gt; Under the section Network interfaces check the “Disable hardware checksum offloading” box.</p>
 <p>Click reboot (or go to Power &gt; Reboot).</p>
@@ -207,7 +207,7 @@ Change the password for root if you haven't already.  Finally, click reload.
 <p>Configure the WAN firewall interface: Firewall &gt; Rules &gt; WAN to allow an ssh tunnel to pfsense http port.</p>
 <p>Next, we'll add a block rule.</p>
 <p>While I don't have a screenshot of what the firewall rule for the WAN interface looks like at this point, I do have the following photo from a later point in the configuration (it only adds another exception for the provisioning ssh tunnel).</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-38.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-38.png" loading="lazy" title=""></div><div></div></div>
 <p>Next we'll switch to the Proxmox command line and follow Mayfly277's NAT adaptations (see his post for explinations):</p>
 <pre><code>echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward 
 </code></pre>
@@ -230,30 +230,30 @@ Change the password for root if you haven't already.  Finally, click reload.
 </code></pre>
 <h4 id="vlans">VLANs</h4>
 <p>Now we create the VLAN interfaces by heading to the Interfaces dropdown -&gt; VLANs and clicking the add buttom on the bottom right.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_13-09.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_13-09.png" loading="lazy" title=""></div><div></div></div>
 Select VLAN bridge (opt1) as the parent interface, and put in the first tag of 30 with a description.  
 <p>Do the same again, but with a VLAN tag of 40 or whatever number you're using.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_13-08.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_13-08.png" loading="lazy" title=""></div><div></div></div>
 <p>Then select the Interfaces dropdown -&gt; Assignments and use the add button on the bottom right twice to add each of the VLANs you just created to the interfaces.  You may have to hit apply settings.  When you're finished, it should look like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-07.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-07.png" loading="lazy" title=""></div><div></div></div>
 <p>Then click on OPT2 on the right side and ensure the interface enabled box is checked at the top and that the IPv4 configuration type is set to static.  Do the same for OPT3.  You may have to apply changes after you save each time.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-08_13-14.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-08_13-14.png" loading="lazy" title=""></div><div></div></div>
 <h5 id="dhcps">DHCPs</h5>
 <p>Now we'll enable the DHCP servers on the VLANs.  Go to Services &gt; DHCP Server and click on one of the VLAN tabs (in this photo I hadn't yet named them so they appear as OPT2 and OPT3).  Ensure the &quot;enable DHCP server on VLANXX interface&quot; box is checked for the first, and enter in the range 192.168.xx.100-192.168.xx.254 replacing xx with your tag number.  Same for the second VLAN but with the different tag number.  Apply changes after each.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-14.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-16.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-17.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-17_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-14.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-16.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-17.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-17_1.png" loading="lazy" title=""></div><div></div></div>
 <h5 id="vlan-firewalls">VLAN Firewalls</h5>
 <p>Now we'll create an alias before setting up the VLAN firewall rules.</p>
 <p>Head to Firewall -&gt; Aliases -&gt; green add button on bottom right.  Give it a name, <em>INTERNAL</em>, and add the networks and VPN as seen below but changing for your GOAD LAN network:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-19.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-19.png" loading="lazy" title=""></div><div></div></div>
 <p>Apply changes.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-19_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-19_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Now set up the firewall using the alias by heading to Firewall -&gt; Rules -&gt; LAN and adding a rule.  You'll enter the first of VLAN subnets as the source and invert match for the destination of an alias to the INTERNAL alias.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-26.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-26.png" loading="lazy" title=""></div><div></div></div>
 <p>Then your LAN rules should look like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-10-28_08-32.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-10-28_08-32.png" loading="lazy" title=""></div><div></div></div>
 I'm going to deviate from Mayfly277's guide and end this post at this point for the sake of clarity.
 <h2 id="initial-networking-complete">Initial Networking Complete</h2>
 <p>That wraps up the initial portion of the networking configuration.  Next we'll work on creating the provisioning machine and its unique networking needs.</p>
@@ -272,7 +272,7 @@ I'm going to deviate from Mayfly277's guide and end this post at this point for 
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2023-2-1-ct-templates/" title="Unofficial CT Templates In Proxmox" role="button" class="primary">
+<a href="/blog/2023-2-1-ct-templates/" title="Unofficial CT Templates In Proxmox" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -282,7 +282,7 @@ I'm going to deviate from Mayfly277's guide and end this post at this point for 
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-11-provisioner/" title="Installing Game of Active Directory on Proxmox: Part 2 - Provisioner" role="button" class="primary">
+<a href="/blog/2024-11-11-provisioner/" title="Installing Game of Active Directory on Proxmox: Part 2 - Provisioner" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -299,8 +299,8 @@ I'm going to deviate from Mayfly277's guide and end this post at this point for 
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="rsync-and-cron-for-manual-network-backups"><a href="/11ty-wisp/blog/2022-10-28-rsync-cron/">Rsync and Cron for Manual Network Backups</a></h1>
+<h1 id="rsync-and-cron-for-manual-network-backups"><a href="/blog/2022-10-28-rsync-cron/">Rsync and Cron for Manual Network Backups</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -132,7 +132,7 @@ Dark
 <h3 id="enabling-rsync-on-syology-dsm">Enabling rsync on Syology DSM</h3>
 <p>Head over to your Synology console and sign in. From there open the control panel and type &quot;file services&quot; into the search box at the top left of the window.</p>
 <p>That will take you to a new panel. Select the rsync tab at the top and check the checkbox next to &quot;Enable rsync service.&quot;</p>
-<div class="grid"><div><img src="/11ty-wisp/img/enable_rsync.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/enable_rsync.png" loading="lazy" title=""></div><div></div></div>
 <p>Next we'll set up a user for rsync on the NAS. If you already have a separate user created apart from the default admin and guest users, you can assign it the rsync service by heading over to the same control panel of the web console and typing “user &amp; group” in the search box. Select the edit button for the user and select the applications tab to find rsync and allow.</p>
 <p>If you don't already have a separate user on your NAS that you'd like to use for rsync you can create one using the following instructions:</p>
 <ul>
@@ -144,7 +144,7 @@ Dark
 </ul>
 <h3 id="enable-ssh-on-synology-dsm">Enable SSH on Synology DSM</h3>
 <p>Later it'll be necessary to have ssh enabled on both the Linux client and Synology server in order to exchange the public key. So next we'll set up the ssh server on Synology NAS box. To do this, we'll head over to the control panel again. Search for terminal &amp; snmp. This should land you on a tab called terminal where you want to check the box for &quot;Enable SSH service.&quot;</p>
-<div class="grid"><div><img src="/11ty-wisp/img/enable_ssh.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/enable_ssh.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="file-and-folder-config-on-synology-dsm">File and folder config on Synology DSM</h2>
 <p>There is a bit of setup required for permissions on the folders related to ssh that is not pre-configured in Synology DSM. To accomplish this we'll move out of the Synology web console and open a remote shell on the Linux client we're going to backup. First we need to connect by ssh into the Synology NAS now that we've enabled ssh logins. Open a terminal on your Linux client and type the following, making sure to loose the brackets and substitute your options:</p>
 <pre><code>ssh [useryoucreatedabove]@[IPofyourNAS]
@@ -238,7 +238,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2022-9-15-The-Why-and-How-of-Self-Hosting-FreshRSS/" title="The Why and How of Self-hosting FreshRSS" role="button" class="primary">
+<a href="/blog/2022-9-15-The-Why-and-How-of-Self-Hosting-FreshRSS/" title="The Why and How of Self-hosting FreshRSS" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -248,7 +248,7 @@ Dark
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2022-11-8-lamp-install/" title="A Basic LAMP Stack Install Guide" role="button" class="primary">
+<a href="/blog/2022-11-8-lamp-install/" title="A Basic LAMP Stack Install Guide" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -265,8 +265,8 @@ Dark
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>

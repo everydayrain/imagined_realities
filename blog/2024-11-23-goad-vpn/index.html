@@ -16,7 +16,7 @@
 <meta content="/img/meow_tea2.png" name="twitter:image">
 <meta content="/img/meow_tea2.png" name="facebook:image">
 <meta content="/img/meow_tea2.png" name="og:image">
-<link href="/11ty-wisp/img/mug.svg" rel="icon" type="image/x-icon">
+<link href="/img/mug.svg" rel="icon" type="image/x-icon">
 <meta content="" property="facebook:author">
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
@@ -52,7 +52,7 @@
 <title>Menu</title>
 </svg>
 </summary>
-<ul><li><a href="/11ty-wisp/about/">About me</a></li><li><a href="/11ty-wisp/blog/">Blog</a></li><li><a href="/11ty-wisp/projects/">Projects</a></li><li><a href="/11ty-wisp/search/">Search</a></li></ul>
+<ul><li><a href="/about/">About me</a></li><li><a href="/blog/">Blog</a></li><li><a href="/projects/">Projects</a></li><li><a href="/search/">Search</a></li></ul>
 </details>
 </li>
 </ul>
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="installing-game-of-active-directory-on-proxmox-part-6-openvpn"><a href="/11ty-wisp/blog/2024-11-23-goad-vpn/">Installing Game of Active Directory on Proxmox: Part 6 - OpenVPN</a></h1>
+<h1 id="installing-game-of-active-directory-on-proxmox-part-6-openvpn"><a href="/blog/2024-11-23-goad-vpn/">Installing Game of Active Directory on Proxmox: Part 6 - OpenVPN</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -116,12 +116,12 @@ Dark
 <h3 id="creating-the-ca">Creating the CA</h3>
 <p>One note before we start, Mayfly277's <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">guide</a> has some helpful graphics on his screenshots to draw your eye directly to what needs modifying. Should you get confused about what needs modifying in the following steps, head over there and you should be able to sort it out quickly.</p>
 <p>The first step involves creating a certificate authority to issue a certificate. Go to the system menu and select the Certificates option.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-23_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-23.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-23_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-23.png" loading="lazy" title=""></div><div></div></div>
 <p>Under the Authorities tab click the green Add button at the bottom, and it'll take to to the following page where you'll give a descriptive name and a common name. I've used VLAN 30 (this is according to my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">unique arrangement</a>, if you followed Mayfly277's instructions you'd use 10).</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-24.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-24.png" loading="lazy" title=""></div><div></div></div>
 <p>Click save and you should have something like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-25.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-25.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="create-the-certificate-server">Create the Certificate Server</h3>
 <p>Click the Certificates tab, and click the green Add button at the bottom. That'll bring up the new certificate page where you'll add:</p>
 <ul>
@@ -132,47 +132,47 @@ Dark
 <li>Select the server certificate type</li>
 </ul>
 <p>Then save.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-25_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-27.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-27_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-25_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-27.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-27_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Once you save the Certificates page will look like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-28.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-28.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="create-a-vpn-user">Create a VPN User</h3>
 <p>Now we'll create a local user who can access the VPN. Go to the System menu and select User Manager.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-28_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-28_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Under the Users tab, select the green Add button to create a new user.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-28_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-28_2.png" loading="lazy" title=""></div><div></div></div>
 <p>Select a username and password, a descriptive name for the user certificate and select the CA you created.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-30.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-30.png" loading="lazy" title=""></div><div></div></div>
 <p>Once you hit save the user page will look like this:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-31.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-31.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="create-the-open-vpn-service">Create the Open VPN Service</h3>
 <p>Now we'll create the service operating on the server. Go to the VPN menu and select OpenVPN.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-31_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-31_1.png" loading="lazy" title=""></div><div></div></div>
 <p>Under the Servers tab, click on the Green add button. You'll make several modifications on this page. The first set are:</p>
 <ul>
 <li>Change the description</li>
 <li>Change Server mode to &quot;Remote Access (SSL/TLS + User Auth)&quot;</li>
 <li>Enter &quot;Local Database&quot; into the Backend for authentication field</li>
-<li>Change the local port to 2137<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-32.png" loading="lazy" title=""></div><div></div></div>
+<li>Change the local port to 2137<div class="grid"><div><img src="/img/2024-11-17_13-32.png" loading="lazy" title=""></div><div></div></div>
 </li>
 </ul>
 <p>Modifications continued:</p>
 <ul>
 <li>Change Peer Certificate Authority to the CA you created</li>
-<li>Change Server certificate to the certificate you created<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-33.png" loading="lazy" title=""></div><div></div></div>
+<li>Change Server certificate to the certificate you created<div class="grid"><div><img src="/img/2024-11-17_13-33.png" loading="lazy" title=""></div><div></div></div>
 </li>
 </ul>
 <p>Modifications continued:</p>
 <ul>
 <li>Change IPv4 Tunnel Network to 10.10.10.0/24</li>
 <li>Change IPv4 Local network to 192.168.30.0/24</li>
-<li>Change concurent connections to 10<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-34.png" loading="lazy" title=""></div><div></div></div>
+<li>Change concurent connections to 10<div class="grid"><div><img src="/img/2024-11-17_13-34.png" loading="lazy" title=""></div><div></div></div>
 </li>
 </ul>
 <p>Modifications continued:</p>
 <ul>
-<li>Add the network configuration in the Topology dropdown to &quot;net30 -- Isolated /30 network per client&quot;<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-35.png" loading="lazy" title=""></div><div></div></div>
+<li>Add the network configuration in the Topology dropdown to &quot;net30 -- Isolated /30 network per client&quot;<div class="grid"><div><img src="/img/2024-11-17_13-35.png" loading="lazy" title=""></div><div></div></div>
 </li>
 </ul>
 <p>Finally, make sure:</p>
@@ -181,45 +181,45 @@ Dark
 <li>DNS server 1 reads 192.168.30.1 (this is according to my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">unique arrangement</a>, if you followed Mayfly277's instructions you'd use 10)</li>
 <li>That the Custom options field under Advanced Configruation reads &quot;auth-nocache&quot;</li>
 </ul>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-36.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-36_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-36.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-36_1.png" loading="lazy" title=""></div><div></div></div>
 <h3 id="openvpn-client-export-package">OpenVPN Client Export Package</h3>
 <p>Now we'll search for and install the OpenVPN package for Client Export that'll add a new tab to the OpenVPN pages. Go to System and then Package Manager.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-37.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-37.png" loading="lazy" title=""></div><div></div></div>
 <p>Enter &quot;client-export&quot; into the search term and click the green install button on the entry named &quot;openvpn-client-export.&quot;</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-37_1.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-37_2.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-37_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-37_2.png" loading="lazy" title=""></div><div></div></div>
 <p>Next click the client export tab.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-38.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-38.png" loading="lazy" title=""></div><div></div></div>
 <p>That'll bring up a new page where we'll create the VPN certificate for export.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_13-47.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_13-47.png" loading="lazy" title=""></div><div></div></div>
 <p>This section of Mayfly277's guide was not clear on configuring the client export step. When mayfly277 says change the Host Name Resolution to &quot;Other&quot; in the exporting the client certificate step, there is a blurred image. In the context of these posts, where we're installing GOAD on a bare-metal instance of Proxmox with an existing true LAN, so we'll use <em>the IP of the Proxmox host</em> for &quot;Host Name.&quot;</p>
 <p>Once you've done that, scoll to the bottom section OpenVPN clients and click under the Export column &quot;Inline Configurations - Most Clients.&quot; Download that certificate to your Kali/attack machine.</p>
 <h3 id="enable-the-ovpns1-interface">Enable the ovpns1 Interface</h3>
 <p>At this point there seemed to be something missing from Mayfly277's instructions. I eventually pieced together that I needed to enable the goadvpn interface with the help of <a href="https://koller.ninja/proxmox-goad-lab">this blog</a>.</p>
 <p>Head to the Interfaces menu and select assignments. There should now be an entry there called &quot;goadvpn,&quot; click on that blue name/link on the left side. That'll open up its page and make sure the Enable Interface box is checked, then change the description and click the green Apply Changes box that comes up.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_14-18.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_14-18.png" loading="lazy" title=""></div><div></div></div>
 Your interface assignments will then look something like this:
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_14-18_1.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_14-18_1.png" loading="lazy" title=""></div><div></div></div>
 <p>You'll want to enable this interface before you get to the &quot;Configure Firewall&quot; steps.</p>
 <h3 id="firewall-rules-review">Firewall Rules Review</h3>
 <p>Honestly, the most challanging part of setting up GOAD was configuring the firewall rules, so take this review of my rules with a grain of salt. These work for me, but they took quite a bit of tinkering. I'm not an expert at firewall rules, so if you spot an error, please let me know by direct messaging me on Mastodon.</p>
 <p>The WAN rules:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_14-03.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_14-03.png" loading="lazy" title=""></div><div></div></div>
 <p>The LAN rules:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-23_10-18.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-23_10-18.png" loading="lazy" title=""></div><div></div></div>
 <p>The VLAN rules:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_14-24.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_14-24.png" loading="lazy" title=""></div><div></div></div>
 <p>The VPN rules:</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-17_14-37.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-17_14-37.png" loading="lazy" title=""></div><div></div></div>
 <p><em>Post-series edit:</em> After writing up this series up and exploring on my own, I discovered that VLAN machines couldn't access the internet.  As a consquence, I couldn't make them call on my server to download payloads.  I looked into it, and as mentioned in <a href="https://github.com/Orange-Cyberdefense/GOAD/issues/177#issuecomment-1927681503">this github issue</a>, I think a rule is missing from the VLAN firewall.  To remedy the problem, I tried a number of targeted rules that essentially reversed the OVPN rule, to no effect. As a short-term workaround, I created an allow any any rule.  My VLAN rules are now kind of a mess, see below.</p>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-12-04_13-38.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-12-04_13-38.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="confirming-vpn-access-to-the-domain">Confirming VPN Access to the Domain</h2>
 <p>Now use <code>sudo openvpn &lt;YOUR_CERTIFICATE&gt;</code> to connect, and it'll prompt you for the user and password you created. Once you do that, it should connect successfully.</p>
 <p>To confirm you can reach the VLAN from your attacking machine, use NetExec to do a simple SMB sweep without a domain:</p>
 <pre><code>nxc smb 192.168.&lt;YOUR_VLAN&gt;.&lt;HERE&gt;
 </code></pre>
-<div class="grid"><div><img src="/11ty-wisp/img/2024-11-23_10-09.png" loading="lazy" title=""></div><div></div></div>
+<div class="grid"><div><img src="/img/2024-11-23_10-09.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="concluding-the-series">Concluding the Series</h2>
 <p>With that, you've confirmed that the domain is working and appropriately configured. You're now ready to pentest against the domain!</p>
 <p>It's been a pleasure writing this up, and I hope someone finds it helpful.  If you do, please don't hesitate to leave me a note at Mastodon.</p>
@@ -231,7 +231,7 @@ Your interface assignments will then look something like this:
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-11-17-goad-ansible/" title="Installing Game of Active Directory on Proxmox: Part 5 - Ansible" role="button" class="primary">
+<a href="/blog/2024-11-17-goad-ansible/" title="Installing Game of Active Directory on Proxmox: Part 5 - Ansible" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
@@ -241,7 +241,7 @@ Your interface assignments will then look something like this:
 
 <ul>
 <li>
-<a href="/11ty-wisp/blog/2024-12-12-pv-dacl-mods/" title="Quick Pointer: Abusing DACL Fumbles using PowerView" role="button" class="primary">
+<a href="/blog/2024-12-12-pv-dacl-mods/" title="Quick Pointer: Abusing DACL Fumbles using PowerView" role="button" class="primary">
 <small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
 </svg>
@@ -258,8 +258,8 @@ Your interface assignments will then look something like this:
 <footer class="container">
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.org" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
-        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/11ty-wisp/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
+        <p><small><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><picture><source type="image/avif" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=avif&via=transform 80w"><source type="image/webp" srcset="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=webp&via=transform 80w"><img loading="lazy" decoding="async" src="/.11ty/image/?src=https%3A%2F%2Fi.creativecommons.org%2Fl%2Fby-sa%2F4.0%2F80x15.png&width=80&format=png&via=transform" alt="Creative Commons License" style="border-width:0" width="80" height="15"></picture></a> © 2025 christopherbauer dot org by Christopher Bauer is licensed under CC BY SA 4.0<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"></a>.</small></small></p>
 </footer>
-<script type="module" src="/11ty-wisp/dist/KijHOsuaPQ.js"></script>
+<script type="module" src="/dist/KijHOsuaPQ.js"></script>
 </body>
 </html>
