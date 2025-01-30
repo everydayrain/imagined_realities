@@ -14,4 +14,4 @@ Hi and welcome to my blog.
 <br>
 <br>
 
-{% buttonprimary  "Go to my posts", "/blog" %} &nbsp; or &nbsp; {% buttoncontrast  "Search", "/search" %}
+{% buttonprimary  "Have a look at my posts", "/blog" %} &nbsp; or &nbsp; {% buttoncontrast  "Search", "/search" %}

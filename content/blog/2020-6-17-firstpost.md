@@ -1,6 +1,6 @@
 ---
 author: Chris
-title: Why I named this blog Imaginative Realities
+title: Why I named this blog Imagined Realities
 date: 2020-06-17
 ---
 
