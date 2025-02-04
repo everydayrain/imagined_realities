@@ -9,7 +9,7 @@ tags:
 
 ### Introduction
 
-After some thought, I realized installing Graylog is sufficiently complicated that I'm revising my this post to include installation steps.
+After some thought, I realized installing Graylog is sufficiently complicated that I'm revising my original post to include installation steps.
 
 In this post I first outline two obstacles to be aware of in creating a VM on Proxmox for Graylog. I then cover the installation steps for OpenSearch, MongoDB and Graylog. In the final part, I offer an overview of how you can use Ansible to configure clients to send Graylog logs using rsyslog.
 
@@ -17,7 +17,7 @@ In this post I first outline two obstacles to be aware of in creating a VM on Pr
 
 The approach of this post assumes the reader is comfortable with the Linux command line and desires to install the Graylog Open version on a Proxmox Ubuntu 22.04 virtual machine, and wants to install OpenSearch on the self-same machine as Graylog. These instructions don't consider use of a proxy or TLS requirements.
 
-One note of warning: be prepared for Graylog's RAM consumption. Graylog is a RAM hog. You'll see your ram usage shoot up so it'd pay to go into this project with your eyes open.
+One note of warning: be prepared for Graylog's RAM consumption. Graylog is a RAM hog. You'll see your RAM usage shoot up so it'd pay to go into this project with your eyes open.
 
 ### Creating the VM
 
@@ -225,7 +225,7 @@ Reload the config.
 sudo sysctl -p
 ```
 
-Create a password secret and copy the output to a file editor, you'll need it for the next step and later as well.
+Create a password secret and copy the output to a file editor.  You'll need it for the next step and later as well.
 
 ```bash
 < /dev/urandom tr -dc A-Z-a-z-0-9 | head -c${1:-96};echo;
