@@ -9,14 +9,22 @@ tags:
 ---
 
 ## 
+I ran into a few challenges migrating from Jekyll to 11ty.
+
+One challenge I ran into transitioning my posts from Jekyll was the Layout property in the frontmatter.  My 11ty theme didn't require a layout property and was confused by it, so at the very least it had to come out.
+
+I'm posting these as a model.  Bear in mind that I'm self-taught in Python, so if they appear inelegant, please feel free to offer suggestions by DMing me at my {% linkprimary "Mastodon account", "https://infosec.exchange/@anthro_packets" %}.
+
 I used these on Debian Linux with Python3.11
 
 
 You could combine the two if you so desired.
 
-I strongly recommend you make copies of the files you intend to run these on before 
-## Layout
-k
+I strongly recommend you make copies of the files you intend to run these on before running them on your final.
+
+## Removing the Layout Property
+
+
 First we import the path module from pathlib in order to have clean directory pointers.
 
 Then I set the source directory as a variable and follow that with a variable that searches the source directory for all files.
