@@ -111,11 +111,11 @@ Dark
 <heading-anchors>
 <p><time datetime="2025-01-24">24 January 2025</time></p>
 <h3 id="introduction">Introduction</h3>
-<p>After some thought, I realized installing Graylog is sufficiently complicated that I'm revising my this post to include installation steps.</p>
+<p>After some thought, I realized installing Graylog is sufficiently complicated that I'm revising my original post to include installation steps.</p>
 <p>In this post I first outline two obstacles to be aware of in creating a VM on Proxmox for Graylog. I then cover the installation steps for OpenSearch, MongoDB and Graylog. In the final part, I offer an overview of how you can use Ansible to configure clients to send Graylog logs using rsyslog.</p>
 <h3 id="assumptions">Assumptions</h3>
 <p>The approach of this post assumes the reader is comfortable with the Linux command line and desires to install the Graylog Open version on a Proxmox Ubuntu 22.04 virtual machine, and wants to install OpenSearch on the self-same machine as Graylog. These instructions don't consider use of a proxy or TLS requirements.</p>
-<p>One note of warning: be prepared for Graylog's RAM consumption. Graylog is a RAM hog. You'll see your ram usage shoot up so it'd pay to go into this project with your eyes open.</p>
+<p>One note of warning: be prepared for Graylog's RAM consumption. Graylog is a RAM hog. You'll see your RAM usage shoot up so it'd pay to go into this project with your eyes open.</p>
 <h3 id="creating-the-vm">Creating the VM</h3>
 <p>I'm going to cover two notes on how to make an install of Graylog on a Proxmox VM go more smoothly. If I'd known about these challenges ahead of time I could have saved myself a little pain.</p>
 <h4 id="in-brief">In Brief</h4>
@@ -203,7 +203,7 @@ indices.query.bool.max_clause_count: 32768"</span> <span class="token operator">
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token assign-left variable">vm.max_map_count</span><span class="token operator">=</span><span class="token number">262144</span></code></pre>
 <p>Reload the config.</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">sysctl</span> <span class="token parameter variable">-p</span></code></pre>
-<p>Create a password secret and copy the output to a file editor, you'll need it for the next step and later as well.</p>
+<p>Create a password secret and copy the output to a file editor.  You'll need it for the next step and later as well.</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token operator">&lt;</span> /dev/urandom <span class="token function">tr</span> <span class="token parameter variable">-dc</span> A-Z-a-z-0-9 <span class="token operator">|</span> <span class="token function">head</span> -c<span class="token variable">${1<span class="token operator">:-</span>96}</span><span class="token punctuation">;</span><span class="token builtin class-name">echo</span><span class="token punctuation">;</span></code></pre>
 <p>Open the config file using vim (you can use nano if you prefer something straighforward). Paste the above into the <code>password_secret</code> line, no quotations.</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/graylog/datanode/datanode.conf</code></pre>
@@ -260,7 +260,7 @@ indices.query.bool.max_clause_count: 32768"</span> <span class="token operator">
 
 <ul>
 <li>
-<a href="/blog/2025-01-24-graylog/" title="Graylog on Proxmox and Ansible for Client Config" role="button" class="primary">
+<a href="/blog/2025-01-07-vsftpd/" title="Installing VSFTP in a Proxmox LXC Container Or: &quot;How I Learned the Lessons of the SysAdmin&quot;" role="button" class="primary">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
 </svg> <small>Previous</small>
