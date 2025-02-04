@@ -11,6 +11,155 @@
     <name>Christopher Bauer</name>
   </author>
   <entry>
+    <title>Graylog on Proxmox and Ansible for Rsyslog Client Config</title>
+    <link href="https://christopherbauer.org/blog/graylog-revised/" />
+    <updated>2025-01-24T00:00:00Z</updated>
+    <id>https://christopherbauer.org/blog/graylog-revised/</id>
+    <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;After some thought, I realized installing Graylog is sufficiently complicated that I&#39;m revising my this post to include installation steps.&lt;/p&gt;
+&lt;p&gt;In this post I first outline two obstacles to be aware of in creating a VM on Proxmox for Graylog. I then cover the installation steps for OpenSearch, MongoDB and Graylog. In the final part, I offer an overview of how you can use Ansible to configure clients to send Graylog logs using rsyslog.&lt;/p&gt;
+&lt;h3 id=&quot;assumptions&quot;&gt;Assumptions&lt;/h3&gt;
+&lt;p&gt;The approach of this post assumes the reader is comfortable with the Linux command line and desires to install the Graylog Open version on a Proxmox Ubuntu 22.04 virtual machine, and wants to install OpenSearch on the self-same machine as Graylog. These instructions don&#39;t consider use of a proxy or TLS requirements.&lt;/p&gt;
+&lt;p&gt;One note of warning: be prepared for Graylog&#39;s RAM consumption. Graylog is a RAM hog. You&#39;ll see your ram usage shoot up so it&#39;d pay to go into this project with your eyes open.&lt;/p&gt;
+&lt;h3 id=&quot;creating-the-vm&quot;&gt;Creating the VM&lt;/h3&gt;
+&lt;p&gt;I&#39;m going to cover two notes on how to make an install of Graylog on a Proxmox VM go more smoothly. If I&#39;d known about these challenges ahead of time I could have saved myself a little pain.&lt;/p&gt;
+&lt;h4 id=&quot;in-brief&quot;&gt;In Brief&lt;/h4&gt;
+&lt;p&gt;Stick with Ubuntu 22.04 and select &amp;quot;Host&amp;quot; as the CPU for the VM creation parameters.&lt;/p&gt;
+&lt;h4 id=&quot;in-detail&quot;&gt;In Detail&lt;/h4&gt;
+&lt;p&gt;I went with a VM because Graylog is a bit of a beast, requiring multiple different components and lots of RAM. I believe people have installed it on LXC containers, but I figured I&#39;d run into fewer problems this way. Well, at least fewer problems than I would otherwise. Not absent problems.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;first&lt;/strong&gt; issue was relatively trivial but time consuming to figure out. I figured I&#39;d put Graylog on the latest Ubuntu LTS (24.04). It took a full install cycle using the &lt;a href=&quot;https://wiki.ubuntu.com/Installer/FAQ&quot;&gt;Ubuntu Debian-Installer&lt;/a&gt; and troubleshooting to realize that MongoDB wouldn&#39;t play nice with that version. MongoDB is required for Graylog&#39;s function so this wasn&#39;t something I could figure out later. Lesson learned. As of this writing, I used 22.04.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;second&lt;/strong&gt; was that MongoDB&lt;a href=&quot;https://forum.proxmox.com/threads/mongo-db-5-0-not-install.95857/post-440005&quot;&gt; doesn&#39;t play nice with Proxmox&#39;s defaults&lt;/a&gt;. I had learned and subsequently forgotten this one from a previous encounter with MongoDB. In particular, I had to tweak an option that I otherwise never change regarding the processor, as MongoDB cannot work on the default selection of x86-64-v2-AES. In the VM creation guide, on the CPU tab, for &amp;quot;Type,&amp;quot; I had to set the processor to &lt;em&gt;host&lt;/em&gt; in order for it to function correctly in the VM.&lt;/p&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2025-01-21_11-41.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;installation-and-configuration&quot;&gt;Installation &amp;amp; Configuration&lt;/h3&gt;
+&lt;p&gt;Regarding the install process, we&#39;ll work through four stages:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install &amp;amp; configure OpenSearch to store the log entries that Graylog collects&lt;/li&gt;
+&lt;li&gt;Install MongoDB to store Graylog&#39;s metadata&lt;/li&gt;
+&lt;li&gt;Install the Graylog Data Node&lt;/li&gt;
+&lt;li&gt;Install the Graylog server&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;installing-opensearch&quot;&gt;Installing OpenSearch&lt;/h4&gt;
+&lt;p&gt;I&#39;m borrowing from &lt;a href=&quot;https://github.com/Graylog2/se-poc-docs/blob/main/src/On%20Prem%20POC/installing%20opensearch.md&quot;&gt;this Graylog repo&#39;s instructions&lt;/a&gt; on installing OpenSearch.&lt;/p&gt;
+&lt;p&gt;First, update and upgrade the VM. Restart if required.&lt;/p&gt;
+&lt;p&gt;Take note of the IP address (if you need to, run &lt;code&gt;ip a&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Verify the required dependencies are met.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;vim&lt;/span&gt; lsb-release ca-certificates &lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; gnupg2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Download signing key.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; gpg &lt;span class=&quot;token parameter variable&quot;&gt;--dearmor&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--batch&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--yes&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-o&lt;/span&gt; /usr/share/keyrings/opensearch-keyring&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create repository file.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;deb [signed-by=/usr/share/keyrings/opensearch-keyring] https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /etc/apt/sources.list.d/opensearch-2.x.list&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Install OpenSearch.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Set a temporary password for installation.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;env&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;OPENSEARCH_INITIAL_ADMIN_PASSWORD&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;tr&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-dc&lt;/span&gt; A-Z-a-z-0-9_@&lt;span class=&quot;token comment&quot;&gt;#%^-_=+ &amp;lt; /dev/urandom  | head -c${1:-32}&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;opensearch&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;2.15&lt;/span&gt;.0&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Set default value for heap variable.&lt;/p&gt;
+&lt;pre class=&quot;language-Bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-Bash&quot;&gt;tmpheap=1&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;configuring-opensearch&quot;&gt;Configuring OpenSearch&lt;/h4&gt;
+&lt;p&gt;Back up the original OpenSearch configuration.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; /etc/opensearch/opensearch.yml /etc/opensearch/opensearch.yml.bak&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create the new configuration with parameters set to Graylog&#39;s requirements.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;cluster.name: graylog
+node.name: &lt;span class=&quot;token variable&quot;&gt;${&lt;span class=&quot;token environment constant&quot;&gt;HOSTNAME&lt;/span&gt;}&lt;/span&gt;
+path.data: /var/lib/opensearch
+path.logs: /var/log/opensearch
+transport.host: 0.0.0.0
+network.host: 0.0.0.0
+http.port: 9200
+discovery.type: single-node
+action.auto_create_index: false
+plugins.security.disabled: true
+indices.query.bool.max_clause_count: 32768&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /etc/opensearch/opensearch.yml&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;installing-mongodb&quot;&gt;Installing MongoDB&lt;/h4&gt;
+&lt;p&gt;Once I &lt;a href=&quot;http://christopherbauer.org/blog/graylog-revised/#creating-the-vm&quot; class=&quot;primary&quot;&gt;configured the vm properly&lt;/a&gt; , I followed &lt;a href=&quot;https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21&quot;&gt;the official docs &lt;/a&gt; for an Ubuntu install without problems. Those same instructions appear here.&lt;/p&gt;
+&lt;p&gt;Set a timezone.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; timedatectl set-timezone UTC&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Install gnupg.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; gnupg &lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Import the key for MongoDB.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-fsSL&lt;/span&gt; https://www.mongodb.org/static/pgp/server-6.0.asc &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;&#92;&lt;/span&gt;
+   &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; gpg &lt;span class=&quot;token parameter variable&quot;&gt;-o&lt;/span&gt; /usr/share/keyrings/mongodb-server-6.0.gpg &lt;span class=&quot;token punctuation&quot;&gt;&#92;&lt;/span&gt;
+   &lt;span class=&quot;token parameter variable&quot;&gt;--dearmor&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create a list file for MongoDB.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /etc/apt/sources.list.d/mongodb-org-6.0.list&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Reload the local package database.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Install the latest stable version of MongoDB.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; mongodb-org&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I don&#39;t use proxies, so if you do refer to &lt;a href=&quot;https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21&quot;&gt;the official docs &lt;/a&gt;, then Enable.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl daemon-reload&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; mongod.service&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl restart mongod.service&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;token parameter variable&quot;&gt;--type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;service &lt;span class=&quot;token parameter variable&quot;&gt;--state&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;active &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; mongod&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Freeze the MongoDB version.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; apt-mark hold mongodb-org&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;installing-the-graylog-data-node&quot;&gt;Installing the Graylog Data Node&lt;/h4&gt;
+&lt;p&gt;Get the Graylog repo as a package.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;wget&lt;/span&gt; https://packages.graylog2.org/repo/packages/graylog-6.1-repository_latest.deb&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Install it.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; dpkg &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; graylog-6.1-repository_latest.deb&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The repositiories your package manager checks should now include Graylog&#39;s repos. Update them.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Install Graylog.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; graylog-datanode&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;configuring-the-graylog-data-node&quot;&gt;Configuring the Graylog Data Node&lt;/h4&gt;
+&lt;p&gt;To conform to the OpenSearch requirements check the vm.max count to ensure it is set to at least 26144.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; /proc/sys/vm/max_map_count&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If it isn&#39;t, you can use the following:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token assign-left variable&quot;&gt;vm.max_map_count&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;262144&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Reload the config.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sysctl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-p&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create a password secret and copy the output to a file editor, you&#39;ll need it for the next step and later as well.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; /dev/urandom &lt;span class=&quot;token function&quot;&gt;tr&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-dc&lt;/span&gt; A-Z-a-z-0-9 &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;head&lt;/span&gt; -c&lt;span class=&quot;token variable&quot;&gt;${1&lt;span class=&quot;token operator&quot;&gt;:-&lt;/span&gt;96}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Open the config file using vim (you can use nano if you prefer something straighforward). Paste the above into the &lt;code&gt;password_secret&lt;/code&gt; line, no quotations.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;vim&lt;/span&gt; /etc/graylog/datanode/datanode.conf&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Enable the Graylog service.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; graylog-datanode.service&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ensure it has started.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl start graylog-datanode&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;install-graylog-server&quot;&gt;Install Graylog Server&lt;/h4&gt;
+&lt;p&gt;Install the Graylog server.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; graylog-server&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;configure-the-graylog-server&quot;&gt;Configure the Graylog Server&lt;/h4&gt;
+&lt;p&gt;Generate a password and copy it before opening the config file in the next step.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Enter Password: &quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-1&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;/dev/stdin &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tr&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;&#92;n&#39;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; sha256sum &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cut&lt;/span&gt; -d&lt;span class=&quot;token string&quot;&gt;&quot; &quot;&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-f1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Add your password secret generated during the Graylog Node configuration step to the server config file with the line &lt;code&gt;password_secret&lt;/code&gt;. Then add the password you generated above to the line &lt;code&gt;root_password_sha2&lt;/code&gt;. Select an alternative username for &lt;code&gt;root_username&lt;/code&gt; if you desire.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;vim&lt;/span&gt; /etc/graylog/server/server.conf&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Set the &lt;code&gt;http_bind_address&lt;/code&gt; value in the Graylog configuration file to the public host name or a public IP address for the machine to which you can connect.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;s/#http_bind_address = 127.0.0.1.*/http_bind_address = 0.0.0.0:9000/g&#39;&lt;/span&gt; /etc/graylog/server/server.conf&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Enable Graylog during the operating system’s startup.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl daemon-reloadsudo systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; graylog-server.servicesudo systemctl start graylog-server.servicesudo systemctl &lt;span class=&quot;token parameter variable&quot;&gt;--type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;service &lt;span class=&quot;token parameter variable&quot;&gt;--state&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;active &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; graylog&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With that you should be able to proceed to IP assigned to your VM with the port 9000 and find the login page (e.g. http:// 192.168.0.1:9000).&lt;/p&gt;
+&lt;h3 id=&quot;automating-client-rsyslog-configurations-with-ansible&quot;&gt;Automating Client Rsyslog Configurations with Ansible&lt;/h3&gt;
+&lt;p&gt;Take what follows as a rough model rather than specific directions.&lt;/p&gt;
+&lt;p&gt;Next, there was the matter of configuring my machines &lt;a href=&quot;https://go2docs.graylog.org/current/getting_in_log_data/syslog_inputs.html&quot;&gt;to send logs to Graylog&lt;/a&gt;. Graylog offers a &lt;a href=&quot;https://go2docs.graylog.org/current/getting_in_log_data/inputs.htm&quot;&gt;variety of different ways&lt;/a&gt; to accept logs from client machines. I went with Rsyslog.&lt;/p&gt;
+&lt;p&gt;Now, I could have ssh-ed into each individual machine and altered the &lt;code&gt;/etc/rsyslog.conf&lt;/code&gt; file by hand to include:&lt;/p&gt;
+&lt;pre class=&quot;language-vim&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-vim&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;@@yourgraylog&lt;span class=&quot;token operator&quot;&gt;.&lt;/span&gt;example&lt;span class=&quot;token operator&quot;&gt;.&lt;/span&gt;org&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;514&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;RSYSLOG_SyslogProtocol23Format&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, from the start this task seemed ripe for automation.&lt;/p&gt;
+&lt;p&gt;I built an Ansible script to ensure rsyslog was installed and then to configure it on the clients. I&#39;d been playing around with Ansible over the weekend, and the YAML format is great compared to writing everything out in pure python.&lt;/p&gt;
+&lt;p&gt;Be aware, while the Ansible code can be found below, there are a bunch of configuration challenges to Ansible that can sidetrack you for hours. I can think of at least two off the top of my head. First, I used the code below as an &lt;a href=&quot;https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html&quot;&gt;Ansible Role&lt;/a&gt;. Covering what that means, and how to setup Ansible, is far beyond the scope of this article. If you&#39;re new to it, plan some free hours to start toying around. Start with &lt;a href=&quot;https://docs.ansible.com/ansible/latest/getting_started/index.html&quot;&gt;the docs&lt;/a&gt;; they&#39;re just average but they&#39;re worth it for just getting started. Second, if you use &lt;em&gt;sudo&lt;/em&gt; with a password on the target, you&#39;ll want to use Ansible-Vault. However, the whole way Ansible Vault works is super unclear to me. I hope to write up a blog post about it sometime. I&#39;m afraid I don&#39;t have a confirmed solution for it as of this writing. Also, I can&#39;t help if you are thinking of windows hosts, I don&#39;t have windows clients.&lt;/p&gt;
+&lt;p&gt;Because this is a role &lt;em&gt;main.yml&lt;/em&gt; file, it may seem truncated. To explain, the first section determines whether rsyslog is installed. The second determines whether the Graylog code for forwarding the logs is already present in the &lt;code&gt;/etc/rsyslog.conf&lt;/code&gt; file, and if not, adds it to the final line. The final section then restarts the rsyslog server.&lt;/p&gt;
+&lt;pre class=&quot;language-yml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Install rsyslog
+  &lt;span class=&quot;token key atrule&quot;&gt;ansible.builtin.apt&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; rsyslog
+
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Add instruction to dispatch logs to graylog
+  &lt;span class=&quot;token key atrule&quot;&gt;ansible.builtin.lineinfile&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; /etc/rsyslog.conf
+    &lt;span class=&quot;token key atrule&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;*.*@@YOUR_IP_HERE;RSYSLOG_SyslogProtocol23Format&quot;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;regexp&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;&#92;*.&#92;*@@YOUR_IP_HERE;RSYSLOG_SyslogProtocol23Format&#39;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; present
+    &lt;span class=&quot;token key atrule&quot;&gt;insertafter&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; EOF
+    &lt;span class=&quot;token key atrule&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Restart rsyslog
+  &lt;span class=&quot;token key atrule&quot;&gt;ansible.builtin.shell&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;cmd&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; systemctl restart rsyslog&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You&#39;d then run that using Ansible as a role in your playbook.&lt;/p&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Admittedly, this is a post with a niche attraction, but nevertheless I hope it may help someone in the future. Should you have any questions, don&#39;t hesitate to DM me on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot;&gt;Mastodon&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
     <title>Graylog on Proxmox and Ansible for Client Config</title>
     <link href="https://christopherbauer.org/blog/2025-01-24-graylog/" />
     <updated>2025-01-24T00:00:00Z</updated>
@@ -826,39 +975,6 @@ I&#39;m going to deviate from Mayfly277&#39;s guide and end this post at this po
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;Proxmox instructions&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Unofficial CT Templates In Proxmox</title>
-    <link href="https://christopherbauer.org/blog/2023-2-1-ct-templates/" />
-    <updated>2023-02-01T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2023-2-1-ct-templates/</id>
-    <content type="html">&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/canonical.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;I&#39;ve been toying around with system containers (CT for short) in Proxmox, trying to learn more about how they differ from application containers. One challenge has been figuring out how to obtain &amp;quot;templates&amp;quot; for these Linux-based system containers.&lt;/p&gt;
-&lt;p&gt;In this tutorial I&#39;ll run through how to download a CT template from &lt;a href=&quot;https://us.lxd.images.canonical.com/images/&quot;&gt;Canonical&#39;s image server&lt;/a&gt; using Proxmox&#39;s graphical user interface (GUI).&lt;/p&gt;
-&lt;h3 id=&quot;the-problem&quot;&gt;The Problem&lt;/h3&gt;
-&lt;p&gt;In a default installation, Proxmox provides what they call &amp;quot;officially supported distribution&amp;quot; templates through the GUI. If you need one of those containers, its a breeze to set one up. If you want a system outside of those offerings for your container, then you&#39;ve got to do some searching. And while &lt;a href=&quot;https://pve.proxmox.com/pve-docs/index.html&quot;&gt;the Proxmox documentation&lt;/a&gt; is adequate for a number of other issues, on the topic of unofficial CT templates, it has little to say.&lt;/p&gt;
-&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
-&lt;h3 id=&quot;what-is-lxc&quot;&gt;What is LXC?&lt;/h3&gt;
-&lt;p&gt;The short hand for system containers is LXC. LXC is &lt;a href=&quot;https://linuxcontainers.org/lxc/introduction/&quot;&gt;described by&lt;/a&gt; its project leaders as &amp;quot;userspace interface for the Linux kernel containment features.&amp;quot; If I were to try to interpret that as someone from outside computer science, I&#39;d say LXC is a way of interacting with Linux&#39;s own ability to create containers.&lt;/p&gt;
-&lt;h3 id=&quot;officially-supported-distributions&quot;&gt;Officially Supported Distributions&lt;/h3&gt;
-&lt;p&gt;To set up one of Proxmox&#39;s official CT templates, you simply select one of your storage options in the left-hand tree, select &amp;quot;CT Templates&amp;quot; in the middle pane, and finally select the &amp;quot;Templates&amp;quot; button.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/ct_repository_button.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;That will open up a pop up and you can search for your distribution of choice.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/temp_menu.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;uploading-unofficial-templates&quot;&gt;Uploading Unofficial Templates&lt;/h3&gt;
-&lt;p&gt;First, do some research at &lt;a href=&quot;https://us.lxd.images.canonical.com/images/&quot;&gt;Canonical&#39;s image server&lt;/a&gt; to determine which distribution you&#39;re looking for that Proxmox doesn&#39;t offer. Once you&#39;ve narrowed that down, locate the link for &amp;quot;rootfs.tar.xz&amp;quot;.&lt;/p&gt;
-&lt;p&gt;For example, if I wanted to download a CT template for OpenWrt, I&#39;d locate the distribution in that Canonical menu, select the architecture for my Proxmox host, maybe select the latest distribution and then arrive at a screen with options like the following photo. Again, that after file your after is called &amp;quot;rootfs.tar.xz&amp;quot;&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/openwrt.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Copy the URL for that file.&lt;/p&gt;
-&lt;p&gt;To download OpenWrt&#39;s CT Template, you&#39;ll use the URL you just copied but using the method above. Instead of selecting the &amp;quot;Templates&amp;quot; button, select the &amp;quot;Download from URL&amp;quot; button.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/ct_download_button.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;That will lead to a popup menu. The first field in the popup is for the URL you just copied. Paste it in, then give it a name. The name will have to end with the extension &amp;quot;.tar.xz&amp;quot;.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/download_pop.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Make sure you have the &amp;quot;Advanced&amp;quot; box next to the &amp;quot;Download&amp;quot; button selected. That will give you additional options for checksums. Select SHA-256 from the drop down. Then head back to Canonical&#39;s webpage for OpenWrt and find the SHA256SUM file:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/sha.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Open that file, and it&#39;ll display the hashes for the rootfs.tar.xz files on the previous page. Find the hash for rootfs.tar.xz, copy it, and head back to the Proxmox GUI. Paste that copied hash into the checksum box.&lt;/p&gt;
-&lt;p&gt;Hit download and you are off! That&#39;ll give you an unofficial template to use with Proxmox&#39;s &amp;quot;Create CT&amp;quot; tool.&lt;/p&gt;
 </content>
   </entry>
 </feed>
