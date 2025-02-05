@@ -17,8 +17,8 @@
     <id>https://christopherbauer.org/blog/graylog-revised/</id>
     <content type="html">&lt;p&gt;Content Overview&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog_revised/#Introduction&quot; class=&quot;primary&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog_revised/#Creating-the-VM&quot; class=&quot;primary&quot;&gt;Creating the VM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#introduction&quot; class=&quot;primary&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#creating-the-vm&quot; class=&quot;primary&quot;&gt;Creating the VM&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration&quot; class=&quot;primary&quot;&gt;Installation &amp;amp; Configuration&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible&quot; class=&quot;primary&quot;&gt;Automating Client Rsyslog Configurations with Ansible&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
