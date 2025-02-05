@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Graylog on Proxmox with Ansible for Rsyslog Client Config</title>
-<meta content="Graylog on Proxmox with Ansible for Rsyslog Client Config" property="og:title">
-<meta content="Graylog on Proxmox with Ansible for Rsyslog Client Config" name="twitter:title">
-<meta content="Graylog on Proxmox with Ansible for Rsyslog Client Config" name="title">
-<meta content="Graylog on Proxmox with Ansible for Rsyslog Client Config" property="og:site_name">
+<title>Tagged &#39;python&#39;</title>
+<meta content="Tagged &#39;python&#39;" property="og:title">
+<meta content="Tagged &#39;python&#39;" name="twitter:title">
+<meta content="Tagged &#39;python&#39;" name="title">
+<meta content="Tagged &#39;python&#39;" property="og:site_name">
 <meta content="" name="description">
 <meta content="" property="facebook:description">
 <meta content="" property="og:description">
@@ -21,13 +21,13 @@
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://christopherbauer.org/blog/graylog-revised/">
+<link rel="canonical" href="https://christopherbauer.org/tags/python/">
 <link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Imagined Realities">
 <meta name="language" content="en">
 <meta name="locale" content="en_US">
 <meta property="og:locale" content="en_US">
 <meta name="generator" content="Eleventy v3.0.0"> 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","description":"","headline":"Imagined Realities - ","name":"Imagined Realities","url":"https://christopherbauer.org/blog/graylog-revised/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","description":"","headline":"Imagined Realities - ","name":"Imagined Realities","url":"https://christopherbauer.org/tags/python/"}</script>
 <meta name="generator" content="Eleventy v3.0.0">
 <meta name="color-scheme" content="light dark">
 <style>@charset "UTF-8";/*!
@@ -98,183 +98,24 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="graylog-on-proxmox-with-ansible-for-rsyslog-client-config"><a href="/blog/graylog-revised/">Graylog on Proxmox with Ansible for Rsyslog Client Config</a></h1>
+<h1 id="tagged-python"><a href="/tags/python/">Tagged &#39;python&#39;</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
-<div class="container">
-<p>
-<a href="/tags/proxmox/"><small>proxmox</small></a> ,
-<a href="/tags/graylog/"><small>graylog</small></a></p>
-</div>
 <div class="container snls snts">
 <heading-anchors>
-<p><time datetime="2025-01-24">24 January 2025</time></p>
-<p>Content Overview</p>
-<ul>
-<li><a href="https://christopherbauer.org/blog/graylog_revised/#Introduction" class="primary">Introduction</a></li>
-<li><a href="https://christopherbauer.org/blog/graylog_revised/#Creating-the-VM" class="primary">Creating the VM</a></li>
-<li><a href="https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration" class="primary">Installation &amp; Configuration</a></li>
-<li><a href="https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" class="primary">Automating Client Rsyslog Configurations with Ansible</a></li>
-</ul>
-<h3 id="introduction">Introduction</h3>
-<p>After some thought, I realized installing Graylog is sufficiently complicated that I'm revising my original post to include installation steps.</p>
-<p>In this post I first outline two obstacles to be aware of in creating a VM on Proxmox for Graylog. I then cover the installation steps for OpenSearch, MongoDB and Graylog. In the final part, I offer an overview of how you can use Ansible to configure clients to send Graylog logs using rsyslog.</p>
-<h4 id="assumptions">Assumptions</h4>
-<p>The approach of this post assumes the reader is comfortable with the Linux command line and desires to install the Graylog Open version on a Proxmox Ubuntu 22.04 virtual machine, and wants to install OpenSearch on the self-same machine as Graylog. These instructions don't consider use of a proxy or TLS requirements.</p>
-<p>One note of warning: be prepared for Graylog's RAM consumption. Graylog is a RAM hog. You'll see your RAM usage shoot up so it'd pay to go into this project with your eyes open.</p>
-<h3 id="creating-the-vm">Creating the VM</h3>
-<p>I'm going to cover two notes on how to make an install of Graylog on a Proxmox VM go more smoothly. If I'd known about these challenges ahead of time I could have saved myself a little pain.</p>
-<h4 id="in-brief">In Brief</h4>
-<p>Stick with Ubuntu 22.04 and select &quot;Host&quot; as the CPU for the VM creation parameters.</p>
-<h4 id="in-detail">In Detail</h4>
-<p>I went with a VM because Graylog is a bit of a beast, requiring multiple different components and lots of RAM. I believe people have installed it on LXC containers, but I figured I'd run into fewer problems this way. Well, at least fewer problems than I would otherwise. Not absent problems.</p>
-<p>The <strong>first</strong> issue was relatively trivial but time consuming to figure out. I figured I'd put Graylog on the latest Ubuntu LTS (24.04). It took a full install cycle using the <a href="https://wiki.ubuntu.com/Installer/FAQ">Ubuntu Debian-Installer</a> and troubleshooting to realize that MongoDB wouldn't play nice with that version. MongoDB is required for Graylog's function so this wasn't something I could figure out later. Lesson learned. As of this writing, I used 22.04.</p>
-<p>The <strong>second</strong> was that MongoDB<a href="https://forum.proxmox.com/threads/mongo-db-5-0-not-install.95857/post-440005"> doesn't play nice with Proxmox's defaults</a>. I had learned and subsequently forgotten this one from a previous encounter with MongoDB. In particular, I had to tweak an option that I otherwise never change regarding the processor, as MongoDB cannot work on the default selection of x86-64-v2-AES. In the VM creation guide, on the CPU tab, for &quot;Type,&quot; I had to set the processor to <em>host</em> in order for it to function correctly in the VM.</p>
-<div class="grid"><div><img src="/img/2025-01-21_11-41.png" loading="lazy" title=""></div><div></div></div>
-<h3 id="installation-and-configuration">Installation &amp; Configuration</h3>
-<p>Regarding the install process, we'll work through four stages:</p>
-<ol>
-<li>Install &amp; configure OpenSearch to store the log entries that Graylog collects</li>
-<li>Install MongoDB to store Graylog's metadata</li>
-<li>Install the Graylog Data Node</li>
-<li>Install the Graylog server</li>
-</ol>
-<h4 id="installing-opensearch">Installing OpenSearch</h4>
-<p>I'm borrowing from <a href="https://github.com/Graylog2/se-poc-docs/blob/main/src/On%20Prem%20POC/installing%20opensearch.md">this Graylog repo's instructions</a> on installing OpenSearch.</p>
-<p>First, update and upgrade the VM. Restart if required.</p>
-<p>Take note of the IP address (if you need to, run <code>ip a</code>).</p>
-<p>Verify the required dependencies are met.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> <span class="token function">vim</span> lsb-release ca-certificates <span class="token function">curl</span> gnupg2</code></pre>
-<p>Download signing key.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">curl</span> -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp <span class="token operator">|</span> <span class="token function">sudo</span> gpg <span class="token parameter variable">--dearmor</span> <span class="token parameter variable">--batch</span> <span class="token parameter variable">--yes</span> <span class="token parameter variable">-o</span> /usr/share/keyrings/opensearch-keyring</code></pre>
-<p>Create repository file.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"deb [signed-by=/usr/share/keyrings/opensearch-keyring] https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main"</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/apt/sources.list.d/opensearch-2.x.list</code></pre>
-<p>Install OpenSearch.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> update</code></pre>
-<p>Set a temporary password for installation.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">env</span> <span class="token assign-left variable">OPENSEARCH_INITIAL_ADMIN_PASSWORD</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">tr</span> <span class="token parameter variable">-dc</span> A-Z-a-z-0-9_@<span class="token comment">#%^-_=+ &lt; /dev/urandom  | head -c${1:-32}</span><span class="token variable">)</span></span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> <span class="token assign-left variable">opensearch</span><span class="token operator">=</span><span class="token number">2.15</span>.0</code></pre>
-<p>Set default value for heap variable.</p>
-<pre class="language-Bash" tabindex="0"><code class="language-Bash">tmpheap=1</code></pre>
-<h4 id="configuring-opensearch">Configuring OpenSearch</h4>
-<p>Back up the original OpenSearch configuration.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">cp</span> /etc/opensearch/opensearch.yml /etc/opensearch/opensearch.yml.bak</code></pre>
-<p>Create the new configuration with parameters set to Graylog's requirements.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"cluster.name: graylog
-node.name: <span class="token variable">${<span class="token environment constant">HOSTNAME</span>}</span>
-path.data: /var/lib/opensearch
-path.logs: /var/log/opensearch
-transport.host: 0.0.0.0
-network.host: 0.0.0.0
-http.port: 9200
-discovery.type: single-node
-action.auto_create_index: false
-plugins.security.disabled: true
-indices.query.bool.max_clause_count: 32768"</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/opensearch/opensearch.yml</code></pre>
-<h4 id="installing-mongodb">Installing MongoDB</h4>
-<p>Once I <a href="http://christopherbauer.org/blog/graylog-revised/#creating-the-vm" class="primary">configured the vm properly</a> , I followed <a href="https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21">the official docs </a> for an Ubuntu install without problems. Those same instructions appear here.</p>
-<p>Set a timezone.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> timedatectl set-timezone UTC</code></pre>
-<p>Install gnupg.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gnupg <span class="token function">curl</span></code></pre>
-<p>Import the key for MongoDB.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://www.mongodb.org/static/pgp/server-6.0.asc <span class="token operator">|</span> <span class="token punctuation">\</span>
-   <span class="token function">sudo</span> gpg <span class="token parameter variable">-o</span> /usr/share/keyrings/mongodb-server-6.0.gpg <span class="token punctuation">\</span>
-   <span class="token parameter variable">--dearmor</span></code></pre>
-<p>Create a list file for MongoDB.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse"</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/apt/sources.list.d/mongodb-org-6.0.list</code></pre>
-<p>Reload the local package database.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> update</code></pre>
-<p>Install the latest stable version of MongoDB.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> mongodb-org</code></pre>
-<p>I don't use proxies, so if you do refer to <a href="https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21">the official docs </a>, then Enable.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl daemon-reload</code></pre>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> mongod.service</code></pre>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl restart mongod.service</code></pre>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl <span class="token parameter variable">--type</span><span class="token operator">=</span>service <span class="token parameter variable">--state</span><span class="token operator">=</span>active <span class="token operator">|</span> <span class="token function">grep</span> mongod</code></pre>
-<p>Freeze the MongoDB version.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> apt-mark hold mongodb-org</code></pre>
-<h4 id="installing-the-graylog-data-node">Installing the Graylog Data Node</h4>
-<p>Get the Graylog repo as a package.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">wget</span> https://packages.graylog2.org/repo/packages/graylog-6.1-repository_latest.deb</code></pre>
-<p>Install it.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> graylog-6.1-repository_latest.deb</code></pre>
-<p>The repositiories your package manager checks should now include Graylog's repos. Update them.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> update</code></pre>
-<p>Install Graylog.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> graylog-datanode</code></pre>
-<h4 id="configuring-the-graylog-data-node">Configuring the Graylog Data Node</h4>
-<p>To conform to the OpenSearch requirements check the vm.max count to ensure it is set to at least 26144.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">cat</span> /proc/sys/vm/max_map_count</code></pre>
-<p>If it isn't, you can use the following:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token assign-left variable">vm.max_map_count</span><span class="token operator">=</span><span class="token number">262144</span></code></pre>
-<p>Reload the config.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">sysctl</span> <span class="token parameter variable">-p</span></code></pre>
-<p>Create a password secret and copy the output to a file editor.  You'll need it for the next step and later as well.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token operator">&lt;</span> /dev/urandom <span class="token function">tr</span> <span class="token parameter variable">-dc</span> A-Z-a-z-0-9 <span class="token operator">|</span> <span class="token function">head</span> -c<span class="token variable">${1<span class="token operator">:-</span>96}</span><span class="token punctuation">;</span><span class="token builtin class-name">echo</span><span class="token punctuation">;</span></code></pre>
-<p>Open the config file using vim (you can use nano if you prefer something straighforward). Paste the above into the <code>password_secret</code> line, no quotations.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/graylog/datanode/datanode.conf</code></pre>
-<p>Enable the Graylog service.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> graylog-datanode.service</code></pre>
-<p>Ensure it has started.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl start graylog-datanode</code></pre>
-<h4 id="install-graylog-server">Install Graylog Server</h4>
-<p>Install the Graylog server.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> graylog-server</code></pre>
-<h4 id="configure-the-graylog-server">Configure the Graylog Server</h4>
-<p>Generate a password and copy it before opening the config file in the next step.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"Enter Password: "</span> <span class="token operator">&amp;&amp;</span> <span class="token function">head</span> <span class="token parameter variable">-1</span> <span class="token operator">&lt;</span>/dev/stdin <span class="token operator">|</span> <span class="token function">tr</span> <span class="token parameter variable">-d</span> <span class="token string">'\n'</span> <span class="token operator">|</span> sha256sum <span class="token operator">|</span> <span class="token function">cut</span> -d<span class="token string">" "</span> <span class="token parameter variable">-f1</span></code></pre>
-<p>Add your password secret generated during the Graylog Node configuration step to the server config file with the line <code>password_secret</code>. Then add the password you generated above to the line <code>root_password_sha2</code>. Select an alternative username for <code>root_username</code> if you desire.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/graylog/server/server.conf</code></pre>
-<p>Set the <code>http_bind_address</code> value in the Graylog configuration file to the public host name or a public IP address for the machine to which you can connect.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'s/#http_bind_address = 127.0.0.1.*/http_bind_address = 0.0.0.0:9000/g'</span> /etc/graylog/server/server.conf</code></pre>
-<p>Enable Graylog during the operating system’s startup.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> systemctl daemon-reloadsudo systemctl <span class="token builtin class-name">enable</span> graylog-server.servicesudo systemctl start graylog-server.servicesudo systemctl <span class="token parameter variable">--type</span><span class="token operator">=</span>service <span class="token parameter variable">--state</span><span class="token operator">=</span>active <span class="token operator">|</span> <span class="token function">grep</span> graylog</code></pre>
-<p>With that you should be able to proceed to IP assigned to your VM with the port 9000 and find the login page (e.g. http:// 192.168.0.1:9000).</p>
-<h3 id="automating-client-rsyslog-configurations-with-ansible">Automating Client Rsyslog Configurations with Ansible</h3>
-<p>Take what follows as a rough model rather than specific directions.</p>
-<p>Next, there was the matter of configuring my machines <a href="https://go2docs.graylog.org/current/getting_in_log_data/syslog_inputs.html">to send logs to Graylog</a>. Graylog offers a <a href="https://go2docs.graylog.org/current/getting_in_log_data/inputs.htm">variety of different ways</a> to accept logs from client machines. I went with Rsyslog.</p>
-<p>Now, I could have ssh-ed into each individual machine and altered the <code>/etc/rsyslog.conf</code> file by hand to include:</p>
-<pre class="language-vim" tabindex="0"><code class="language-vim"><span class="token operator">*</span><span class="token operator">.</span><span class="token operator">*</span>@@yourgraylog<span class="token operator">.</span>example<span class="token operator">.</span>org<span class="token punctuation">:</span><span class="token number">514</span><span class="token punctuation">;</span>RSYSLOG_SyslogProtocol23Format</code></pre>
-<p>However, from the start this task seemed ripe for automation.</p>
-<p>I built an Ansible script to ensure rsyslog was installed and then to configure it on the clients. I'd been playing around with Ansible over the weekend, and the YAML format is great compared to writing everything out in pure python.</p>
-<p>Be aware, while the Ansible code can be found below, there are a bunch of configuration challenges to Ansible that can sidetrack you for hours. I can think of at least two off the top of my head. First, I used the code below as an <a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html">Ansible Role</a>. Covering what that means, and how to setup Ansible, is far beyond the scope of this article. If you're new to it, plan some free hours to start toying around. Start with <a href="https://docs.ansible.com/ansible/latest/getting_started/index.html">the docs</a>; they're just average but they're worth it for just getting started. Second, if you use <em>sudo</em> with a password on the target, you'll want to use Ansible-Vault. However, the whole way Ansible Vault works is super unclear to me. I hope to write up a blog post about it sometime. I'm afraid I don't have a confirmed solution for it as of this writing. Also, I can't help if you are thinking of windows hosts, I don't have windows clients.</p>
-<p>Because this is a role <em>main.yml</em> file, it may seem truncated. To explain, the first section determines whether rsyslog is installed. The second determines whether the Graylog code for forwarding the logs is already present in the <code>/etc/rsyslog.conf</code> file, and if not, adds it to the final line. The final section then restarts the rsyslog server.</p>
-<pre class="language-yml" tabindex="0"><code class="language-yml"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install rsyslog
-  <span class="token key atrule">ansible.builtin.apt</span><span class="token punctuation">:</span>
-    <span class="token key atrule">name</span><span class="token punctuation">:</span> rsyslog
+<h3 id="tagged-python-2">Tagged “python”</h3>
 
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Add instruction to dispatch logs to graylog
-  <span class="token key atrule">ansible.builtin.lineinfile</span><span class="token punctuation">:</span>
-    <span class="token key atrule">path</span><span class="token punctuation">:</span> /etc/rsyslog.conf
-    <span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">"*.*@@YOUR_IP_HERE;RSYSLOG_SyslogProtocol23Format"</span>
-    <span class="token key atrule">regexp</span><span class="token punctuation">:</span> <span class="token string">'\*.\*@@YOUR_IP_HERE;RSYSLOG_SyslogProtocol23Format'</span>
-    <span class="token key atrule">state</span><span class="token punctuation">:</span> present
-    <span class="token key atrule">insertafter</span><span class="token punctuation">:</span> EOF
-    <span class="token key atrule">create</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
 
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Restart rsyslog
-  <span class="token key atrule">ansible.builtin.shell</span><span class="token punctuation">:</span>
-    <span class="token key atrule">cmd</span><span class="token punctuation">:</span> systemctl restart rsyslog</code></pre>
-<p>You'd then run that using Ansible as a role in your playbook.</p>
-<h3 id="conclusion">Conclusion</h3>
-<p>Admittedly, this is a post with a niche attraction, but nevertheless I hope it may help someone in the future. Should you have any questions, don't hesitate to DM me on <a href="https://infosec.exchange/@anthro_packets">Mastodon</a>.</p>
 
+
+<p><a href="/tags" type="button" class="contrast">Explore all tags</a>.</p>
 
 </heading-anchors>
 <div class="container p-5">
 <nav>
-
-<ul>
-<li>
-<a href="/blog/2025-01-07-vsftpd/" title="Installing VSFTP in a Proxmox LXC Container Or: &quot;How I Learned the Lessons of the SysAdmin&quot;" role="button" class="primary">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
-</svg> <small>Previous</small>
-</a>
-</li>
-</ul>
-
+<ul><li><a href="/tag-pages/" class="secondary">← Previous</a></li></ul>
+<ul><li><a href="/tag-pages/" class="secondary">Next →</a></li></ul>
 </nav>
 </div>
 

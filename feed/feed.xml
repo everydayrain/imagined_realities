@@ -11,14 +11,21 @@
     <name>Christopher Bauer</name>
   </author>
   <entry>
-    <title>Graylog on Proxmox and Ansible for Rsyslog Client Config</title>
+    <title>Graylog on Proxmox with Ansible for Rsyslog Client Config</title>
     <link href="https://christopherbauer.org/blog/graylog-revised/" />
     <updated>2025-01-24T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/graylog-revised/</id>
-    <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+    <content type="html">&lt;p&gt;Content Overview&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog_revised/#Introduction&quot; class=&quot;primary&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog_revised/#Creating-the-VM&quot; class=&quot;primary&quot;&gt;Creating the VM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration&quot; class=&quot;primary&quot;&gt;Installation &amp;amp; Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible&quot; class=&quot;primary&quot;&gt;Automating Client Rsyslog Configurations with Ansible&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;After some thought, I realized installing Graylog is sufficiently complicated that I&#39;m revising my original post to include installation steps.&lt;/p&gt;
 &lt;p&gt;In this post I first outline two obstacles to be aware of in creating a VM on Proxmox for Graylog. I then cover the installation steps for OpenSearch, MongoDB and Graylog. In the final part, I offer an overview of how you can use Ansible to configure clients to send Graylog logs using rsyslog.&lt;/p&gt;
-&lt;h3 id=&quot;assumptions&quot;&gt;Assumptions&lt;/h3&gt;
+&lt;h4 id=&quot;assumptions&quot;&gt;Assumptions&lt;/h4&gt;
 &lt;p&gt;The approach of this post assumes the reader is comfortable with the Linux command line and desires to install the Graylog Open version on a Proxmox Ubuntu 22.04 virtual machine, and wants to install OpenSearch on the self-same machine as Graylog. These instructions don&#39;t consider use of a proxy or TLS requirements.&lt;/p&gt;
 &lt;p&gt;One note of warning: be prepared for Graylog&#39;s RAM consumption. Graylog is a RAM hog. You&#39;ll see your RAM usage shoot up so it&#39;d pay to go into this project with your eyes open.&lt;/p&gt;
 &lt;h3 id=&quot;creating-the-vm&quot;&gt;Creating the VM&lt;/h3&gt;
