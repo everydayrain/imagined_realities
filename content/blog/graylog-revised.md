@@ -1,11 +1,17 @@
 ---
 author: Chris
-title: Graylog on Proxmox and Ansible for Rsyslog Client Config
+title: Graylog on Proxmox with Ansible for Rsyslog Client Config
 date: 2025-01-24
 tags:
   - proxmox
   - graylog
 ---
+
+Content Overview
+- {% linkprimary "Introduction", "https://christopherbauer.org/blog/graylog_revised/#Introduction" %}
+- {% linkprimary "Creating the VM", "https://christopherbauer.org/blog/graylog_revised/#Creating-the-VM" %}
+- {% linkprimary "Installation & Configuration", "https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration" %}
+- {% linkprimary "Automating Client Rsyslog Configurations with Ansible", "https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" %}
 
 ### Introduction
 
@@ -13,7 +19,7 @@ After some thought, I realized installing Graylog is sufficiently complicated th
 
 In this post I first outline two obstacles to be aware of in creating a VM on Proxmox for Graylog. I then cover the installation steps for OpenSearch, MongoDB and Graylog. In the final part, I offer an overview of how you can use Ansible to configure clients to send Graylog logs using rsyslog.
 
-### Assumptions
+#### Assumptions
 
 The approach of this post assumes the reader is comfortable with the Linux command line and desires to install the Graylog Open version on a Proxmox Ubuntu 22.04 virtual machine, and wants to install OpenSearch on the self-same machine as Graylog. These instructions don't consider use of a proxy or TLS requirements.
 
