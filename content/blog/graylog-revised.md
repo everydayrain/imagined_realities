@@ -8,8 +8,8 @@ tags:
 ---
 
 Content Overview
-- {% linkprimary "Introduction", "https://christopherbauer.org/blog/graylog_revised/#Introduction" %}
-- {% linkprimary "Creating the VM", "https://christopherbauer.org/blog/graylog_revised/#Creating-the-VM" %}
+- {% linkprimary "Introduction", "https://christopherbauer.org/blog/graylog-revised/#introduction" %}
+- {% linkprimary "Creating the VM", "https://christopherbauer.org/blog/graylog-revised/#creating-the-vm" %}
 - {% linkprimary "Installation & Configuration", "https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration" %}
 - {% linkprimary "Automating Client Rsyslog Configurations with Ansible", "https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" %}
 
