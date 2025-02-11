@@ -31,7 +31,7 @@ Then there is FreshRSS, a self-hosted reader & aggregator that you run at home o
 
 In setting up the fresh Raspbian OS, I had to go through all the steps of setting up a server again. To be clear, I had a simple use case that contributed to the ease of this install. I don't really spend much time away from home these days, so my use case for a RSS aggregator is that the server be available entirely through my LAN. This vastly simplifies the process, precluding the need for a hostname provided by a DNS service; configuring the Docker container to use the hostname; and the associated router configurations to isolate my raspberry pi on a vlan and securely allow traffic through my firewall.
 
-So really, the only challenging part of these limited aims was setting up the LAMP stack. Actually, FreshRSS comes with its own SQLite database capability built in, so you might not even need to install MySQL. For more on installing a LAMP stack, see [this post](https://christopherbauer.org/2022-11-08-lamp-install).
+So really, the only challenging part of these limited aims was setting up the LAMP stack. Actually, FreshRSS comes with its own SQLite database capability built in, so you might not even need to install MySQL. For more on installing a LAMP stack, see [this post](https://christopherbauer.org/2022/11/08/lamp-install.html).
 
 One additional note: at the time of this writing FreshRSS had a requirement to use an earlier version of PHP than currently offered (its most current was 8.1). So you'll have to ensure that you install an earlier version by specifying the version number in apt.
 
@@ -135,4 +135,3 @@ docker rm freshrss_old
 ## Conclusion
 
 There you go! You should be up and running with FreshRSS. Enjoy the simplified RSS management and privacy of a self-hosted service.
-ice.

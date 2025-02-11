@@ -3,11 +3,11 @@ author: Chris
 title: "Installing Game of Active Directory on Proxmox: Part 3 - Templating"
 date: 2024-11-14
 ---
-This is Part 3 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In the [second installment](https://christopherbauer.org/2024-11-11-provisioner) I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.
+This is Part 3 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In the [second installment](https://christopherbauer.org/2024/11/11/provisioner.html) I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.
 
 As I mentioned before, I'm deeply indebted to [Mayfly277's canonical guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's guide.
 
-Should you need more orientation to the context of this series, or on my rationale for creating it, see the [first post in this series](https://christopherbauer.org/2024-11-08-GOAD-networking).
+Should you need more orientation to the context of this series, or on my rationale for creating it, see the [first post in this series](https://christopherbauer.org/2024/11/08/GOAD-networking.html).
 
 ## Preparation
 
@@ -63,7 +63,7 @@ cp config.auto.pkrvars.hcl.template config.auto.pkrvars.hcl
 
 I next used a little trial and error to follow Mayfly277's instructions on modifying config.auto.pkrvars.hcl.  Mayfly277 says "*The config.auto.pkrvars.hcl file will contain all the informations [sic] needed by packer to contact the proxmox api.*"  To interpret that a bit, I changed the following in the file: 
 
-- "proxmox_url" -> I set this to the gateway of GOAD LAN `192.168.2.1:8006` so that it'd be translated by NAT to Proxmox as we completed in [part 1](https://christopherbauer.org/2024-11-08-GOAD-networking)
+- "proxmox_url" -> I set this to the gateway of GOAD LAN `192.168.2.1:8006` so that it'd be translated by NAT to Proxmox as we completed in [part 1](https://christopherbauer.org/2024/11/08/GOAD-networking.html)
 - "proxmox_username" -> change this to the user you created above
 - "proxmox_password" -> change this to the user you created above
 - "proxmox_node" -> changed to the name of the home Proxmox node
@@ -80,7 +80,7 @@ cd /root/GOAD/packer/proxmox/
 ```
 Mayfly277 [describes what's going on](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files) with the script and understands it far better than I do.  If you'd like to understand the inner workings before running it, head over [there](https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files).
 
-Once the script runs and the ISO file has been created, we'll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks "*the cloudinit iso file is pretty large we will copy it from the proxmox ssh access*."  However, if you set up key-only access to the provisioner in the [previous post in this series](https://christopherbauer.org/2024-11-11-provisioner), you won't be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that'd be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container. 
+Once the script runs and the ISO file has been created, we'll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks "*the cloudinit iso file is pretty large we will copy it from the proxmox ssh access*."  However, if you set up key-only access to the provisioner in the [previous post in this series](https://christopherbauer.org/2024/11/11/provisioner.html), you won't be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that'd be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container. 
 
 To transfer using scp and a password, enter the Proxmox command line.
 ```
@@ -106,7 +106,7 @@ With that you should have ISOs named "scripts_withcloudinit.iso" and "virtio-win
 ### Modifying packer.pkr.hcl 
 Mayfly277 says "*A generic packer.pkr.hcl file is present in GOAD folder* ."  That path is `/root/GOAD/packer/proxmox/packer.json.pkr.hcl`.  
 
-I modified the packer.pkr.hcl file so that the "vlan_tag" entry read "30" according to how I set up the networking in my [first post](https://christopherbauer.org/2024-11-08-GOAD-networking).
+I modified the packer.pkr.hcl file so that the "vlan_tag" entry read "30" according to how I set up the networking in my [first post](https://christopherbauer.org/2024/11/08/GOAD-networking.html).
 
 ### Modifying the Individual Computer Config Files
 Next we'll modify the packer files for the individual templates.  Before we begin, it'd be helpful to have the sha256 hashes for a couple of dependent files referenced in the packer files.  To collect those, head to the provisioner machine.
@@ -178,4 +178,3 @@ With that we've created the templates and are ready to create machines with Terr
 - [Mayfly277's blog](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com)
 - Orange-Cyberdefense's [GitHub Repo](https://github.com/Orange-Cyberdefense/GOAD)
 - Orange-Cyberdefense's [proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
-install_with_proxmox.md)

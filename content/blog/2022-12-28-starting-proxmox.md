@@ -24,7 +24,7 @@ I think its plausible that my old standard HP desktop tower can handle life as a
 ### Preparing the Installation Media
 For any questions during the install, I followed instructions from the [official Proxmox documentation](https://pve.proxmox.com/pve-docs/chapter-pve-installation.html)
 
-I won't go into obtaining the Proxmox .iso and writing it to a USB drive.  Should you need help with that, there are plenty of guides to be found through an internet search.  Alternatively, one can adapt my instructions under "Creating the Bootable USB" found on [my blog here](https://christopherbauer.org/2022-12-20-tumbleweed).
+I won't go into obtaining the Proxmox .iso and writing it to a USB drive.  Should you need help with that, there are plenty of guides to be found through an internet search.  Alternatively, one can adapt my instructions under "Creating the Bootable USB" found on [my blog here](https://christopherbauer.org/2022/12/20/tumbleweed.html).
 
 #### A Brief Note on Ventoy
 [Ventoy](https://www.ventoy.net/en/index.html) is a handy little program to place on USBs to facilitate the install and organization of distro .iso files.
@@ -77,4 +77,4 @@ To stage the .iso files, you have to select one of the storage options you creat
 
 In the right-hand pane, Proxmox gives you the option to paste a link into a field where Proxmox will proceed to download the .iso file.  Alternatively, you can upload a local .iso file where Proxmox will open a file chooser on your current machine.  The nice thing about either option is that you can supply a checksum for hash checking and Proxmox will automatically check the uploaded/downloaded .iso against the checksum.
 
-After downloading/uploading you have staged your .iso file and should be ready to move on to creating a VM or container.iner.
+After downloading/uploading you have staged your .iso file and should be ready to move on to creating a VM or container.
