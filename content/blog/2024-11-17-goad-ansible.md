@@ -4,11 +4,11 @@ title: "Installing Game of Active Directory on Proxmox: Part 5 - Ansible"
 date: 2024-11-18
 ---
 
-This is part 5 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE. In the [fourth installment](https://christopherbauer.org/2024/11/17/goad-terraform.html) I covered how to use Terraform to create the Windows VMs. In this post we'll configure the individual Windows VMs using Ansible to create the final GOAD topology.
+This is part 5 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE. In the [fourth installment](https://christopherbauer.org/blog/2024-11-17-goad-terraform) I covered how to use Terraform to create the Windows VMs. In this post we'll configure the individual Windows VMs using Ansible to create the final GOAD topology.
 
 As I mentioned before, I'm deeply indebted to Mayfly277's [canonical guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement.
 
-Should you need more orientation to the context of this series, or on my rationale for creating it, see [first post](https://christopherbauer.org/2024/11/08/GOAD-networking.html) in this series.
+Should you need more orientation to the context of this series, or on my rationale for creating it, see [first post](https://christopherbauer.org/blog/2024-11-08-GOAD-networking) in this series.
 
 ## Configuring The AD VMs
 
@@ -22,9 +22,9 @@ On the provisioner, there should be an _inventory_ file as part of the cloned GO
 cd ~/GOAD/ad/GOAD/providers/proxmox
 ```
 
-In the inventory I changed the static IPs of the five machines to reflect the VLAN subnet they were on (this according to my [unique arrangement](https://christopherbauer.org/2024/11/08/GOAD-networking.html), if you followed Mayfly277's instructions this step will be unnecessary).
+In the inventory I changed the static IPs of the five machines to reflect the VLAN subnet they were on (this according to my [unique arrangement](https://christopherbauer.org/blog/2024-11-08-GOAD-networking), if you followed Mayfly277's instructions this step will be unnecessary).
 
-At this point Mayfly277 suggests [installing the requirements for ansible-galaxy](https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#install-the-requirements). In my guide, we completed that step as part of [the provisioner setup](https://christopherbauer.org/2024/11/11/provisioner.html), so we're now ready to run Ansible's playbook.
+At this point Mayfly277 suggests [installing the requirements for ansible-galaxy](https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#install-the-requirements). In my guide, we completed that step as part of [the provisioner setup](https://christopherbauer.org/blog/2024-11-11-provisioner), so we're now ready to run Ansible's playbook.
 
 ## Run Ansible
 
@@ -42,7 +42,7 @@ If all goes according to plan, it will cover a lot of ground and say "command su
 
 {% imagesmall '/img/2024-10-29_19-13.png', '' %}
 
-This wasn't the case during my installation, I ran into multiple problems. Before I dig into those, remember that if you need to come back to the project after a restart of the provisioner, you might have to source the python packages again according to the [virtual environment](https://christopherbauer.org/2024/11/11/provisioner.html) we set up in part 2.
+This wasn't the case during my installation, I ran into multiple problems. Before I dig into those, remember that if you need to come back to the project after a restart of the provisioner, you might have to source the python packages again according to the [virtual environment](https://christopherbauer.org/blog/2024-11-11-provisioner) we set up in part 2.
 
 ### Troubleshooting the Ansible Run
 
