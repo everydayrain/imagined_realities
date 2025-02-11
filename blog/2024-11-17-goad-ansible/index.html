@@ -108,17 +108,17 @@ Dark
 <div class="container snls snts">
 <heading-anchors>
 <p><time datetime="2024-11-18">18 November 2024</time></p>
-<p>This is part 5 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE. In the <a href="https://christopherbauer.org/2024-11-17-goad-terraform">fourth installment</a> I covered how to use Terraform to create the Windows VMs. In this post we'll configure the individual Windows VMs using Ansible to create the final GOAD topology.</p>
+<p>This is part 5 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE. In the <a href="https://christopherbauer.org/2024/11/17/goad-terraform.html">fourth installment</a> I covered how to use Terraform to create the Windows VMs. In this post we'll configure the individual Windows VMs using Ansible to create the final GOAD topology.</p>
 <p>As I mentioned before, I'm deeply indebted to Mayfly277's <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">canonical guide</a>, and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement.</p>
-<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">first post</a> in this series.</p>
+<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">first post</a> in this series.</p>
 <h2 id="configuring-the-ad-vms">Configuring The AD VMs</h2>
 <h3 id="preparation">Preparation</h3>
 <h4 id="modify-the-inventory">Modify the Inventory</h4>
 <p>On the provisioner, there should be an <em>inventory</em> file as part of the cloned GOAD repo. Change to that directory so that you can modify it.</p>
 <pre><code>cd ~/GOAD/ad/GOAD/providers/proxmox
 </code></pre>
-<p>In the inventory I changed the static IPs of the five machines to reflect the VLAN subnet they were on (this according to my <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">unique arrangement</a>, if you followed Mayfly277's instructions this step will be unnecessary).</p>
-<p>At this point Mayfly277 suggests <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#install-the-requirements">installing the requirements for ansible-galaxy</a>. In my guide, we completed that step as part of <a href="https://christopherbauer.org/2024-11-11-provisioner">the provisioner setup</a>, so we're now ready to run Ansible's playbook.</p>
+<p>In the inventory I changed the static IPs of the five machines to reflect the VLAN subnet they were on (this according to my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">unique arrangement</a>, if you followed Mayfly277's instructions this step will be unnecessary).</p>
+<p>At this point Mayfly277 suggests <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#install-the-requirements">installing the requirements for ansible-galaxy</a>. In my guide, we completed that step as part of <a href="https://christopherbauer.org/2024/11/11/provisioner.html">the provisioner setup</a>, so we're now ready to run Ansible's playbook.</p>
 <h2 id="run-ansible">Run Ansible</h2>
 <p>To configure the machines, switch to the Ansible directory on the provisioner and run the playbook.</p>
 <pre><code>cd /root/GOAD/ansible
@@ -127,7 +127,7 @@ Dark
 </code></pre>
 <p>If all goes according to plan, it will cover a lot of ground and say &quot;command successfully executed.&quot;</p>
 <div class="grid"><div><img src="/img/2024-10-29_19-13.png" loading="lazy" title=""></div><div></div></div>
-<p>This wasn't the case during my installation, I ran into multiple problems. Before I dig into those, remember that if you need to come back to the project after a restart of the provisioner, you might have to source the python packages again according to the <a href="https://christopherbauer.org/2024-11-11-provisioner">virtual environment</a> we set up in part 2.</p>
+<p>This wasn't the case during my installation, I ran into multiple problems. Before I dig into those, remember that if you need to come back to the project after a restart of the provisioner, you might have to source the python packages again according to the <a href="https://christopherbauer.org/2024/11/11/provisioner.html">virtual environment</a> we set up in part 2.</p>
 <h3 id="troubleshooting-the-ansible-run">Troubleshooting the Ansible Run</h3>
 <p>I ran into errors in attempting to complete the entire Ansible run. Ultimately, I was able to complete the run successfully. I just troubleshooted the error messages and re-ran until the run completed. Adding <code>-vvv</code> might help add verbosity for revealing error messages if you need to troubleshoot, and the <a href="https://github.com/Orange-Cyberdefense/GOAD/issues">issues section</a> of Orange-Cyberdefense's Github Repo was very helpful.</p>
 <p>There is quite a lot to the Ansible playbook, so if you troubleshoot and successfully resolve, you'll have to run again and sit tight for a while as it proceeds.</p>
@@ -139,8 +139,7 @@ Dark
 <p>Once the Ansible run is successful, we're done creating the GOAD topology and settings, so it's a good time to take snapshots so that we may easily revert the machines to a clean state after our penetration testing.</p>
 <p>Mayfly277 offers <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#create-snapshots">a bevy of bash variables and a for loop</a> to create snapshots of the newly configured machines on the Proxmox command line. This is the faster way, though you can take snapshots manually by going to each of the five machines in the web user interface (WUI) and selecting the Snapshots option in the middle menu column and the &quot;Take Snapshot&quot; button.</p>
 <h2 id="configuration-complete">Configuration Complete</h2>
-<p>That wraps up the deployment section. Next we'll configure a vpn tunnel allowing us to connect an attacking machine to the internal network.
-to the internal network.</p>
+<p>That wraps up the deployment section. Next we'll configure a vpn tunnel allowing us to connect an attacking machine to the internal network.</p>
 
 
 </heading-anchors>

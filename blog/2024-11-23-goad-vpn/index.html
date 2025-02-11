@@ -108,9 +108,9 @@ Dark
 <div class="container snls snts">
 <heading-anchors>
 <p><time datetime="2024-11-23">23 November 2024</time></p>
-<p>This is part 6 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE. In the <a href="https://christopherbauer.org/2024-11-17-goad-ansible">fifth installment</a> I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we'll setup the VPN server on pfSense to simulate an assumed breach.</p>
+<p>This is part 6 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE. In the <a href="https://christopherbauer.org/2024/11/18/goad-ansible.html">fifth installment</a> I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we'll setup the VPN server on pfSense to simulate an assumed breach.</p>
 <p>As I mentioned before, I'm deeply indebted to Mayfly277's <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">canonical guide</a>, and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement.</p>
-<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">first post</a> in this series.</p>
+<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">first post</a> in this series.</p>
 <p>Mayfly277's instructions for this VPN section left me scratching my head at various points. I found two steps where my setup would fail if I followed his instructions on my machine. I'll make note of those deviations in what follows.</p>
 <h2 id="pfsense-and-openvpn">pfSense &amp; OpenVPN</h2>
 <h3 id="creating-the-ca">Creating the CA</h3>
@@ -118,7 +118,7 @@ Dark
 <p>The first step involves creating a certificate authority to issue a certificate. Go to the system menu and select the Certificates option.</p>
 <div class="grid"><div><img src="/img/2024-11-17_13-23_1.png" loading="lazy" title=""></div><div></div></div>
 <div class="grid"><div><img src="/img/2024-11-17_13-23.png" loading="lazy" title=""></div><div></div></div>
-<p>Under the Authorities tab click the green Add button at the bottom, and it'll take to to the following page where you'll give a descriptive name and a common name. I've used VLAN 30 (this is according to my <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">unique arrangement</a>, if you followed Mayfly277's instructions you'd use 10).</p>
+<p>Under the Authorities tab click the green Add button at the bottom, and it'll take to to the following page where you'll give a descriptive name and a common name. I've used VLAN 30 (this is according to my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">unique arrangement</a>, if you followed Mayfly277's instructions you'd use 10).</p>
 <div class="grid"><div><img src="/img/2024-11-17_13-24.png" loading="lazy" title=""></div><div></div></div>
 <p>Click save and you should have something like this:</p>
 <div class="grid"><div><img src="/img/2024-11-17_13-25.png" loading="lazy" title=""></div><div></div></div>
@@ -178,7 +178,7 @@ Dark
 <p>Finally, make sure:</p>
 <ul>
 <li>DNS Server Enabled is checked</li>
-<li>DNS server 1 reads 192.168.30.1 (this is according to my <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">unique arrangement</a>, if you followed Mayfly277's instructions you'd use 10)</li>
+<li>DNS server 1 reads 192.168.30.1 (this is according to my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">unique arrangement</a>, if you followed Mayfly277's instructions you'd use 10)</li>
 <li>That the Custom options field under Advanced Configruation reads &quot;auth-nocache&quot;</li>
 </ul>
 <div class="grid"><div><img src="/img/2024-11-17_13-36.png" loading="lazy" title=""></div><div></div></div>
@@ -222,8 +222,7 @@ Your interface assignments will then look something like this:
 <div class="grid"><div><img src="/img/2024-11-23_10-09.png" loading="lazy" title=""></div><div></div></div>
 <h2 id="concluding-the-series">Concluding the Series</h2>
 <p>With that, you've confirmed that the domain is working and appropriately configured. You're now ready to pentest against the domain!</p>
-<p>It's been a pleasure writing this up, and I hope someone finds it helpful.  If you do, please don't hesitate to leave me a note at Mastodon.
-a note at Mastodon.</p>
+<p>It's been a pleasure writing this up, and I hope someone finds it helpful.  If you do, please don't hesitate to leave me a note at Mastodon.</p>
 
 
 </heading-anchors>
