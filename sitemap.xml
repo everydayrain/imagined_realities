@@ -132,6 +132,11 @@
 	</url>
 	
 	<url>
+		<loc>https://christopherbauer.org/archive/2025-01-24-graylog/</loc>
+		<lastmod>2025-01-24</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://christopherbauer.org/blog/graylog-revised/</loc>
 		<lastmod>2025-01-24</lastmod>
 	</url>
@@ -143,6 +148,16 @@
 	
 	<url>
 		<loc>https://christopherbauer.org/blog/</loc>
+		<lastmod>2025-02-11</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://christopherbauer.org/drafts/benefits_pentesting/</loc>
+		<lastmod>2025-02-11</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://christopherbauer.org/drafts/overengineered/</loc>
 		<lastmod>2025-02-11</lastmod>
 	</url>
 	

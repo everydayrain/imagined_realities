@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Installing Game of Active Directory on Proxmox: Part 3 - Templating</title>
-<meta content="Installing Game of Active Directory on Proxmox: Part 3 - Templating" property="og:title">
-<meta content="Installing Game of Active Directory on Proxmox: Part 3 - Templating" name="twitter:title">
-<meta content="Installing Game of Active Directory on Proxmox: Part 3 - Templating" name="title">
-<meta content="Installing Game of Active Directory on Proxmox: Part 3 - Templating" property="og:site_name">
+<title>Tagged &#39;11ty&#39;</title>
+<meta content="Tagged &#39;11ty&#39;" property="og:title">
+<meta content="Tagged &#39;11ty&#39;" name="twitter:title">
+<meta content="Tagged &#39;11ty&#39;" name="title">
+<meta content="Tagged &#39;11ty&#39;" property="og:site_name">
 <meta content="" name="description">
 <meta content="" property="facebook:description">
 <meta content="" property="og:description">
@@ -21,13 +21,13 @@
 <meta content="" property="twitter:author">
 <meta content="" name="twitter:site">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://christopherbauer.org/blog/2024-11-14-templates/">
+<link rel="canonical" href="https://christopherbauer.org/tags/11ty/">
 <link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Imagined Realities">
 <meta name="language" content="en">
 <meta name="locale" content="en_US">
 <meta property="og:locale" content="en_US">
 <meta name="generator" content="Eleventy v3.0.0"> 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","description":"","headline":"Imagined Realities - ","name":"Imagined Realities","url":"https://christopherbauer.org/blog/2024-11-14-templates/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","description":"","headline":"Imagined Realities - ","name":"Imagined Realities","url":"https://christopherbauer.org/tags/11ty/"}</script>
 <meta name="generator" content="Eleventy v3.0.0">
 <meta name="color-scheme" content="light dark">
 <style>@charset "UTF-8";/*!
@@ -98,150 +98,24 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="installing-game-of-active-directory-on-proxmox-part-3-templating"><a href="/blog/2024-11-14-templates/">Installing Game of Active Directory on Proxmox: Part 3 - Templating</a></h1>
+<h1 id="tagged-11ty"><a href="/tags/11ty/">Tagged &#39;11ty&#39;</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
-<div class="container">
-<p></p>
-</div>
 <div class="container snls snts">
 <heading-anchors>
-<p><time datetime="2024-11-14">14 November 2024</time></p>
-<p>This is Part 3 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE.  In the <a href="https://christopherbauer.org/2024-11-11-provisioner">second installment</a> I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we'll create templates  for future deployment of the individual AD DCs and servers.</p>
-<p>As I mentioned before, I'm deeply indebted to <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">Mayfly277's canonical guide</a>, and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's guide.</p>
-<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see the <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">first post in this series</a>.</p>
-<h2 id="preparation">Preparation</h2>
-<h3 id="obtain-the-windows-isos">Obtain the Windows ISOs</h3>
-<p>First we'll need to obtain the Windows ISOs to serve as the basis of the templates.  Mayfly277 helpfully identified <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#download-the-isos">registration-free</a> links to those ISOs, so I recommend going directly to his guide for those links.  You can either download them to your local machine and subsquently upload them to Proxmox, or you can download them directly to Proxmox in the web user interface (WUI).</p>
-<h3 id="obtain-the-cloudbase-init">Obtain the Cloudbase-init</h3>
-<p>Returning to the provisioner machine, download the cloudbase-init service files to initialize and configure the Windows machines.</p>
-<pre><code>cd /root/GOAD/packer/proxmox/scripts/sysprep 
-</code></pre>
-<pre><code>wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
-</code></pre>
-<div class="grid"><div><img src="/img/2024-10-28_11-01.png" loading="lazy" title=""></div><div></div></div>
-<h3 id="create-a-user-in-proxmox">Create a User in Proxmox</h3>
-<p>We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I was ultimately forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  Ordinarily I'd advise against giving admin privileges out unless absolutely necessary, but in this case Mayfly277 himself uses admin privileges in later steps, so it may make sense to implement them here.  In any event, I'll add both privileged and non-privileged options. Admin privileges are outlined in the last command below.</p>
-<p>To create the user and packer privileges, on the Proxmox command line enter the following commands in sequence.</p>
-<pre><code>pveum useradd infra_as_code@pve
-</code></pre>
-<pre><code>pveum passwd infra_as_code@pve
-</code></pre>
-<pre><code>pveum roleadd Packer -privs &quot;VM.Config.Disk VM.Config.CPU VM.Config.Memory Datastore.AllocateTemplate Datastore.Audit Datastore.AllocateSpace Sys.Modify VM.Config.Options VM.Allocate VM.Audit VM.Console VM.Config.CDROM VM.Config.Cloudinit VM.Config.Network VM.PowerMgmt VM.Config.HWType VM.Monitor SDN.Use&quot;
-</code></pre>
-<p>Then choose the sort of role you want the user to have.</p>
-<p>To create a user with only the packer privileges of the command above, enter:</p>
-<pre><code>pveum acl modify / -user 'infra_as_code@pve' -role Packer
-</code></pre>
-<p>If instead you want to create a user with full admin privileges, enter:</p>
-<pre><code>pveum acl modify / -user 'infra_as_code@pve' -role Administrator
-</code></pre>
-<h3 id="modifying-config-auto-pkrvars-hcl">Modifying config.auto.pkrvars.hcl</h3>
-<p>On the provisioner machine change to <code>/root/GOAD/packer/proxmox/</code> and copy the config.auto.pkrvars.hcl template file to a version for our use.</p>
-<pre><code>cp config.auto.pkrvars.hcl.template config.auto.pkrvars.hcl
-</code></pre>
-<p>I next used a little trial and error to follow Mayfly277's instructions on modifying config.auto.pkrvars.hcl.  Mayfly277 says &quot;<em>The config.auto.pkrvars.hcl file will contain all the informations [sic] needed by packer to contact the proxmox api.</em>&quot;  To interpret that a bit, I changed the following in the file:</p>
-<ul>
-<li>&quot;proxmox_url&quot; -&gt; I set this to the gateway of GOAD LAN <code>192.168.2.1:8006</code> so that it'd be translated by NAT to Proxmox as we completed in <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">part 1</a></li>
-<li>&quot;proxmox_username&quot; -&gt; change this to the user you created above</li>
-<li>&quot;proxmox_password&quot; -&gt; change this to the user you created above</li>
-<li>&quot;proxmox_node&quot; -&gt; changed to the name of the home Proxmox node</li>
-<li>&quot;proxmox_vm_storage&quot; -&gt; storage for the machines you'll create</li>
-</ul>
-<h3 id="creating-custom-isos-for-the-template">Creating Custom ISOs for the Template</h3>
-<p>For this step we'll create an ISO file for use with the template through a custom script that is located in the GOAD repository on the provisioner machine.</p>
-<pre><code>cd /root/GOAD/packer/proxmox/
-</code></pre>
-<pre><code>./build_proxmox_iso.sh
-</code></pre>
-<p>Mayfly277 <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files">describes what's going on</a> with the script and understands it far better than I do.  If you'd like to understand the inner workings before running it, head over <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files">there</a>.</p>
-<p>Once the script runs and the ISO file has been created, we'll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks &quot;<em>the cloudinit iso file is pretty large we will copy it from the proxmox ssh access</em>.&quot;  However, if you set up key-only access to the provisioner in the <a href="https://christopherbauer.org/2024-11-11-provisioner">previous post in this series</a>, you won't be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that'd be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container.</p>
-<p>To transfer using scp and a password, enter the Proxmox command line.</p>
-<pre><code>ssh goadproxmox
-</code></pre>
-<pre><code>scp &lt;SOME_PROXMOX_USER&gt;@&lt;SOME_PROXMOX_IP&gt;:/root/GOAD/packer/proxmox/iso/scripts_withcloudinit.iso /var/lib/vz/template/iso/scripts_withcloudinit.iso
-</code></pre>
-<p>Now SSH into your Proxmox machine and download the <a href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso">virtio-win.iso</a> file that has drivers for Windows VMs hosted on Linux hypervisors.</p>
-<pre><code>cd /var/lib/vz/template/iso 
-</code></pre>
-<pre><code>wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
-</code></pre>
-<p>With that you should have ISOs named &quot;scripts_withcloudinit.iso&quot; and &quot;virtio-win.iso&quot; visible in your Proxmox WUI storage.</p>
-<div class="grid"><div><img src="/img/2024-11-11_10-14.png" loading="lazy" title=""></div><div></div></div>
-<h3 id="modifying-packer-pkr-hcl">Modifying packer.pkr.hcl</h3>
-<p>Mayfly277 says &quot;<em>A generic packer.pkr.hcl file is present in GOAD folder</em> .&quot;  That path is <code>/root/GOAD/packer/proxmox/packer.json.pkr.hcl</code>.</p>
-<p>I modified the packer.pkr.hcl file so that the &quot;vlan_tag&quot; entry read &quot;30&quot; according to how I set up the networking in my <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">first post</a>.</p>
-<h3 id="modifying-the-individual-computer-config-files">Modifying the Individual Computer Config Files</h3>
-<p>Next we'll modify the packer files for the individual templates.  Before we begin, it'd be helpful to have the sha256 hashes for a couple of dependent files referenced in the packer files.  To collect those, head to the provisioner machine.</p>
-<p>On the provisioner, change directories, and note the hashes produced by the following commands:</p>
-<pre><code>cd /root/GOAD/packer/proxmox/iso
-</code></pre>
-<pre><code>sha256sum Autounattend_winserver2016_cloudinit.iso
-</code></pre>
-<pre><code>sha256sum Autounattend_winserver2019_cloudinit.iso
-</code></pre>
-<p>Now we'll modify the packer files, starting with the 2016 .hcl file:</p>
-<pre><code>cd /root/GOAD/packer/proxmox
-</code></pre>
-<p>Use your favorite text editor to open <code>windows_server2016_proxmox_cloudinit.pkvars.hcl</code> (I use vi/vim).</p>
-<p>I left most settings in that file alone.  Do enter the hash you derived for the Autounattend_winserver2016_cloudinit.iso into the field &quot;autounattend_checksum&quot;.  I also had an issue when running Packer in the next step where the error message mentioned no file type.  Eventually I appended the following line to make it work:</p>
-<pre><code>vm_disk_format = &quot;qcow2&quot;
-</code></pre>
-<p>Then do the same process but using the second hash for the file windows_server2019_proxmox_cloudinit.pkvars.hcl.</p>
-<p>Here are the specs for the two files that I ended up with.  The 2016 .hcl file appears below as the first screenshot, and the 2019 .hcl file appears below as the second.</p>
-<div class="grid"><div><img src="/img/2024-11-11_10-23.png" loading="lazy" title=""></div><div></div></div>
-<div class="grid"><div><img src="/img/2024-11-11_10-23_1.png" loading="lazy" title=""></div><div></div></div>
-<h2 id="create-the-templates">Create the Templates</h2>
-<p>Now we're ready to launch the packer template builds for the 2016 and 2019 templates that will later be used to create the VMs.</p>
-<p>Initialize packer,</p>
-<pre><code>packer init .
-</code></pre>
-<p>Validate the file, and then build for each respectively.</p>
-<pre><code>packer validate -var-file=windows_server2019_proxmox_cloudinit.pkvars.hcl .
-</code></pre>
-<pre><code>packer build -var-file=windows_server2019_proxmox_cloudinit.pkvars.hcl .
-</code></pre>
-<pre><code>packer validate -var-file=windows_server2016_proxmox_cloudinit.pkvars.hcl .
-</code></pre>
-<pre><code>packer build -var-file=windows_server2016_proxmox_cloudinit.pkvars.hcl .
-</code></pre>
-<p>If that all goes well, you should be able to see two template VMs in your Proxmox WUI that correspond to the 2016 and 2019 files we modified.</p>
-<div class="grid"><div><img src="/img/2024-10-28_15-41.png" loading="lazy" title=""></div><div></div></div>
-<h2 id="template-creation-complete">Template Creation Complete</h2>
-<p>With that we've created the templates and are ready to create machines with Terraform in the next entry of this series.</p>
-<h2 id="resources">Resources</h2>
-<ul>
-<li><a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">Mayfly277's blog</a></li>
-<li>Orange-Cyberdefense's <a href="https://github.com/Orange-Cyberdefense/GOAD">GitHub Repo</a></li>
-<li>Orange-Cyberdefense's <a href="https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md">proxmox instructions</a>
-install_with_proxmox.md)</li>
-</ul>
+<h3 id="tagged-11ty-2">Tagged “11ty”</h3>
 
+
+
+
+<p><a href="/tags" type="button" class="contrast">Explore all tags</a>.</p>
 
 </heading-anchors>
 <div class="container p-5">
 <nav>
+<ul><li><a href="/tag-pages/" class="secondary">← Previous</a></li></ul>
 
-<ul>
-<li>
-<a href="/blog/2024-11-11-provisioner/" title="Installing Game of Active Directory on Proxmox: Part 2 - Provisioner" role="button" class="primary">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
-</svg> <small>Previous</small>
-</a>
-</li>
-</ul>
-
-<ul>
-<li>
-<a href="/blog/2024-11-17-goad-terraform/" title="Installing Game of Active Directory on Proxmox: Part 4 - Terraform" role="button" class="primary">
-<small>Next</small> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
-</svg>
-</a>
-</li>
-</ul>
 </nav>
 </div>
 

@@ -108,9 +108,9 @@ Dark
 <div class="container snls snts">
 <heading-anchors>
 <p><time datetime="2024-11-11">11 November 2024</time></p>
-<p>This entry consists of Part 2 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE.  In my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">previous post</a>, I covered networking for the entire Active Directory setup.  In this post we'll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.</p>
+<p>This entry consists of Part 2 of my series on <a href="https://github.com/Orange-Cyberdefense/GOAD/tree/main">Orange Cyberdefense's</a> Game of Active Directory (GOAD) on Proxmox VE.  In my <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">previous post</a>, I covered networking for the entire Active Directory setup.  In this post we'll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.</p>
 <p>As I mentioned before, I'm deeply indebted to <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">Mayfly277's canonical guide</a>, and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's work.</p>
-<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see my <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">previous post</a>.</p>
+<p>Should you need more orientation to the context of this series, or on my rationale for creating it, see my <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">previous post</a>.</p>
 <h2 id="create-the-provisioner-container">Create the Provisioner Container</h2>
 <h3 id="proxmox-setup">Proxmox Setup</h3>
 <p>As <a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/#create-provisioning-ct">Mayfly277</a> lays out, we're first going to create the container that will serve as the provisioner.  You'll first need an up to date Ubuntu template on your Proxmox host, that I won't cover here.</p>
@@ -120,7 +120,7 @@ Dark
 <p>Once the key is created, you can set up your provisioner container in the Proxmox Web User Interface (WUI).  In the upper left corner of the WUI, you should see a &quot;Create CT&quot; button.  Once you've clicked that you enter the first tab in a sequence called &quot;General.&quot;  Fill out the information as you wish, and click the &quot;Load SSH Key File&quot; to select the key that you just made.  You'll want to enter the one with the extension of <em><strong>.pub</strong></em>.</p>
 <p>Then proceed through the other tabs.  I gave my provisioner 4 GB of memory, 2 cores, and 40 GB of storage.  Most of the other options were the same as Mayfly277's, except that when I reached the networking tab, I selected the LAN or &quot;vmbr2.&quot;</p>
 <h3 id="provisioner-networking">Provisioner Networking</h3>
-<p>As in the <a href="https://christopherbauer.org/2024/11/08/GOAD-networking.html">previous post</a>, I don't have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.</p>
+<p>As in the <a href="https://christopherbauer.org/2024-11-08-GOAD-networking">previous post</a>, I don't have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.</p>
 <div class="grid"><div><img src="/img/2024-10-28_08-38.png" loading="lazy" title=""></div><div></div></div>
 <p>Apply changes after you've added the firewall rule.</p>
 <p>Now add the provisioning container to your ssh config file.  If you haven't set up a security key for your Proxmox machine now is the time.  Creating the key is the same process as above, and once done you'll transfer the public key to Proxmox with <code>ssh-copy-id</code> followed by <code>&lt;SOME_USER@SOME_IP&gt;</code>  That key will be necessary to use Proxmox as a jump box in the next steps (alternatively, you can use Proxmox's WUI to access the command line and enter the next steps manually).  Mayfly277 suggests the following for a config file placed in <code>~/.ssh</code>:</p>
@@ -241,7 +241,8 @@ Host goadprovisioning
 <li><a href="https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com">Mayfly277's blog</a></li>
 <li><a href="https://benheater.com/proxmox-lab-goad-environment-setup/">Ben Heater's blog</a></li>
 <li>Orange-Cyberdefense's <a href="https://github.com/Orange-Cyberdefense/GOAD">GitHub Repo</a></li>
-<li>&quot; &quot; <a href="https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md">proxmox instructions</a></li>
+<li>&quot; &quot; <a href="https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md">proxmox instructions</a>
+th_proxmox.md)</li>
 </ul>
 
 

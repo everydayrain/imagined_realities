@@ -301,9 +301,9 @@ require_ssl_reuse=NO
     <link href="https://christopherbauer.org/blog/2024-11-23-goad-vpn/" />
     <updated>2024-11-23T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/2024-11-23-goad-vpn/</id>
-    <content type="html">&lt;p&gt;This is part 6 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/2024/11/18/goad-ansible.html&quot;&gt;fifth installment&lt;/a&gt; I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we&#39;ll setup the VPN server on pfSense to simulate an assumed breach.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 6 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/2024-11-17-goad-ansible&quot;&gt;fifth installment&lt;/a&gt; I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we&#39;ll setup the VPN server on pfSense to simulate an assumed breach.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
+&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
 &lt;p&gt;Mayfly277&#39;s instructions for this VPN section left me scratching my head at various points. I found two steps where my setup would fail if I followed his instructions on my machine. I&#39;ll make note of those deviations in what follows.&lt;/p&gt;
 &lt;h2 id=&quot;pfsense-and-openvpn&quot;&gt;pfSense &amp;amp; OpenVPN&lt;/h2&gt;
 &lt;h3 id=&quot;creating-the-ca&quot;&gt;Creating the CA&lt;/h3&gt;
@@ -311,7 +311,7 @@ require_ssl_reuse=NO
 &lt;p&gt;The first step involves creating a certificate authority to issue a certificate. Go to the system menu and select the Certificates option.&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-23_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-23.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Under the Authorities tab click the green Add button at the bottom, and it&#39;ll take to to the following page where you&#39;ll give a descriptive name and a common name. I&#39;ve used VLAN 30 (this is according to my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10).&lt;/p&gt;
+&lt;p&gt;Under the Authorities tab click the green Add button at the bottom, and it&#39;ll take to to the following page where you&#39;ll give a descriptive name and a common name. I&#39;ve used VLAN 30 (this is according to my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10).&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-24.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Click save and you should have something like this:&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-25.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
@@ -371,7 +371,7 @@ require_ssl_reuse=NO
 &lt;p&gt;Finally, make sure:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;DNS Server Enabled is checked&lt;/li&gt;
-&lt;li&gt;DNS server 1 reads 192.168.30.1 (this is according to my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10)&lt;/li&gt;
+&lt;li&gt;DNS server 1 reads 192.168.30.1 (this is according to my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10)&lt;/li&gt;
 &lt;li&gt;That the Custom options field under Advanced Configruation reads &amp;quot;auth-nocache&amp;quot;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-36.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
@@ -415,7 +415,8 @@ Your interface assignments will then look something like this:
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-23_10-09.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;concluding-the-series&quot;&gt;Concluding the Series&lt;/h2&gt;
 &lt;p&gt;With that, you&#39;ve confirmed that the domain is working and appropriately configured. You&#39;re now ready to pentest against the domain!&lt;/p&gt;
-&lt;p&gt;It&#39;s been a pleasure writing this up, and I hope someone finds it helpful.  If you do, please don&#39;t hesitate to leave me a note at Mastodon.&lt;/p&gt;
+&lt;p&gt;It&#39;s been a pleasure writing this up, and I hope someone finds it helpful.  If you do, please don&#39;t hesitate to leave me a note at Mastodon.
+a note at Mastodon.&lt;/p&gt;
 </content>
   </entry>
   <entry>
@@ -423,17 +424,17 @@ Your interface assignments will then look something like this:
     <link href="https://christopherbauer.org/blog/2024-11-17-goad-ansible/" />
     <updated>2024-11-18T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/2024-11-17-goad-ansible/</id>
-    <content type="html">&lt;p&gt;This is part 5 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/2024/11/17/goad-terraform.html&quot;&gt;fourth installment&lt;/a&gt; I covered how to use Terraform to create the Windows VMs. In this post we&#39;ll configure the individual Windows VMs using Ansible to create the final GOAD topology.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 5 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/2024-11-17-goad-terraform&quot;&gt;fourth installment&lt;/a&gt; I covered how to use Terraform to create the Windows VMs. In this post we&#39;ll configure the individual Windows VMs using Ansible to create the final GOAD topology.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
+&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
 &lt;h2 id=&quot;configuring-the-ad-vms&quot;&gt;Configuring The AD VMs&lt;/h2&gt;
 &lt;h3 id=&quot;preparation&quot;&gt;Preparation&lt;/h3&gt;
 &lt;h4 id=&quot;modify-the-inventory&quot;&gt;Modify the Inventory&lt;/h4&gt;
 &lt;p&gt;On the provisioner, there should be an &lt;em&gt;inventory&lt;/em&gt; file as part of the cloned GOAD repo. Change to that directory so that you can modify it.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;cd ~/GOAD/ad/GOAD/providers/proxmox
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the inventory I changed the static IPs of the five machines to reflect the VLAN subnet they were on (this according to my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions this step will be unnecessary).&lt;/p&gt;
-&lt;p&gt;At this point Mayfly277 suggests &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#install-the-requirements&quot;&gt;installing the requirements for ansible-galaxy&lt;/a&gt;. In my guide, we completed that step as part of &lt;a href=&quot;https://christopherbauer.org/2024/11/11/provisioner.html&quot;&gt;the provisioner setup&lt;/a&gt;, so we&#39;re now ready to run Ansible&#39;s playbook.&lt;/p&gt;
+&lt;p&gt;In the inventory I changed the static IPs of the five machines to reflect the VLAN subnet they were on (this according to my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions this step will be unnecessary).&lt;/p&gt;
+&lt;p&gt;At this point Mayfly277 suggests &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#install-the-requirements&quot;&gt;installing the requirements for ansible-galaxy&lt;/a&gt;. In my guide, we completed that step as part of &lt;a href=&quot;https://christopherbauer.org/2024-11-11-provisioner&quot;&gt;the provisioner setup&lt;/a&gt;, so we&#39;re now ready to run Ansible&#39;s playbook.&lt;/p&gt;
 &lt;h2 id=&quot;run-ansible&quot;&gt;Run Ansible&lt;/h2&gt;
 &lt;p&gt;To configure the machines, switch to the Ansible directory on the provisioner and run the playbook.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;cd /root/GOAD/ansible
@@ -442,7 +443,7 @@ Your interface assignments will then look something like this:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If all goes according to plan, it will cover a lot of ground and say &amp;quot;command successfully executed.&amp;quot;&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-29_19-13.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;This wasn&#39;t the case during my installation, I ran into multiple problems. Before I dig into those, remember that if you need to come back to the project after a restart of the provisioner, you might have to source the python packages again according to the &lt;a href=&quot;https://christopherbauer.org/2024/11/11/provisioner.html&quot;&gt;virtual environment&lt;/a&gt; we set up in part 2.&lt;/p&gt;
+&lt;p&gt;This wasn&#39;t the case during my installation, I ran into multiple problems. Before I dig into those, remember that if you need to come back to the project after a restart of the provisioner, you might have to source the python packages again according to the &lt;a href=&quot;https://christopherbauer.org/2024-11-11-provisioner&quot;&gt;virtual environment&lt;/a&gt; we set up in part 2.&lt;/p&gt;
 &lt;h3 id=&quot;troubleshooting-the-ansible-run&quot;&gt;Troubleshooting the Ansible Run&lt;/h3&gt;
 &lt;p&gt;I ran into errors in attempting to complete the entire Ansible run. Ultimately, I was able to complete the run successfully. I just troubleshooted the error messages and re-ran until the run completed. Adding &lt;code&gt;-vvv&lt;/code&gt; might help add verbosity for revealing error messages if you need to troubleshoot, and the &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/issues&quot;&gt;issues section&lt;/a&gt; of Orange-Cyberdefense&#39;s Github Repo was very helpful.&lt;/p&gt;
 &lt;p&gt;There is quite a lot to the Ansible playbook, so if you troubleshoot and successfully resolve, you&#39;ll have to run again and sit tight for a while as it proceeds.&lt;/p&gt;
@@ -454,7 +455,8 @@ Your interface assignments will then look something like this:
 &lt;p&gt;Once the Ansible run is successful, we&#39;re done creating the GOAD topology and settings, so it&#39;s a good time to take snapshots so that we may easily revert the machines to a clean state after our penetration testing.&lt;/p&gt;
 &lt;p&gt;Mayfly277 offers &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#create-snapshots&quot;&gt;a bevy of bash variables and a for loop&lt;/a&gt; to create snapshots of the newly configured machines on the Proxmox command line. This is the faster way, though you can take snapshots manually by going to each of the five machines in the web user interface (WUI) and selecting the Snapshots option in the middle menu column and the &amp;quot;Take Snapshot&amp;quot; button.&lt;/p&gt;
 &lt;h2 id=&quot;configuration-complete&quot;&gt;Configuration Complete&lt;/h2&gt;
-&lt;p&gt;That wraps up the deployment section. Next we&#39;ll configure a vpn tunnel allowing us to connect an attacking machine to the internal network.&lt;/p&gt;
+&lt;p&gt;That wraps up the deployment section. Next we&#39;ll configure a vpn tunnel allowing us to connect an attacking machine to the internal network.
+to the internal network.&lt;/p&gt;
 </content>
   </entry>
   <entry>
@@ -462,12 +464,12 @@ Your interface assignments will then look something like this:
     <link href="https://christopherbauer.org/blog/2024-11-17-goad-terraform/" />
     <updated>2024-11-17T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/2024-11-17-goad-terraform/</id>
-    <content type="html">&lt;p&gt;This is part 4 of of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/2024/11/14/templates.html&quot;&gt;third installment&lt;/a&gt; I covered preparing templates and creating them in packer in preparation of creating the GOAD machines. In this post we&#39;ll deploy the domain and its machines using Terraform.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 4 of of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/2024-11-14-templates&quot;&gt;third installment&lt;/a&gt; I covered preparing templates and creating them in packer in preparation of creating the GOAD machines. In this post we&#39;ll deploy the domain and its machines using Terraform.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
+&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
 &lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
 &lt;h3 id=&quot;proxmox&quot;&gt;Proxmox&lt;/h3&gt;
-&lt;p&gt;First, as Mayfly277 says, &amp;quot;we will go dirty&amp;quot; by giving admin privileges to the user we created in &lt;a href=&quot;https://christopherbauer.org/2024/11/14/templates.html&quot;&gt;part 3&lt;/a&gt;. On the command line of the Proxmox machine, change the infra_as_code user&#39;s privileges to admin.&lt;/p&gt;
+&lt;p&gt;First, as Mayfly277 says, &amp;quot;we will go dirty&amp;quot; by giving admin privileges to the user we created in &lt;a href=&quot;https://christopherbauer.org/2024-11-14-templates&quot;&gt;part 3&lt;/a&gt;. On the command line of the Proxmox machine, change the infra_as_code user&#39;s privileges to admin.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;pveum acl modify / -user &#39;infra_as_code@pve&#39; -role Administrator
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&quot;specifying-terraform-variables&quot;&gt;Specifying Terraform Variables&lt;/h3&gt;
@@ -483,7 +485,7 @@ Your interface assignments will then look something like this:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Next we&#39;ll modify the file to our specifications. Mayfly277 &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part3-terraform/#configure-terraform&quot;&gt;lays out the full specifications&lt;/a&gt; in the code, so rather than reproduce the entire file, I&#39;ll simply review what I changed. I had to modify the following in the variables.tf file.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;the vlan tag (according to my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;unique arrangement&lt;/a&gt;, yours may differ)&lt;/li&gt;
+&lt;li&gt;the vlan tag (according to my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, yours may differ)&lt;/li&gt;
 &lt;li&gt;node name&lt;/li&gt;
 &lt;li&gt;gateway address&lt;/li&gt;
 &lt;li&gt;password&lt;/li&gt;
@@ -492,7 +494,7 @@ Your interface assignments will then look something like this:
 &lt;/ul&gt;
 &lt;h4 id=&quot;goad-tf&quot;&gt;Goad.tf&lt;/h4&gt;
 &lt;p&gt;Now we&#39;ll modify the goad.tf file in the same directory.&lt;/p&gt;
-&lt;p&gt;I had to modify that file under the section starting with &lt;em&gt;&lt;code&gt;variable &amp;quot;vm_config&amp;quot;&lt;/code&gt;&lt;/em&gt;. I changed the static IPs of the five machines to reflect the VLAN subnet they were on (according to my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions this step will be unnecessary).&lt;/p&gt;
+&lt;p&gt;I had to modify that file under the section starting with &lt;em&gt;&lt;code&gt;variable &amp;quot;vm_config&amp;quot;&lt;/code&gt;&lt;/em&gt;. I changed the static IPs of the five machines to reflect the VLAN subnet they were on (according to my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions this step will be unnecessary).&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_15-37.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;deploy-the-ad-vms&quot;&gt;Deploy the AD VMs&lt;/h2&gt;
 &lt;p&gt;Now we&#39;re ready to create the VM&#39;s using Terraform. We&#39;ll first initialize, then run a plan to create an output for the Terraform run.&lt;/p&gt;
@@ -505,14 +507,15 @@ Your interface assignments will then look something like this:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now you should see five new VMs withe the names you specified in goad.tf in the Proxmox web user interface.&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-14_15-16.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Troubleshooting note: if you find that it takes an unacceptably long time to complete the Terraform build, ask yourself what storage you selected in &lt;a href=&quot;https://christopherbauer.org/2024/11/14/templates.html&quot;&gt;part 3&lt;/a&gt; when you modified the config.auto.pkrvars.hcl file. If it wasn&#39;t local-lvm, that might have something to do with it.&lt;/p&gt;
+&lt;p&gt;Troubleshooting note: if you find that it takes an unacceptably long time to complete the Terraform build, ask yourself what storage you selected in &lt;a href=&quot;https://christopherbauer.org/2024-11-14-templates&quot;&gt;part 3&lt;/a&gt; when you modified the config.auto.pkrvars.hcl file. If it wasn&#39;t local-lvm, that might have something to do with it.&lt;/p&gt;
 &lt;h2 id=&quot;deployment-complete&quot;&gt;Deployment Complete&lt;/h2&gt;
 &lt;p&gt;That wraps up the deployment section. Next we&#39;ll configure the AD machines using Ansible.&lt;/p&gt;
 &lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;
+docs/install_with_proxmox.md)&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
@@ -521,9 +524,9 @@ Your interface assignments will then look something like this:
     <link href="https://christopherbauer.org/blog/2024-11-14-templates/" />
     <updated>2024-11-14T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/2024-11-14-templates/</id>
-    <content type="html">&lt;p&gt;This is Part 3 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  In the &lt;a href=&quot;https://christopherbauer.org/2024/11/11/provisioner.html&quot;&gt;second installment&lt;/a&gt; I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we&#39;ll create templates  for future deployment of the individual AD DCs and servers.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is Part 3 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  In the &lt;a href=&quot;https://christopherbauer.org/2024-11-11-provisioner&quot;&gt;second installment&lt;/a&gt; I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we&#39;ll create templates  for future deployment of the individual AD DCs and servers.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277&#39;s guide.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see the &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;first post in this series&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see the &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;first post in this series&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
 &lt;h3 id=&quot;obtain-the-windows-isos&quot;&gt;Obtain the Windows ISOs&lt;/h3&gt;
 &lt;p&gt;First we&#39;ll need to obtain the Windows ISOs to serve as the basis of the templates.  Mayfly277 helpfully identified &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#download-the-isos&quot;&gt;registration-free&lt;/a&gt; links to those ISOs, so I recommend going directly to his guide for those links.  You can either download them to your local machine and subsquently upload them to Proxmox, or you can download them directly to Proxmox in the web user interface (WUI).&lt;/p&gt;
@@ -556,7 +559,7 @@ Your interface assignments will then look something like this:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I next used a little trial and error to follow Mayfly277&#39;s instructions on modifying config.auto.pkrvars.hcl.  Mayfly277 says &amp;quot;&lt;em&gt;The config.auto.pkrvars.hcl file will contain all the informations [sic] needed by packer to contact the proxmox api.&lt;/em&gt;&amp;quot;  To interpret that a bit, I changed the following in the file:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&amp;quot;proxmox_url&amp;quot; -&amp;gt; I set this to the gateway of GOAD LAN &lt;code&gt;192.168.2.1:8006&lt;/code&gt; so that it&#39;d be translated by NAT to Proxmox as we completed in &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;part 1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&amp;quot;proxmox_url&amp;quot; -&amp;gt; I set this to the gateway of GOAD LAN &lt;code&gt;192.168.2.1:8006&lt;/code&gt; so that it&#39;d be translated by NAT to Proxmox as we completed in &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;part 1&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&amp;quot;proxmox_username&amp;quot; -&amp;gt; change this to the user you created above&lt;/li&gt;
 &lt;li&gt;&amp;quot;proxmox_password&amp;quot; -&amp;gt; change this to the user you created above&lt;/li&gt;
 &lt;li&gt;&amp;quot;proxmox_node&amp;quot; -&amp;gt; changed to the name of the home Proxmox node&lt;/li&gt;
@@ -569,7 +572,7 @@ Your interface assignments will then look something like this:
 &lt;pre&gt;&lt;code&gt;./build_proxmox_iso.sh
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Mayfly277 &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files&quot;&gt;describes what&#39;s going on&lt;/a&gt; with the script and understands it far better than I do.  If you&#39;d like to understand the inner workings before running it, head over &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files&quot;&gt;there&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Once the script runs and the ISO file has been created, we&#39;ll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks &amp;quot;&lt;em&gt;the cloudinit iso file is pretty large we will copy it from the proxmox ssh access&lt;/em&gt;.&amp;quot;  However, if you set up key-only access to the provisioner in the &lt;a href=&quot;https://christopherbauer.org/2024/11/11/provisioner.html&quot;&gt;previous post in this series&lt;/a&gt;, you won&#39;t be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that&#39;d be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container.&lt;/p&gt;
+&lt;p&gt;Once the script runs and the ISO file has been created, we&#39;ll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks &amp;quot;&lt;em&gt;the cloudinit iso file is pretty large we will copy it from the proxmox ssh access&lt;/em&gt;.&amp;quot;  However, if you set up key-only access to the provisioner in the &lt;a href=&quot;https://christopherbauer.org/2024-11-11-provisioner&quot;&gt;previous post in this series&lt;/a&gt;, you won&#39;t be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that&#39;d be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container.&lt;/p&gt;
 &lt;p&gt;To transfer using scp and a password, enter the Proxmox command line.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ssh goadproxmox
 &lt;/code&gt;&lt;/pre&gt;
@@ -584,7 +587,7 @@ Your interface assignments will then look something like this:
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-11_10-14.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;modifying-packer-pkr-hcl&quot;&gt;Modifying packer.pkr.hcl&lt;/h3&gt;
 &lt;p&gt;Mayfly277 says &amp;quot;&lt;em&gt;A generic packer.pkr.hcl file is present in GOAD folder&lt;/em&gt; .&amp;quot;  That path is &lt;code&gt;/root/GOAD/packer/proxmox/packer.json.pkr.hcl&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;I modified the packer.pkr.hcl file so that the &amp;quot;vlan_tag&amp;quot; entry read &amp;quot;30&amp;quot; according to how I set up the networking in my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;first post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I modified the packer.pkr.hcl file so that the &amp;quot;vlan_tag&amp;quot; entry read &amp;quot;30&amp;quot; according to how I set up the networking in my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&quot;modifying-the-individual-computer-config-files&quot;&gt;Modifying the Individual Computer Config Files&lt;/h3&gt;
 &lt;p&gt;Next we&#39;ll modify the packer files for the individual templates.  Before we begin, it&#39;d be helpful to have the sha256 hashes for a couple of dependent files referenced in the packer files.  To collect those, head to the provisioner machine.&lt;/p&gt;
 &lt;p&gt;On the provisioner, change directories, and note the hashes produced by the following commands:&lt;/p&gt;
@@ -627,7 +630,8 @@ Your interface assignments will then look something like this:
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;
+install_with_proxmox.md)&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
@@ -636,9 +640,9 @@ Your interface assignments will then look something like this:
     <link href="https://christopherbauer.org/blog/2024-11-11-provisioner/" />
     <updated>2024-11-11T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/2024-11-11-provisioner/</id>
-    <content type="html">&lt;p&gt;This entry consists of Part 2 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  In my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;previous post&lt;/a&gt;, I covered networking for the entire Active Directory setup.  In this post we&#39;ll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This entry consists of Part 2 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  In my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;previous post&lt;/a&gt;, I covered networking for the entire Active Directory setup.  In this post we&#39;ll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277&#39;s work.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see my &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see my &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;create-the-provisioner-container&quot;&gt;Create the Provisioner Container&lt;/h2&gt;
 &lt;h3 id=&quot;proxmox-setup&quot;&gt;Proxmox Setup&lt;/h3&gt;
 &lt;p&gt;As &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/#create-provisioning-ct&quot;&gt;Mayfly277&lt;/a&gt; lays out, we&#39;re first going to create the container that will serve as the provisioner.  You&#39;ll first need an up to date Ubuntu template on your Proxmox host, that I won&#39;t cover here.&lt;/p&gt;
@@ -648,7 +652,7 @@ Your interface assignments will then look something like this:
 &lt;p&gt;Once the key is created, you can set up your provisioner container in the Proxmox Web User Interface (WUI).  In the upper left corner of the WUI, you should see a &amp;quot;Create CT&amp;quot; button.  Once you&#39;ve clicked that you enter the first tab in a sequence called &amp;quot;General.&amp;quot;  Fill out the information as you wish, and click the &amp;quot;Load SSH Key File&amp;quot; to select the key that you just made.  You&#39;ll want to enter the one with the extension of &lt;em&gt;&lt;strong&gt;.pub&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Then proceed through the other tabs.  I gave my provisioner 4 GB of memory, 2 cores, and 40 GB of storage.  Most of the other options were the same as Mayfly277&#39;s, except that when I reached the networking tab, I selected the LAN or &amp;quot;vmbr2.&amp;quot;&lt;/p&gt;
 &lt;h3 id=&quot;provisioner-networking&quot;&gt;Provisioner Networking&lt;/h3&gt;
-&lt;p&gt;As in the &lt;a href=&quot;https://christopherbauer.org/2024/11/08/GOAD-networking.html&quot;&gt;previous post&lt;/a&gt;, I don&#39;t have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.&lt;/p&gt;
+&lt;p&gt;As in the &lt;a href=&quot;https://christopherbauer.org/2024-11-08-GOAD-networking&quot;&gt;previous post&lt;/a&gt;, I don&#39;t have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_08-38.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Apply changes after you&#39;ve added the firewall rule.&lt;/p&gt;
 &lt;p&gt;Now add the provisioning container to your ssh config file.  If you haven&#39;t set up a security key for your Proxmox machine now is the time.  Creating the key is the same process as above, and once done you&#39;ll transfer the public key to Proxmox with &lt;code&gt;ssh-copy-id&lt;/code&gt; followed by &lt;code&gt;&amp;lt;SOME_USER@SOME_IP&amp;gt;&lt;/code&gt;  That key will be necessary to use Proxmox as a jump box in the next steps (alternatively, you can use Proxmox&#39;s WUI to access the command line and enter the next steps manually).  Mayfly277 suggests the following for a config file placed in &lt;code&gt;~/.ssh&lt;/code&gt;:&lt;/p&gt;
@@ -769,7 +773,8 @@ Host goadprovisioning
 &lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://benheater.com/proxmox-lab-goad-environment-setup/&quot;&gt;Ben Heater&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;
+th_proxmox.md)&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
@@ -782,7 +787,7 @@ Host goadprovisioning
 &lt;p&gt;In this series of blog posts I detail how to install &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  These posts closely follow &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install&quot;&gt;Mayfly277&#39;s canonical guide&lt;/a&gt;, except that I configure GOAD on a locally hosted Proxmox VE server with an already established default network bridge connected to a true LAN.  So if you&#39;re having trouble, whether with my guide or Mayfly277&#39;s, you may want to visit &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt; to compare and correlate our steps to identify where your setup may differ from each of ours.&lt;/p&gt;
 &lt;h3 id=&quot;rationale&quot;&gt;Rationale&lt;/h3&gt;
 &lt;p&gt;Why write another guide when &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install&quot;&gt;Mayfly277&#39;s guide&lt;/a&gt; is solid?  First, while Mayfly277&#39;s guide isn&#39;t exactly out of date, technology is always moving and another set of current instructions couldn&#39;t hurt.  Second, Mayfly277&#39;s guide focuses on a VPS setup using Proxmox, while this one details a home-lab, bare-metal install of Proxmox.  Third, using Proxmox with GOAD, while perhaps easier than installing all of the Windows machines and setting up AD manually, is still sufficiently complicated that I would have benefited from having more than one set of detailed instructions.  So I intentionally mirror &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install&quot;&gt;Mayfly277&#39;s guide&lt;/a&gt; in order to give readers a comprehensive set of slightly differently written resources to draw from.&lt;/p&gt;
-&lt;p&gt;That said, this blog won&#39;t cover steps dealing with Proxmox VE installation and configuration.  I&#39;ve covered how to &lt;a href=&quot;https://christopherbauer.org/2022/12/29/starting-proxmox.html&quot;&gt;install proxmox&lt;/a&gt; elsewhere, and in any case, it&#39;d make this series unremitting to include the Proxmox config, the downloading and loading of isos, as well as all of the GOAD-specific setup.  Instead I&#39;ll cover how to use an existing Proxmox VE installation to install pfSense and the other requirements for GOAD.  Additionally, I won&#39;t be covering theories behind Linux, Active Directory or networking in this guide.  These posts are written solely for instruction on deployment steps.&lt;/p&gt;
+&lt;p&gt;That said, this blog won&#39;t cover steps dealing with Proxmox VE installation and configuration.  I&#39;ve covered how to &lt;a href=&quot;https://christopherbauer.org/2022-12-29-starting-proxmox&quot;&gt;install proxmox&lt;/a&gt; elsewhere, and in any case, it&#39;d make this series unremitting to include the Proxmox config, the downloading and loading of isos, as well as all of the GOAD-specific setup.  Instead I&#39;ll cover how to use an existing Proxmox VE installation to install pfSense and the other requirements for GOAD.  Additionally, I won&#39;t be covering theories behind Linux, Active Directory or networking in this guide.  These posts are written solely for instruction on deployment steps.&lt;/p&gt;
 &lt;p&gt;Please note that I have not added screenshots for every step.&lt;/p&gt;
 &lt;h2 id=&quot;part-i-networking&quot;&gt;Part I: Networking&lt;/h2&gt;
 &lt;h3 id=&quot;creating-the-goad-network-in-proxmox&quot;&gt;Creating the GOAD Network in Proxmox&lt;/h3&gt;
@@ -932,7 +937,8 @@ I&#39;m going to deviate from Mayfly277&#39;s guide and end this post at this po
 &lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://benheater.com/proxmox-lab-goad-environment-setup/&quot;&gt;Ben Heater&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;Proxmox instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;Proxmox instructions&lt;/a&gt;
+.md)&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>

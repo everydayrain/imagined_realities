@@ -121,7 +121,7 @@ Here are some loose thoughts on how I set up my Proxmox VE server.  I cover an a
 <p>I think its plausible that my old standard HP desktop tower can handle life as a Proxmox server.  I'm also aware that this scenario isn't what its designed for, so I hope to report back one day on how it goes.</p>
 <h3 id="preparing-the-installation-media">Preparing the Installation Media</h3>
 <p>For any questions during the install, I followed instructions from the <a href="https://pve.proxmox.com/pve-docs/chapter-pve-installation.html">official Proxmox documentation</a></p>
-<p>I won't go into obtaining the Proxmox .iso and writing it to a USB drive.  Should you need help with that, there are plenty of guides to be found through an internet search.  Alternatively, one can adapt my instructions under &quot;Creating the Bootable USB&quot; found on <a href="https://christopherbauer.org/2022/12/20/tumbleweed.html">my blog here</a>.</p>
+<p>I won't go into obtaining the Proxmox .iso and writing it to a USB drive.  Should you need help with that, there are plenty of guides to be found through an internet search.  Alternatively, one can adapt my instructions under &quot;Creating the Bootable USB&quot; found on <a href="https://christopherbauer.org/2022-12-20-tumbleweed">my blog here</a>.</p>
 <h4 id="a-brief-note-on-ventoy">A Brief Note on Ventoy</h4>
 <p><a href="https://www.ventoy.net/en/index.html">Ventoy</a> is a handy little program to place on USBs to facilitate the install and organization of distro .iso files.</p>
 <p>I downloaded the .iso file for Proxmox VE and wrote it to a USB thumb drive that had Ventoy embedded in it.  I then plugged this into my HP Tower and hit the ESC key to select a different boot order in the UEFI of my machine.  I queued the USB up as first in line and selected reboot.  Ventoy took care of the rest.  Ventoy allowed me to select from the bootable .isos on the thumb drive and initiate the Proxmox .iso installer.</p>
@@ -156,7 +156,7 @@ For the options I gave it a name, entered the IP of my NAS, and for "export" ent
 <h4 id="iso-file-storage-steps">.iso File Storage Steps</h4>
 <p>To stage the .iso files, you have to select one of the storage options you created: whether a shared data storage space or the storage you set up  s part of the initial install. In the left-hand pane, under &quot;Server View&quot; you'll have to find one of those storage options (they tend to be at the bottom).  Clicking on the storage option will bring up a menu in the middle pane, of which &quot;ISO Images&quot; should be one of the options (this may not appear if you added additional storage but didn't configure it to store .iso files).</p>
 <p>In the right-hand pane, Proxmox gives you the option to paste a link into a field where Proxmox will proceed to download the .iso file.  Alternatively, you can upload a local .iso file where Proxmox will open a file chooser on your current machine.  The nice thing about either option is that you can supply a checksum for hash checking and Proxmox will automatically check the uploaded/downloaded .iso against the checksum.</p>
-<p>After downloading/uploading you have staged your .iso file and should be ready to move on to creating a VM or container.</p>
+<p>After downloading/uploading you have staged your .iso file and should be ready to move on to creating a VM or container.iner.</p>
 
 
 </heading-anchors>
