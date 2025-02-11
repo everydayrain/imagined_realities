@@ -3,11 +3,11 @@ author: Chris
 title: "Installing Game of Active Directory on Proxmox: Part 2 - Provisioner"
 date: 2024-11-11
 ---
-This entry consists of Part 2 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In my [previous post](https://christopherbauer.org/2024/11/08/GOAD-networking.html), I covered networking for the entire Active Directory setup.  In this post we'll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.
+This entry consists of Part 2 of my series on [Orange Cyberdefense's](https://github.com/Orange-Cyberdefense/GOAD/tree/main) Game of Active Directory (GOAD) on Proxmox VE.  In my [previous post](https://christopherbauer.org/2024-11-08-GOAD-networking), I covered networking for the entire Active Directory setup.  In this post we'll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.
 
 As I mentioned before, I'm deeply indebted to [Mayfly277's canonical guide](https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com), and this post follows Mayfly277's work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277's work.
 
-Should you need more orientation to the context of this series, or on my rationale for creating it, see my [previous post](https://christopherbauer.org/2024/11/08/GOAD-networking.html).
+Should you need more orientation to the context of this series, or on my rationale for creating it, see my [previous post](https://christopherbauer.org/2024-11-08-GOAD-networking).
 
 ## Create the Provisioner Container
 
@@ -24,7 +24,7 @@ Once the key is created, you can set up your provisioner container in the Proxmo
 Then proceed through the other tabs.  I gave my provisioner 4 GB of memory, 2 cores, and 40 GB of storage.  Most of the other options were the same as Mayfly277's, except that when I reached the networking tab, I selected the LAN or "vmbr2."
 
 ### Provisioner Networking
-As in the [previous post](https://christopherbauer.org/2024/11/08/GOAD-networking.html), I don't have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.
+As in the [previous post](https://christopherbauer.org/2024-11-08-GOAD-networking), I don't have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.
 
 {% imagesmall '/img/2024-10-28_08-38.png', '' %}
 
@@ -216,3 +216,4 @@ That wraps up the creation of the provisioner machine.  Next we'll work on creat
 - [Ben Heater's blog](https://benheater.com/proxmox-lab-goad-environment-setup/)
 - Orange-Cyberdefense's [GitHub Repo](https://github.com/Orange-Cyberdefense/GOAD)
 - " " [proxmox instructions](https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md)
+th_proxmox.md)
