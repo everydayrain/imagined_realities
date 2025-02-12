@@ -5,11 +5,129 @@
   <subtitle>Cyber Security and Stray Thoughts.</subtitle>
   <link href="https://christopherbauer.org/feed/feed.xml" rel="self" />
   <link href="https://christopherbauer.org/" />
-  <updated>2025-01-24T00:00:00Z</updated>
+  <updated>2025-02-12T00:00:00Z</updated>
   <id>https://christopherbauer.org/</id>
   <author>
     <name>Christopher Bauer</name>
   </author>
+  <entry>
+    <title>Migrating Posts from Jekyll to 11ty with Python</title>
+    <link href="https://christopherbauer.org/blog/migrating_jekyll/" />
+    <updated>2025-02-12T00:00:00Z</updated>
+    <id>https://christopherbauer.org/blog/migrating_jekyll/</id>
+    <content type="html">&lt;h4 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching&quot; class=&quot;primary&quot;&gt;Rationale for Switching&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#Migrating-Jekyll-Posts&quot; class=&quot;primary&quot;&gt;Migrating Jekyll Posts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#removing-the-layout-property&quot; class=&quot;primary&quot;&gt;Removing the Layout Property&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rewriting-image-links&quot; class=&quot;primary&quot;&gt;Rewriting Image Links&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rewriting-self-referring-links&quot; class=&quot;primary&quot;&gt;Rewriting Self-Referring Links&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;rationale-for-switching&quot;&gt;Rationale for Switching&lt;/h3&gt;
+&lt;p&gt;I recently recreated my website using 11ty and ran into a few challenges transitioning my posts from Jekyll. Before I dig into how I solved them, allow me to recap my reasons for switching.&lt;/p&gt;
+&lt;p&gt;I&#39;d used Jekyll since 2020 and while there was a learning curve, Jekyll treated me well for the most part. My realization that I needed to make a change came when I recently upgraded my home machine. I had to install backports on Debian to obtain a load of outdated software and dependencies to just to recreate the simple local Jekyll build flow. That the primary task of a static site generator required so much that wasn&#39;t well maintained anymore was a sign that was hard to miss.&lt;/p&gt;
+&lt;p&gt;There were other ongoing issues as well. I never got ruby. I&#39;m not throwing shade, I just never ran into ruby all that much outside of Jekyll. Then, when I started experimenting with 11ty, it&#39;s static site generator used npm with which I am a bit more familiar.  At that point I was sold and ready to make my first steps toward migration.&lt;/p&gt;
+&lt;h3 id=&quot;migrating-jekyll-posts&quot;&gt;Migrating Jekyll Posts&lt;/h3&gt;
+&lt;p&gt;One challenge with the migration was the layout property in the frontmatter of my Jekyll formatted posts. My new 11ty theme didn&#39;t require a layout property and the engine was utterly confused by it at build, so it had to come out. I didn&#39;t want to do that manually for two dozen back-posts.&lt;/p&gt;
+&lt;p&gt;The second challenge seemed more formidable but turned out to be a regex problem. I&#39;d been using a markdown links style of referencing local image locations. For example: &lt;code&gt;![Alt text](URL or file path)&lt;/code&gt;. My new 11ty theme used a Nunjucks shortcode style (e.g. in squiggly brackets something like: % &amp;quot;image caption&amp;quot;, &amp;quot;image link&amp;quot; %). Jekyll did offer the ability to use shortcodes in Liquid, though I always found it easier to use the markdown style. So my posts were littered with the markdown syntax. Another issue I didn&#39;t want to deal with manually for my back-posts.&lt;/p&gt;
+&lt;p&gt;Then there was the third problem of the format of self-referring links. Links embedded in my markdown text pointing to my own blog had a date format using forward slashes (e.g. year/month/day). The theme I&#39;m using for 11ty paginates the blog posts using dashes (e.g. year-month-day). In other words, all the links on my blog pointing to my own blog posts were broken. So I would have to alter those to ensure the links referred to posts that actually exist by changing the date format while leaving the rest of the link intact.&lt;/p&gt;
+&lt;p&gt;Rather than address my two dozen back-posts manually, these issues seemed like python&#39;s bread and butter. I wrote up some python scripts that I&#39;m posting here as a model for others in a similar situation. Bear in mind that I&#39;m self-taught in Python, so if they appear inelegant, or I use inappropriate code, please feel free to offer suggestions by DMing me at my &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon account&lt;/a&gt; . The scripts appear here separately as I assume readers will not uniformly have the same requirements as I do and might wish to select them individually.&lt;/p&gt;
+&lt;p&gt;I used these scripts on Debian Linux with Python3.11 and markdown files for the blog posts. I strongly recommend you make copies of the markdown files you intend to run these on before for testing to ensure that they do what you expect.&lt;/p&gt;
+&lt;h3 id=&quot;removing-the-layout-property&quot;&gt;Removing the Layout Property&lt;/h3&gt;
+&lt;p&gt;First I imported the path module from pathlib in order to point the commands to a properly formatted directory location.&lt;/p&gt;
+&lt;p&gt;Then I set the source directory as a variable. I followed that with a glob search to identify the files in the source directory and to set them to a variable called &amp;quot;files.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Next, I created a try and except structure to resolve errors gracefully.&lt;/p&gt;
+&lt;p&gt;I then started the proper iteration with a for statement to loop over the files variable. For each file in the loop I next instructed python to open the file as &lt;em&gt;read&lt;/em&gt;, and store that text as a variable &amp;quot;lines.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Once python had stored the text as lines, I coded another open method, this time as &lt;em&gt;write&lt;/em&gt; for each file in the loop. Next, I created a nested loop to iterate over the stored text in the &amp;quot;lines&amp;quot; variable. The nested loop had a conditional method to remove any line in the stored text that matched the layout frontmatter property and its newline character. If that condition was met the code then wrote this &amp;quot;new&amp;quot; textual arrangement to the stored text in the &amp;quot;lines&amp;quot; variable. And with that I&#39;d erased the frontmatter layout property in two dozen posts.&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;#!/bin/python3&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Import modules&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; pathlib &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Path
+
+&lt;span class=&quot;token comment&quot;&gt;# Set the source directory and find all the files within it.&lt;/span&gt;
+src_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Path&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/home/directory/of/your/blog/&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+files &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; src_dir&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;glob&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;## Find the frontmatter category &quot;layout&quot; and delete it.&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; search &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; files&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;search&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; fileread&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      lines &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; fileread&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;readlines&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+      &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;search&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;w&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; filewrite&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; line &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; lines&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+
+          &lt;span class=&quot;token comment&quot;&gt;# strip() is used to remove &#39;&#92;n&#39;&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# present at the end of each line&lt;/span&gt;
+          &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; line&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;strip&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&#92;n&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;layout: post&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            filewrite&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;write&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;line&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Oops! Something went wrong.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;rewriting-image-links&quot;&gt;Rewriting Image Links&lt;/h3&gt;
+&lt;p&gt;To translate the markdown image format to Nunjucks shortcode I used the same search using a glob pattern but made it into a simple function to handle the source directory as a parameter. However to identify and change the text, I deviated and used a regex search/substitute method. The hardest part was fine-tuning the regex to capture the entirety of the markdown link. I learned that the regex substitution can accept regex groups, and that turned out to be pretty handy.&lt;/p&gt;
+&lt;p&gt;I started by importing the re module for regex and the Path module.&lt;/p&gt;
+&lt;p&gt;Like above, I set the working directory to a variable.&lt;/p&gt;
+&lt;p&gt;I then created a function, &amp;quot;find_images&amp;quot; that accepted a parameter. First the function would create a variable to store all the files of the source directory.&lt;/p&gt;
+&lt;p&gt;Next I wrote the iteration process on the files by opening each file as &lt;em&gt;read and write&lt;/em&gt;, and storing that text as a variable &amp;quot;md.&amp;quot; Then for the variable &amp;quot;md&amp;quot; I ran a substitute regex. The regex looked for the markdown syntax and a few different extensions and created a few groups. It&#39;d then replace the markdown syntax and using the groups and preserve the image file name within the new Nunjucks syntax. The function then sought out the beginning of the text and wrote the changed text structure to each file.&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;#!/bin/python3&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Import modules&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; re
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; pathlib &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Path
+
+&lt;span class=&quot;token comment&quot;&gt;# Set target directory&lt;/span&gt;
+src_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/home/directory/of/your/blog/&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;find_images&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;file_variable&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  files &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Path&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;file_variable&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;glob&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; filename &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; files&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;filename&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;r+&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; encoding&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; blogpost&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      md &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;read&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      md &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; re&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sub&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;r&quot;!&#92;[.*?&#92;]&#92;(&#92;/assets&#92;/img&#92;/(.*&#92;.png|.*&#92;.JPG|.*&#92;.jpg)&#92;)&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;r&quot;&amp;lt;div class=&quot;&lt;/span&gt;grid&lt;span class=&quot;token string&quot;&gt;&quot;&gt;&amp;lt;div&gt;&amp;lt;img src=&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;img&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;g&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot; loading=&quot;&lt;/span&gt;lazy&lt;span class=&quot;token string&quot;&gt;&quot; title=&quot;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/&gt;&amp;lt;/div&gt;&amp;lt;div&gt;&amp;lt;/div&gt;&amp;lt;/div&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        md&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;seek&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;write&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;md&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Text replaced&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+
+find_images&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;src_dir&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;rewriting-self-referring-links&quot;&gt;Rewriting Self-Referring Links&lt;/h3&gt;
+&lt;p&gt;This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.org and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;#!/bin/python3&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Import modules&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; re
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; pathlib &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Path
+
+&lt;span class=&quot;token comment&quot;&gt;# Set target directory&lt;/span&gt;
+src_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/home/directory/of/your/blog/&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;find_images&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;file_variable&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  files &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Path&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;file_variable&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;glob&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; filename &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; files&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;filename&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;r+&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; encoding&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; blogpost&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      link &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;read&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      link &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; re&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sub&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;r&quot;https&#92;:&#92;/&#92;/christopherbauer&#92;.org&#92;/(&#92;d{4})&#92;/(&#92;d{2})&#92;/(&#92;d{2})&#92;/(&#92;w.*)&#92;.html&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;r&quot;https://christopherbauer.org/blog/&#92;1-&#92;2-&#92;3-&#92;4&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        link&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;seek&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;write&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;link&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Text replaced&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+
+find_images&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;src_dir&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;I bet that these scripts won&#39;t be immediately useful to everyone transitioning from Jekyll to 11ty, given the idiosyncrasies of constructing static websites. Even websites with popular generators such as Jekyll vary quite a bit given theming and other custom configurations going on under the hood. Nevertheless, I hope these scripts will be useful.  Even if readers don&#39;t use them line for line, they can serve as inspiration for other bloggers to modify their posts and ease the transition process.&lt;/p&gt;
+&lt;p&gt;Happy blogging!&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Graylog on Proxmox with Ansible for Rsyslog Client Config</title>
     <link href="https://christopherbauer.org/blog/graylog-revised/" />
@@ -934,39 +1052,6 @@ I&#39;m going to deviate from Mayfly277&#39;s guide and end this post at this po
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;Proxmox instructions&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Unofficial CT Templates In Proxmox</title>
-    <link href="https://christopherbauer.org/blog/2023-2-1-ct-templates/" />
-    <updated>2023-02-01T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2023-2-1-ct-templates/</id>
-    <content type="html">&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/canonical.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;I&#39;ve been toying around with system containers (CT for short) in Proxmox, trying to learn more about how they differ from application containers. One challenge has been figuring out how to obtain &amp;quot;templates&amp;quot; for these Linux-based system containers.&lt;/p&gt;
-&lt;p&gt;In this tutorial I&#39;ll run through how to download a CT template from &lt;a href=&quot;https://us.lxd.images.canonical.com/images/&quot;&gt;Canonical&#39;s image server&lt;/a&gt; using Proxmox&#39;s graphical user interface (GUI).&lt;/p&gt;
-&lt;h3 id=&quot;the-problem&quot;&gt;The Problem&lt;/h3&gt;
-&lt;p&gt;In a default installation, Proxmox provides what they call &amp;quot;officially supported distribution&amp;quot; templates through the GUI. If you need one of those containers, its a breeze to set one up. If you want a system outside of those offerings for your container, then you&#39;ve got to do some searching. And while &lt;a href=&quot;https://pve.proxmox.com/pve-docs/index.html&quot;&gt;the Proxmox documentation&lt;/a&gt; is adequate for a number of other issues, on the topic of unofficial CT templates, it has little to say.&lt;/p&gt;
-&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
-&lt;h3 id=&quot;what-is-lxc&quot;&gt;What is LXC?&lt;/h3&gt;
-&lt;p&gt;The short hand for system containers is LXC. LXC is &lt;a href=&quot;https://linuxcontainers.org/lxc/introduction/&quot;&gt;described by&lt;/a&gt; its project leaders as &amp;quot;userspace interface for the Linux kernel containment features.&amp;quot; If I were to try to interpret that as someone from outside computer science, I&#39;d say LXC is a way of interacting with Linux&#39;s own ability to create containers.&lt;/p&gt;
-&lt;h3 id=&quot;officially-supported-distributions&quot;&gt;Officially Supported Distributions&lt;/h3&gt;
-&lt;p&gt;To set up one of Proxmox&#39;s official CT templates, you simply select one of your storage options in the left-hand tree, select &amp;quot;CT Templates&amp;quot; in the middle pane, and finally select the &amp;quot;Templates&amp;quot; button.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/ct_repository_button.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;That will open up a pop up and you can search for your distribution of choice.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/temp_menu.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;uploading-unofficial-templates&quot;&gt;Uploading Unofficial Templates&lt;/h3&gt;
-&lt;p&gt;First, do some research at &lt;a href=&quot;https://us.lxd.images.canonical.com/images/&quot;&gt;Canonical&#39;s image server&lt;/a&gt; to determine which distribution you&#39;re looking for that Proxmox doesn&#39;t offer. Once you&#39;ve narrowed that down, locate the link for &amp;quot;rootfs.tar.xz&amp;quot;.&lt;/p&gt;
-&lt;p&gt;For example, if I wanted to download a CT template for OpenWrt, I&#39;d locate the distribution in that Canonical menu, select the architecture for my Proxmox host, maybe select the latest distribution and then arrive at a screen with options like the following photo. Again, that after file your after is called &amp;quot;rootfs.tar.xz&amp;quot;&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/openwrt.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Copy the URL for that file.&lt;/p&gt;
-&lt;p&gt;To download OpenWrt&#39;s CT Template, you&#39;ll use the URL you just copied but using the method above. Instead of selecting the &amp;quot;Templates&amp;quot; button, select the &amp;quot;Download from URL&amp;quot; button.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/ct_download_button.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;That will lead to a popup menu. The first field in the popup is for the URL you just copied. Paste it in, then give it a name. The name will have to end with the extension &amp;quot;.tar.xz&amp;quot;.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/download_pop.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Make sure you have the &amp;quot;Advanced&amp;quot; box next to the &amp;quot;Download&amp;quot; button selected. That will give you additional options for checksums. Select SHA-256 from the drop down. Then head back to Canonical&#39;s webpage for OpenWrt and find the SHA256SUM file:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/sha.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Open that file, and it&#39;ll display the hashes for the rootfs.tar.xz files on the previous page. Find the hash for rootfs.tar.xz, copy it, and head back to the Proxmox GUI. Paste that copied hash into the checksum box.&lt;/p&gt;
-&lt;p&gt;Hit download and you are off! That&#39;ll give you an unofficial template to use with Proxmox&#39;s &amp;quot;Create CT&amp;quot; tool.&lt;/p&gt;
 </content>
   </entry>
 </feed>
