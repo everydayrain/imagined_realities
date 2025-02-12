@@ -18,7 +18,7 @@
     <content type="html">&lt;h4 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching&quot; class=&quot;primary&quot;&gt;Rationale for Switching&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#Migrating-Jekyll-Posts&quot; class=&quot;primary&quot;&gt;Migrating Jekyll Posts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#migrating-jekyll-posts&quot; class=&quot;primary&quot;&gt;Migrating Jekyll Posts&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#removing-the-layout-property&quot; class=&quot;primary&quot;&gt;Removing the Layout Property&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rewriting-image-links&quot; class=&quot;primary&quot;&gt;Rewriting Image Links&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rewriting-self-referring-links&quot; class=&quot;primary&quot;&gt;Rewriting Self-Referring Links&lt;/a&gt;&lt;/li&gt;
