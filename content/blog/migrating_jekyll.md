@@ -9,10 +9,11 @@ tags:
 
 #### Overview in Brief
 - {% linkprimary "Rationale for Switching", "https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching" %}
-- {% linkprimary "Migrating Jekyll Posts", "https://christopherbauer.org/blog/migrating_jekyll/#Migrating-Jekyll-Posts" %}
+- {% linkprimary "Migrating Jekyll Posts", "https://christopherbauer.org/blog/migrating_jekyll/#migrating-jekyll-posts" %}
 - {% linkprimary "Removing the Layout Property", "https://christopherbauer.org/blog/migrating_jekyll/#removing-the-layout-property" %}
 - {% linkprimary "Rewriting Image Links", "https://christopherbauer.org/blog/migrating_jekyll/#rewriting-image-links" %}
 - {% linkprimary "Rewriting Self-Referring Links", "https://christopherbauer.org/blog/migrating_jekyll/#rewriting-self-referring-links" %}
+
 
 ### Rationale for Switching
 I recently recreated my website using 11ty and ran into a few challenges transitioning my posts from Jekyll. Before I dig into how I solved them, allow me to recap my reasons for switching. 
