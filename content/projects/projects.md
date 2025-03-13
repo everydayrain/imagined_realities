@@ -2,7 +2,7 @@
 title: Projects
 ---
 
-- {% linksecondary  "Tips for Installing Graylog on a Proxmox VM", "https://christopherbauer.org/blog/2025-01-24-graylog/" %}
+- {% linksecondary  "Tips for Installing Graylog on a Proxmox VM", "https://christopherbauer.org/blog/graylog-revised/" %}
 
 - {% linksecondary  "Installing VSFTPD in a Proxmox Container", "https://christopherbauer.org/blog/2025-01-07-vsftpd/" %}
 
