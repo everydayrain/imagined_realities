@@ -117,7 +117,7 @@ Dark
 <li><a href="https://christopherbauer.org/blog/docker-trouble/#context-homelab-and-homeprod" class="primary">Context</a></li>
 <li><a href="https://christopherbauer.org/blog/docker-trouble/#gelf-for-graylog-servers" class="primary">GELF</a></li>
 <li><a href="https://christopherbauer.org/blog/docker-trouble/#oxker-for-on-demand-log-viewing" class="primary">Oxker</a></li>
-<li><a href="https://christopherbauer.org/blog/docker-trouble/#oxker-for-on-demand-log-viewing" class="primary">Lazyjournal</a></li>
+<li><a href="https://christopherbauer.org/blog/docker-trouble//#lazyjournal-for-on-demand-log-viewing" class="primary">Lazyjournal</a></li>
 </ul>
 <h2 id="context-homelab-and-homeprod">Context: Homelab and Homeprod</h2>
 <p>I've reached a milestone in the maturity of my homelab where a certain number of services are so integral to my family's routines as to be indispensable.  Perhaps this reflects maturation from &quot;lab&quot; to &quot;production&quot; that many enthusiasts before me have gone through, but the amount of administrative attention required has had me reconsidering the design of those services in the <em>prod</em> category.</p>
@@ -140,9 +140,9 @@ Dark
 <pre class="language-cli" tabindex="0"><code class="language-cli">docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock:ro --pull=always mrjackwills/oxker --timezone <YOUR_TIMEZONE></YOUR_TIMEZONE></code></pre>
 <h2 id="lazyjournal-for-on-demand-log-viewing">Lazyjournal for On-Demand Log Viewing</h2>
 <div class="grid"><div><img src="/img/2025-03-26_13-54.png" loading="lazy" title=""></div><div></div></div>
-I saved the one with the most potential to fill my toolkit for last. <a href="https://github.com/Lifailon/lazyjournal" class="primary">Lazyjournal</a>  is well-known but new to me. Like Oxker it offers a Lazygit-style readout. This is a viewing TUI-based tool, it doesn't manipulate containers or give you system stats like Oxker above. While it is primarily pointed at journalctl entries, it also works with containers. The maintainers favor a download method of using a go binary with links to your path for linux instances. I find Lazyjournal's interface a bit busy, especially when I'm only after containers and have to shift through journalctl entries and syslog stuff.  However, I really like the formatted and colorized logs it offers and the filter is fast and a nice alternative to grepping through journalctl entries.
+I saved the one with the most potential to fill my toolkit for last. <a href="https://github.com/Lifailon/lazyjournal" class="primary">Lazyjournal</a>  is well-known but new to me. Like Oxker it offers a Lazygit-style readout. This is a viewing TUI-based tool, it doesn't manipulate containers or give you system stats like Oxker above. While it is primarily pointed at journalctl entries, it also works with containers. The maintainers favor a download method of using a go binary with links to your path for Linux instances. I find Lazyjournal's interface a bit busy, especially when I'm only after containers and have to shift through journalctl entries and syslog stuff.  However, I really like the formatted and colorized logs it offers and the filter is fast and a nice alternative to grepping through journalctl entries.
 <h2 id="conclusion">Conclusion</h2>
-<p>As I mentioned, I've been leaning towards Lazyjournal these past few days.  Hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect, feel free reach out on <a href="https://infosec.exchange/@anthro_packets" class="primary">Mastodon</a> .</p>
+<p>Well, I've been using Oxker a lot lately, I think because of ease of getting to the logs.  As I said above, I am starting to use Lazyjournal a bit more, as I like how it aids in sifting through what can be a container's idiosyncratic log report information (its like you have to learn a new tech stack with each new container).  I hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect, feel free reach out on <a href="https://infosec.exchange/@anthro_packets" class="primary">Mastodon</a> .</p>
 
 
 </heading-anchors>
