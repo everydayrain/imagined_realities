@@ -54,4 +54,4 @@ I saved the one with the most potential to fill my toolkit for last.   {% linkpr
 
 
 ## Conclusion
-As I mentioned, I've been leaning towards Lazyjournal these past few days.  Hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect on this, feel free to r
+As I mentioned, I've been leaning towards Lazyjournal these past few days.  Hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}. 
