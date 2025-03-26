@@ -11,7 +11,7 @@ Pointing folks to tools for more insight into Docker containers.
 - {% linkprimary "Context", "https://christopherbauer.org/blog/docker-trouble/#context-homelab-and-homeprod" %}
 - {% linkprimary "GELF", "https://christopherbauer.org/blog/docker-trouble/#gelf-for-graylog-servers" %}
 - {% linkprimary "Oxker", "https://christopherbauer.org/blog/docker-trouble/#oxker-for-on-demand-log-viewing" %}
-- {% linkprimary "Lazyjournal", "https://christopherbauer.org/blog/docker-trouble/#oxker-for-on-demand-log-viewing" %}
+- {% linkprimary "Lazyjournal", "https://christopherbauer.org/blog/docker-trouble//#lazyjournal-for-on-demand-log-viewing" %}
 
 ## Context: Homelab and Homeprod
 I've reached a milestone in the maturity of my homelab where a certain number of services are so integral to my family's routines as to be indispensable.  Perhaps this reflects maturation from "lab" to "production" that many enthusiasts before me have gone through, but the amount of administrative attention required has had me reconsidering the design of those services in the *prod* category.  
@@ -51,7 +51,7 @@ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock:ro --pull=alway
 
 ## Lazyjournal for On-Demand Log Viewing
 {% imagesmall '/img/2025-03-26_13-54.png', '' %}
-I saved the one with the most potential to fill my toolkit for last. {% linkprimary "Lazyjournal", "https://github.com/Lifailon/lazyjournal" %} is well-known but new to me. Like Oxker it offers a Lazygit-style readout. This is a viewing TUI-based tool, it doesn't manipulate containers or give you system stats like Oxker above. While it is primarily pointed at journalctl entries, it also works with containers. The maintainers favor a download method of using a go binary with links to your path for linux instances. I find Lazyjournal's interface a bit busy, especially when I'm only after containers and have to shift through journalctl entries and syslog stuff.  However, I really like the formatted and colorized logs it offers and the filter is fast and a nice alternative to grepping through journalctl entries.
+I saved the one with the most potential to fill my toolkit for last. {% linkprimary "Lazyjournal", "https://github.com/Lifailon/lazyjournal" %} is well-known but new to me. Like Oxker it offers a Lazygit-style readout. This is a viewing TUI-based tool, it doesn't manipulate containers or give you system stats like Oxker above. While it is primarily pointed at journalctl entries, it also works with containers. The maintainers favor a download method of using a go binary with links to your path for Linux instances. I find Lazyjournal's interface a bit busy, especially when I'm only after containers and have to shift through journalctl entries and syslog stuff.  However, I really like the formatted and colorized logs it offers and the filter is fast and a nice alternative to grepping through journalctl entries.
 
 
 ## Conclusion
