@@ -55,4 +55,4 @@ I saved the one with the most potential to fill my toolkit for last. {% linkprim
 
 
 ## Conclusion
-As I mentioned, I've been leaning towards Lazyjournal these past few days.  Hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}. 
+Well, I've been using Oxker a lot lately, I think because of ease of getting to the logs.  As I said above, I am starting to use Lazyjournal a bit more, as I like how it aids in sifting through what can be a container's idiosyncratic log report information (its like you have to learn a new tech stack with each new container).  I hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}. 
