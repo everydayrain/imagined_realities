@@ -333,5 +333,4 @@ Because this is a role _main.yml_ file, it may seem truncated. To explain, the f
 You'd then run that using Ansible as a role in your playbook.
 
 ### Conclusion
-
-Admittedly, this is a post with a niche attraction, but nevertheless I hope it may help someone in the future. Should you have any questions, don't hesitate to DM me on  [Mastodon](https://infosec.exchange/@anthro_packets).
+Admittedly, this is a post with a niche attraction, but nevertheless I hope it may help someone in the future. Should you have any questions, don't hesitate to DM me on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}. 
