@@ -5,11 +5,52 @@
   <subtitle>Cyber Security and Stray Thoughts.</subtitle>
   <link href="https://christopherbauer.org/feed/feed.xml" rel="self" />
   <link href="https://christopherbauer.org/" />
-  <updated>2025-03-26T00:00:00Z</updated>
+  <updated>2025-03-27T00:00:00Z</updated>
   <id>https://christopherbauer.org/</id>
   <author>
     <name>Christopher Bauer</name>
   </author>
+  <entry>
+    <title>How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS</title>
+    <link href="https://christopherbauer.org/blog/caddy-rev-proxy/" />
+    <updated>2025-03-27T00:00:00Z</updated>
+    <id>https://christopherbauer.org/blog/caddy-rev-proxy/</id>
+    <content type="html">&lt;p&gt;Installing and configuring a &lt;a href=&quot;https://caddyserver.com/&quot; class=&quot;primary&quot;&gt;Caddy&lt;/a&gt;  webserver from a binary with a Caddyfile for a reverse-proxy was a little more involved than I expected.  This post clarifies a single stage of this process by illustrating how to configure a Caddyfile with an example for a reverse-proxy and TLS.  This post won&#39;t cover building a Proxmox LXC container, obtaining an User API key from Cloudflare, or installing the Caddy custom binary.&lt;/p&gt;
+&lt;h2 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/caddy-rev-proxy/#downloading-and-configuring-caddy&quot; class=&quot;primary&quot;&gt;Downloading Caddy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/caddy-rev-proxy/#creating-the-caddyfile&quot; class=&quot;primary&quot;&gt;Creating the Caddyfile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;hostname-provisioning-is-homeprod&quot;&gt;Hostname Provisioning is Homeprod&lt;/h2&gt;
+&lt;p&gt;I&#39;ve recently discovered how critical a reverse proxy is when using domain names and TLS.  I&#39;ve been homelabbing for a few years now, but I&#39;ve only recently moved to making production-level services available to extended family.  As any good homeprodder knows, that means hostnames instead of IPs and TLS. So far so good, just set up &lt;a href=&quot;https://nginxproxymanager.com/&quot; class=&quot;primary&quot;&gt;Nginx-Reverse-Proxy&lt;/a&gt;  with Cloudflare DNS challenge and you&#39;re good to go, right?  Well, my version of Nginx-Reverse-Proxy lived on a server I didn&#39;t keep powered on at production-level five nines.  As the number of services I&#39;m hosting has multiplied, and the number of users has also grown, I found myself in a situation where the sudden disappearance of a hostname immediately causes a lot of problems. If the hostname disappears, its as though the service has disappeared, and that is true not only for people unable to reach those services but also automation.  Any sort of monitoring solution will go a bit nuts if not made aware hostnames suddenly dropping off the radar, even if the underlying service is still responsive.  Cron starts clogging up logs.  Not to mention that I can no longer remember off-hand what the IP of a service is when there are dozens operating.  That means manual troubleshooting when hostnames go missing is harder than it once was as well.  Needless to say, it quickly became evident that offering hostnames by way of a reverse proxy needed to become a full time operation.&lt;/p&gt;
+&lt;p&gt;Looking into the alternatives, I learned some things.  First, I didn&#39;t realize that Nginx-Reverse-Proxy isn&#39;t maintained by the official Nginx team but rather by an individual (the GUI is so polished I just assumed it was an official product).  That doesn&#39;t concern me greatly, but it may explain the next thing I learned.  Second, Nginx-Reverse-Proxy is only offered as a Docker container.  That posed a problem.  Shifting a reverse proxy to the always-on Intel n100 minipc would mean spinning up a new VM just to host Docker for Nginx-Reverse-Proxy.  That seemed like unacceptable overhead to me.  Sure, I&#39;ve heard of folks running Docker in Proxmox LXCs, but the Proxmox team &lt;a href=&quot;https://pve.proxmox.com/wiki/Linux_Container&quot; class=&quot;primary&quot;&gt;don&#39;t recommend it&lt;/a&gt;  and my Proxmox host is janky enough as is.  With that in mind, I created a LXC with a reverse proxy using a Caddy binary.&lt;/p&gt;
+&lt;h2 id=&quot;assumptions&quot;&gt;Assumptions&lt;/h2&gt;
+&lt;p&gt;This guide will assume the reader is familiar with the linux command line, has a domain registered, and has generated a User API Token in Cloudflare to access Cloudflare&#39;s DNS management capabilities.&lt;/p&gt;
+&lt;h2 id=&quot;downloading-caddy&quot;&gt;Downloading Caddy&lt;/h2&gt;
+&lt;p&gt;To use Caddy with the Cloudflare DNS you have to &lt;a href=&quot;https://caddyserver.com/download&quot; class=&quot;primary&quot;&gt;download a custom Caddy binary&lt;/a&gt;  that builds in the dns.providers.cloudflare plugin to the finished product. Once you&#39;ve downloaded the binary, you can use &lt;a href=&quot;https://caddyserver.com/docs/running#manual-installation&quot; class=&quot;primary&quot;&gt;this docs page&lt;/a&gt;  for instructions on how to proceed.&lt;/p&gt;
+&lt;p&gt;To quickly recap my steps, I placed the downloaded binary in my path and added a group and user with parameters tailored to Caddy. I made sure the binary in &lt;code&gt;/usr/bin/&lt;/code&gt; was executable by world.  Next I &lt;a href=&quot;https://github.com/caddyserver/dist/blob/master/init/caddy.service&quot; class=&quot;primary&quot;&gt;created a systemd unit file&lt;/a&gt; .  According to &lt;a href=&quot;https://caddyserver.com/docs/running#manual-installation&quot; class=&quot;primary&quot;&gt;the docs&lt;/a&gt;  , I selected the systemd caddy.service (non-api) unit file type, went to its github page, and manually entered that code into a file:&lt;code&gt;/etc/systemd/system/caddy.service&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;creating-the-caddyfile&quot;&gt;Creating the Caddyfile&lt;/h2&gt;
+&lt;p&gt;I then created a CaddyFile at &lt;code&gt;/etc/caddy/Caddyfile&lt;/code&gt;, with the following initial wildcard certificate DNS request to Cloudflare based on &lt;a href=&quot;https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates&quot;&gt;this format&lt;/a&gt;.  The following Caddyfile example sets up the DNS challange for TLS and then creates proxies for Plex and Nextcloud instances.  Readers can add or modify as many services as they need.&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;*.example.com &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        tls &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                dns cloudflare &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;SOME_CLOUDFLARE_API_KEY&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        @plex &lt;span class=&quot;token function&quot;&gt;host&lt;/span&gt; plex.example.com
+        handle @plex &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                reverse_proxy &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;PLEX_IP:PORT&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        @nextcloud &lt;span class=&quot;token function&quot;&gt;host&lt;/span&gt; nc.example.com
+        handle @nextcloud &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                reverse_proxy &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;NEXTCLOUD_IP:PORT&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Whenever you update that file, use &lt;code&gt;systemctl reload caddy&lt;/code&gt; rather than Caddy&#39;s commands.&lt;/p&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;I spent a few more minutes than I would have liked trying to sort out the Caddyfile&#39;s particulars.  They weren&#39;t hard to get right, but they weren&#39;t immediately apparent either.  Hope this saves you a few minutes somewhere down the line.  Should you want to connect, feel free reach out on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon&lt;/a&gt; .&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>I&#39;m an Irked Docker Maintainer and Homeprodder</title>
     <link href="https://christopherbauer.org/blog/docker-trouble/" />
@@ -785,148 +826,6 @@ Your interface assignments will then look something like this:
 &lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Installing Game of Active Directory on Proxmox: Part 2 - Provisioner</title>
-    <link href="https://christopherbauer.org/blog/2024-11-11-provisioner/" />
-    <updated>2024-11-11T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2024-11-11-provisioner/</id>
-    <content type="html">&lt;p&gt;This entry consists of Part 2 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  In my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;previous post&lt;/a&gt;, I covered networking for the entire Active Directory setup.  In this post we&#39;ll create a Linux provisioner machine on the LAN that will later be responsible for creating, deploying and configuring the Active Directory DCs and servers.&lt;/p&gt;
-&lt;p&gt;As I mentioned before, I&#39;m deeply indebted to &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277&#39;s work.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;create-the-provisioner-container&quot;&gt;Create the Provisioner Container&lt;/h2&gt;
-&lt;h3 id=&quot;proxmox-setup&quot;&gt;Proxmox Setup&lt;/h3&gt;
-&lt;p&gt;As &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/#create-provisioning-ct&quot;&gt;Mayfly277&lt;/a&gt; lays out, we&#39;re first going to create the container that will serve as the provisioner.  You&#39;ll first need an up to date Ubuntu template on your Proxmox host, that I won&#39;t cover here.&lt;/p&gt;
-&lt;p&gt;Before we get started, we&#39;ll need to create a public SSH key for use with the provisioner.  To create a key pair, enter the following on your local machine:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ssh-keygen -t ed25519 -a 32 -f ~/.ssh/&amp;lt;SOME_KEY_NAME&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Once the key is created, you can set up your provisioner container in the Proxmox Web User Interface (WUI).  In the upper left corner of the WUI, you should see a &amp;quot;Create CT&amp;quot; button.  Once you&#39;ve clicked that you enter the first tab in a sequence called &amp;quot;General.&amp;quot;  Fill out the information as you wish, and click the &amp;quot;Load SSH Key File&amp;quot; to select the key that you just made.  You&#39;ll want to enter the one with the extension of &lt;em&gt;&lt;strong&gt;.pub&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Then proceed through the other tabs.  I gave my provisioner 4 GB of memory, 2 cores, and 40 GB of storage.  Most of the other options were the same as Mayfly277&#39;s, except that when I reached the networking tab, I selected the LAN or &amp;quot;vmbr2.&amp;quot;&lt;/p&gt;
-&lt;h3 id=&quot;provisioner-networking&quot;&gt;Provisioner Networking&lt;/h3&gt;
-&lt;p&gt;As in the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;previous post&lt;/a&gt;, I don&#39;t have a screen shot of creating the WAN firewall rule for the provisioner to allow an SSH tunnel, however you can gleam the settings from the following screenshot of the final state of my WAN firewall.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_08-38.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Apply changes after you&#39;ve added the firewall rule.&lt;/p&gt;
-&lt;p&gt;Now add the provisioning container to your ssh config file.  If you haven&#39;t set up a security key for your Proxmox machine now is the time.  Creating the key is the same process as above, and once done you&#39;ll transfer the public key to Proxmox with &lt;code&gt;ssh-copy-id&lt;/code&gt; followed by &lt;code&gt;&amp;lt;SOME_USER@SOME_IP&amp;gt;&lt;/code&gt;  That key will be necessary to use Proxmox as a jump box in the next steps (alternatively, you can use Proxmox&#39;s WUI to access the command line and enter the next steps manually).  Mayfly277 suggests the following for a config file placed in &lt;code&gt;~/.ssh&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Host goadproxmox
-   User root
-   Hostname x.x.x.x
-   Port 22
-   IdentityFile ~/.ssh/id_rsa_kimsufi_goad
-   # pfsense
-   LocalForward 8082 192.168.2.2:80
-
-Host goadprovisioning
-   User root
-   Hostname 192.168.2.3
-   Port 22
-   IdentityFile ~/.ssh/id_rsa_kimsufi_goad
-   Proxyjump goadproxmox
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then you should be able to SSH into the provisioner using &lt;code&gt;ssh goadprovisioning&lt;/code&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;configuring-the-provisioner&quot;&gt;Configuring the Provisioner&lt;/h2&gt;
-&lt;p&gt;Now we can start the Provisioner to begin configuring Packer, Terriform and Ansible.  Should you need more detail, &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/#install-packer&quot;&gt;Mayfly277&lt;/a&gt; offers links to the original install instructions for each vendor.&lt;/p&gt;
-&lt;h3 id=&quot;packer-install&quot;&gt;Packer Install&lt;/h3&gt;
-&lt;p&gt;As usual, it&#39;s good practice to update and upgrade once you&#39;ve got it up and running for the first time.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apt update &amp;amp;&amp;amp; apt upgrade
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Mayfly277 also recommends installing a handful of useful apps, though you might not need vim if you prefer a different text editor, nor tmux if you don&#39;t use tmux shells all that much.  Do make sure you have the others entries though.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apt install git vim tmux curl gnupg software-properties-common mkisofs
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we&#39;ll install the GPG signing key and add the repository for packer.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;apt-add-repositorysitory &amp;quot;deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That should create an output that looks like the following:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_08-59.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Now you can install:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apt update &amp;amp;&amp;amp; apt install packer
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you can enter &lt;code&gt;packer -v&lt;/code&gt; and get a valid response.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_08-58.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;terraform-install&quot;&gt;Terraform Install&lt;/h3&gt;
-&lt;p&gt;Following Mayfly277&#39;s instructions, I had no problems with this section.  Enter the following commands to install the GPG keys, verify them, add the Terraform repository, and then install Terraform.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;wget -O- https://apt.releases.hashicorp.com/gpg | &#92; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;gpg --dearmor | &#92; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;tee /usr/share/keyrings/hashicorp-archive-keyring.gpg  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;gpg --no-default-keyring &#92; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;--keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg &#92; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;--fingerprint  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;echo &amp;quot;deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] &#92; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;https://apt.releases.hashicorp.com $(lsb_release -cs) main&amp;quot; | &#92; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;tee /etc/apt/sources.list.d/hashicorp.list  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;apt update &amp;amp;&amp;amp; apt install terraform
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you can enter &lt;code&gt;terraform -v&lt;/code&gt; and get a valid response.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_09-01.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;ansible-install&quot;&gt;Ansible Install&lt;/h3&gt;
-&lt;p&gt;As per &lt;a href=&quot;https://orange-cyberdefense.github.io/GOAD/installation/linux/#__tabbed_1_5&quot;&gt;this documentation&lt;/a&gt; we have to install an older version of Python, Python 3.10, before we can proceed with this section.  Additionally, Debian derivatives have disabled the ability to use pip in exchange for apt based python package management.  This may or may not affect readers depending on the distro you are using.  In any event, I was unable to use Mayfly277&#39;s guide for this section.&lt;/p&gt;
-&lt;h4 id=&quot;python-3-10-install-and-venv&quot;&gt;Python 3.10 Install and Venv&lt;/h4&gt;
-&lt;p&gt;Instead of using apt for the Python packages, I use virtual environments.  A drawback to this approach is that if you need to go come back to the provisioner at a later point to redo something Python-related, you&#39;ll have to first enter the virtual environment with &lt;code&gt;source .venv/GOAD/bin/activate&lt;/code&gt;.  An alternative to this cumbersome process would be to use something like pipx, though that is outside the scope of this blog.  In what follows I use the virtual environments approach.&lt;/p&gt;
-&lt;p&gt;First we&#39;ll add a repositorysitory with older versions of python.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-40.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Next, we&#39;ll Install Python 3.10.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-41_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Then we&#39;ll make sure we can create virtual environments by installing the version appropriate venv package from apt as well.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-41_2.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h5 id=&quot;virtual-environment-based-package-install&quot;&gt;Virtual Environment-Based Package Install&lt;/h5&gt;
-&lt;p&gt;Now we can begin installing by creating a virtual environment for GOAD for the packages.  Do that first by making sure you are in the root directory of the provisioner and entering:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;python3.10 -m venv .venv/GOAD
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-42.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Then source the virtual environment.  This will cause your environment to be prefaced by &lt;code&gt;(goad)&lt;/code&gt; to signal you&#39;re in it.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;source .venv/GOAD/bin/activate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-42_2.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Now install the packages.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.venv/GOAD/bin/pip install ansible-core==2.12.6
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-43.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-```
-.venv/GOAD/bin/pip install pywinrm
-```
-&lt;p&gt;Now you can check to see if you receive valid responses telling you that Ansible installed correctly.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ansible-galaxy --version
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;ansible --version
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h5 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h5&gt;
-&lt;p&gt;It was at this point that I started to encounter problems related to missing ansible-galaxy components.  To troubleshoot, I decided to use Orange Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;checker script&lt;/a&gt;.  The checker script is also the primary script used in the next phase for provisioning, and therefore this troubleshooting step coinicded with  Mayfly277&#39;s guide to clone the GOAD GitHub repository.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /root 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;git clone https://github.com/Orange-Cyberdefense/GOAD.git
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Change directories into the GOAD repository and use the &lt;em&gt;goad.sh&lt;/em&gt; script by entering the following.  You might have to change permissions on the script with &lt;code&gt;chmod 744&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;./goad.sh -t check -l GOAD -p proxmox
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In my case, the check script suggested running ansible-galaxy on the requirements file contained within the repository&#39;s ansible directory in order to install dependencies.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ansible-galaxy install -r ansible/requirements.yml
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-58.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;After that, I re-checked with the goad.sh script and received a green light.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_10-58_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;creating-a-proxmox-pool&quot;&gt;Creating a Proxmox Pool&lt;/h2&gt;
-&lt;p&gt;Lastly, Mayfly277 doesn&#39;t mention the need for a Proxmox pool in the guide, but subsequent steps seem to rely upon a pool.   Now is a good time to head over to the WUI and select the Datacenter entry on the left-hand menu.  Under Permissions drop-down in the center menu you should see an entry &amp;quot;pools.&amp;quot;  Click the create button and give it the name &amp;quot;GOAD.&amp;quot;&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_14-04_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;provisioner-machine-creation-complete&quot;&gt;Provisioner Machine Creation Complete&lt;/h2&gt;
-&lt;p&gt;That wraps up the creation of the provisioner machine.  Next we&#39;ll work on creating the template with packer.&lt;/p&gt;
-&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://benheater.com/proxmox-lab-goad-environment-setup/&quot;&gt;Ben Heater&#39;s blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
