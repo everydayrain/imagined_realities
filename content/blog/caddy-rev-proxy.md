@@ -1,5 +1,5 @@
 ---
-title: How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS
+title: Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example
 date: 2025-03-27
 tags:
   - caddy
@@ -34,7 +34,7 @@ To quickly recap my steps, I placed the downloaded binary in my path and added a
 
 ## Creating the Caddyfile
 
-I then created a Caddyfile at `/etc/caddy/Caddyfile`, with the following initial wildcard certificate DNS request to Cloudflare based on [this format](https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates). The following Caddyfile example sets up the DNS challange for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.
+I then created a Caddyfile at `/etc/caddy/Caddyfile`, with the following initial wildcard certificate DNS request to Cloudflare based on [this format](https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates).  Below I offer an example of what this Caddyfile can look like.  The example sets up the DNS challenge for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.
 
 ```shell
 *.example.com {
@@ -54,8 +54,8 @@ I then created a Caddyfile at `/etc/caddy/Caddyfile`, with the following initial
 }
 ```
 
-Whenever you update that file, be sure to reload Caddy using `systemctl reload caddy` rather than Caddy's commands.
+Whenever you update that file, be sure to reload Caddy using `systemctl reload caddy` rather than Caddy's command line commands.
 
 ## Conclusion
 
-I spent a few more minutes than I would have liked trying to sort out the Caddyfile's particulars. They weren't hard to get right, but they weren't immediately apparent either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}.
+I spent a few more minutes than I would have liked trying to sort out the Caddyfile's particulars. They weren't hard to get right, but the documentation wasn't immediately clear either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}.
