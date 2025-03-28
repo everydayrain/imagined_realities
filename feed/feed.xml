@@ -11,7 +11,7 @@
     <name>Christopher Bauer</name>
   </author>
   <entry>
-    <title>How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS</title>
+    <title>Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example</title>
     <link href="https://christopherbauer.org/blog/caddy-rev-proxy/" />
     <updated>2025-03-27T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/caddy-rev-proxy/</id>
@@ -31,7 +31,7 @@
 &lt;p&gt;To use Caddy with the Cloudflare DNS you have to &lt;a href=&quot;https://caddyserver.com/download&quot; class=&quot;primary&quot;&gt;download a custom Caddy binary&lt;/a&gt;  that builds in the dns.providers.cloudflare plugin to the finished product. Once you&#39;ve downloaded the binary, you can use &lt;a href=&quot;https://caddyserver.com/docs/running#manual-installation&quot; class=&quot;primary&quot;&gt;this docs page&lt;/a&gt;  for instructions on how to proceed.&lt;/p&gt;
 &lt;p&gt;To quickly recap my steps, I placed the downloaded binary in my path and added a group and user with parameters tailored to Caddy. I made sure the binary in &lt;code&gt;/usr/bin/&lt;/code&gt; was executable by world. Next I &lt;a href=&quot;https://github.com/caddyserver/dist/blob/master/init/caddy.service&quot; class=&quot;primary&quot;&gt;created a systemd unit file&lt;/a&gt; . According to &lt;a href=&quot;https://caddyserver.com/docs/running#manual-installation&quot; class=&quot;primary&quot;&gt;the docs&lt;/a&gt;  , I selected the systemd caddy.service (non-api) unit file type, went to its github page, and manually entered that code into a file:&lt;code&gt;/etc/systemd/system/caddy.service&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;creating-the-caddyfile&quot;&gt;Creating the Caddyfile&lt;/h2&gt;
-&lt;p&gt;I then created a Caddyfile at &lt;code&gt;/etc/caddy/Caddyfile&lt;/code&gt;, with the following initial wildcard certificate DNS request to Cloudflare based on &lt;a href=&quot;https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates&quot;&gt;this format&lt;/a&gt;. The following Caddyfile example sets up the DNS challange for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.&lt;/p&gt;
+&lt;p&gt;I then created a Caddyfile at &lt;code&gt;/etc/caddy/Caddyfile&lt;/code&gt;, with the following initial wildcard certificate DNS request to Cloudflare based on &lt;a href=&quot;https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates&quot;&gt;this format&lt;/a&gt;.  Below I offer an example of what this Caddyfile can look like.  The example sets up the DNS challenge for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.&lt;/p&gt;
 &lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;*.example.com &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         tls &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
                 dns cloudflare &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;SOME_CLOUDFLARE_API_KEY&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
@@ -47,9 +47,9 @@
                 reverse_proxy &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;NEXTCLOUD_IP:PORT&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Whenever you update that file, be sure to reload Caddy using &lt;code&gt;systemctl reload caddy&lt;/code&gt; rather than Caddy&#39;s commands.&lt;/p&gt;
+&lt;p&gt;Whenever you update that file, be sure to reload Caddy using &lt;code&gt;systemctl reload caddy&lt;/code&gt; rather than Caddy&#39;s command line commands.&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;I spent a few more minutes than I would have liked trying to sort out the Caddyfile&#39;s particulars. They weren&#39;t hard to get right, but they weren&#39;t immediately apparent either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;I spent a few more minutes than I would have liked trying to sort out the Caddyfile&#39;s particulars. They weren&#39;t hard to get right, but the documentation wasn&#39;t immediately clear either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon&lt;/a&gt; .&lt;/p&gt;
 </content>
   </entry>
   <entry>

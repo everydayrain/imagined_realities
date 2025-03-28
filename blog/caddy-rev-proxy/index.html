@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS</title>
-<meta content="How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS" property="og:title">
-<meta content="How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS" name="twitter:title">
-<meta content="How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS" name="title">
-<meta content="How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS" property="og:site_name">
+<title>Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example</title>
+<meta content="Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example" property="og:title">
+<meta content="Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example" name="twitter:title">
+<meta content="Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example" name="title">
+<meta content="Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example" property="og:site_name">
 <meta content="" name="description">
 <meta content="" property="facebook:description">
 <meta content="" property="og:description">
@@ -98,7 +98,7 @@ Dark
 <main id="skip">
 <header class="container">
 <hgroup>
-<h1 id="how-to-structure-a-caddyfile-for-reverse-proxy-tls-and-cloudflare-dns"><a href="/blog/caddy-rev-proxy/">How to Structure a Caddyfile for Reverse Proxy, TLS, and Cloudflare DNS</a></h1>
+<h1 id="caddy-reverse-proxy-with-tls-and-cloudflare-dns-challenge-a-caddyfile-example"><a href="/blog/caddy-rev-proxy/">Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example</a></h1>
 <h2 id=""><em></em></h2>
 </hgroup>
 </header>
@@ -127,7 +127,7 @@ Dark
 <p>To use Caddy with the Cloudflare DNS you have to <a href="https://caddyserver.com/download" class="primary">download a custom Caddy binary</a>  that builds in the dns.providers.cloudflare plugin to the finished product. Once you've downloaded the binary, you can use <a href="https://caddyserver.com/docs/running#manual-installation" class="primary">this docs page</a>  for instructions on how to proceed.</p>
 <p>To quickly recap my steps, I placed the downloaded binary in my path and added a group and user with parameters tailored to Caddy. I made sure the binary in <code>/usr/bin/</code> was executable by world. Next I <a href="https://github.com/caddyserver/dist/blob/master/init/caddy.service" class="primary">created a systemd unit file</a> . According to <a href="https://caddyserver.com/docs/running#manual-installation" class="primary">the docs</a>  , I selected the systemd caddy.service (non-api) unit file type, went to its github page, and manually entered that code into a file:<code>/etc/systemd/system/caddy.service</code>.</p>
 <h2 id="creating-the-caddyfile">Creating the Caddyfile</h2>
-<p>I then created a Caddyfile at <code>/etc/caddy/Caddyfile</code>, with the following initial wildcard certificate DNS request to Cloudflare based on <a href="https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates">this format</a>. The following Caddyfile example sets up the DNS challange for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.</p>
+<p>I then created a Caddyfile at <code>/etc/caddy/Caddyfile</code>, with the following initial wildcard certificate DNS request to Cloudflare based on <a href="https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates">this format</a>.  Below I offer an example of what this Caddyfile can look like.  The example sets up the DNS challenge for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.</p>
 <pre class="language-shell" tabindex="0"><code class="language-shell">*.example.com <span class="token punctuation">{</span>
         tls <span class="token punctuation">{</span>
                 dns cloudflare <span class="token operator">&lt;</span>SOME_CLOUDFLARE_API_KEY<span class="token operator">></span>
@@ -143,9 +143,9 @@ Dark
                 reverse_proxy <span class="token operator">&lt;</span>NEXTCLOUD_IP:PORT<span class="token operator">></span>
         <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<p>Whenever you update that file, be sure to reload Caddy using <code>systemctl reload caddy</code> rather than Caddy's commands.</p>
+<p>Whenever you update that file, be sure to reload Caddy using <code>systemctl reload caddy</code> rather than Caddy's command line commands.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>I spent a few more minutes than I would have liked trying to sort out the Caddyfile's particulars. They weren't hard to get right, but they weren't immediately apparent either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on <a href="https://infosec.exchange/@anthro_packets" class="primary">Mastodon</a> .</p>
+<p>I spent a few more minutes than I would have liked trying to sort out the Caddyfile's particulars. They weren't hard to get right, but the documentation wasn't immediately clear either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on <a href="https://infosec.exchange/@anthro_packets" class="primary">Mastodon</a> .</p>
 
 
 </heading-anchors>
