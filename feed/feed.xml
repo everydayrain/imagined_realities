@@ -5,11 +5,37 @@
   <subtitle>Cyber Security and Stray Thoughts.</subtitle>
   <link href="https://christopherbauer.org/feed/feed.xml" rel="self" />
   <link href="https://christopherbauer.org/" />
-  <updated>2025-03-27T00:00:00Z</updated>
+  <updated>2025-04-04T00:00:00Z</updated>
   <id>https://christopherbauer.org/</id>
   <author>
     <name>Christopher Bauer</name>
   </author>
+  <entry>
+    <title>Lessons Learned on Ansible Vault</title>
+    <link href="https://christopherbauer.org/blog/ansible-prelim-lessons/" />
+    <updated>2025-04-04T00:00:00Z</updated>
+    <id>https://christopherbauer.org/blog/ansible-prelim-lessons/</id>
+    <content type="html">&lt;p&gt;Ansible has fair documentation. Many of the docs however focus narrowly on a given command and its functions. While this can be useful to a seasoned user, some, such as &lt;a href=&quot;https://docs.ansible.com/ansible/latest/vault_guide/index.html&quot; class=&quot;primary&quot;&gt;Ansible&#39;s Vault docs&lt;/a&gt;  don&#39;t provide the larger context on how a &lt;code&gt;ansible-vault&lt;/code&gt; encrypted sudo password is incorporated and deployed in a playbook in conjunction with the Ansible vault password.  In this post I&#39;m offering a quick write up of my understanding of this context from early in my study of Ansible.&lt;/p&gt;
+&lt;h2 id=&quot;when-sudo-requires-a-password&quot;&gt;When Sudo Requires a Password&lt;/h2&gt;
+&lt;p&gt;One of the trickiest parts of getting started with Ansible has been figuring out how Ansible handles a remote host&#39;s password prompts for activities requiring sudo privileges.  To remedy this, you&#39;ll create an ansible-vault file with the sudo password.&lt;/p&gt;
+&lt;p&gt;First, create a file that will store your password, encrypted, with the dedicated Ansible command.&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;ansible-vault create &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;SOME_FILE.yaml&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When the command runs it&#39;ll prompt you to create an Ansible vault password for use in decrypting the file.  You&#39;ll want to save that Ansible Vault password somewhere safe.&lt;/p&gt;
+&lt;p&gt;Then, to take advantage of that stored password when prompted by the remote host during Ansible&#39;s run you&#39;ll have to specify path to that password file in a playbook.&lt;/p&gt;
+&lt;p&gt;Say for example you wanted to ensure the correct timezone was set on a remote host.  You might create the following task in your playbook.&lt;/p&gt;
+&lt;pre class=&quot;language-yaml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Set timezone to Los_Angeles
+  &lt;span class=&quot;token key atrule&quot;&gt;become&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;community.general.timezone&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; America/Los_Angeles&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;become: true&lt;/code&gt; ensures that the task will seek elevated privileges to carry out the timezone change, but it won&#39;t have the password for sudo.  To add that, include the following below &lt;code&gt;become:true&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;language-yaml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;  
+  &lt;span class=&quot;token key atrule&quot;&gt;vars&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;ansible_become_password&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{{ lookup(&#39;ansible.builtin.file&#39;, &#39;/PATH/TO/SECRET/PASSWORD/FILE.yml&#39;) }}&quot;&lt;/span&gt;
+  &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;ansible_become_password&lt;/code&gt; variable will ensure Ansible seeks out the password file you&#39;ve created to complete the sudo password prompt.&lt;/p&gt;
+&lt;p&gt;Now you are ready to run the playbook.  To run the Ansible playbook with that task make sure that you enter &lt;code&gt;--ask-vault-pass&lt;/code&gt; as a parameter to the &lt;code&gt;ansible-playbook&lt;/code&gt; command to ensure that Ansible obtains the Vault password and so decrypt the file containing the sudo password.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example</title>
     <link href="https://christopherbauer.org/blog/caddy-rev-proxy/" />
@@ -712,121 +738,6 @@ Your interface assignments will then look something like this:
 &lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Installing Game of Active Directory on Proxmox: Part 3 - Templating</title>
-    <link href="https://christopherbauer.org/blog/2024-11-14-templates/" />
-    <updated>2024-11-14T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2024-11-14-templates/</id>
-    <content type="html">&lt;p&gt;This is Part 3 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE.  In the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-11-provisioner&quot;&gt;second installment&lt;/a&gt; I covered creating a provisioner machine in Proxmox and installing Packer, Terraform and Ansible in preparation of creating the GOAD machines.  In this post we&#39;ll create templates  for future deployment of the individual AD DCs and servers.&lt;/p&gt;
-&lt;p&gt;As I mentioned before, I&#39;m deeply indebted to &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement to Mayfly277&#39;s guide.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;first post in this series&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
-&lt;h3 id=&quot;obtain-the-windows-isos&quot;&gt;Obtain the Windows ISOs&lt;/h3&gt;
-&lt;p&gt;First we&#39;ll need to obtain the Windows ISOs to serve as the basis of the templates.  Mayfly277 helpfully identified &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#download-the-isos&quot;&gt;registration-free&lt;/a&gt; links to those ISOs, so I recommend going directly to his guide for those links.  You can either download them to your local machine and subsquently upload them to Proxmox, or you can download them directly to Proxmox in the web user interface (WUI).&lt;/p&gt;
-&lt;h3 id=&quot;obtain-the-cloudbase-init&quot;&gt;Obtain the Cloudbase-init&lt;/h3&gt;
-&lt;p&gt;Returning to the provisioner machine, download the cloudbase-init service files to initialize and configure the Windows machines.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /root/GOAD/packer/proxmox/scripts/sysprep 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_11-01.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;create-a-user-in-proxmox&quot;&gt;Create a User in Proxmox&lt;/h3&gt;
-&lt;p&gt;We need to create a dedicated user for the steps that follow.  Mayfly277 suggests two options, either a user with limited privileges or a user with admin privileges.  I was ultimately forced to add admin privileges as I got the 403 error that Mayfly277 mentioned in their guide.  Ordinarily I&#39;d advise against giving admin privileges out unless absolutely necessary, but in this case Mayfly277 himself uses admin privileges in later steps, so it may make sense to implement them here.  In any event, I&#39;ll add both privileged and non-privileged options. Admin privileges are outlined in the last command below.&lt;/p&gt;
-&lt;p&gt;To create the user and packer privileges, on the Proxmox command line enter the following commands in sequence.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pveum useradd infra_as_code@pve
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;pveum passwd infra_as_code@pve
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;pveum roleadd Packer -privs &amp;quot;VM.Config.Disk VM.Config.CPU VM.Config.Memory Datastore.AllocateTemplate Datastore.Audit Datastore.AllocateSpace Sys.Modify VM.Config.Options VM.Allocate VM.Audit VM.Console VM.Config.CDROM VM.Config.Cloudinit VM.Config.Network VM.PowerMgmt VM.Config.HWType VM.Monitor SDN.Use&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then choose the sort of role you want the user to have.&lt;/p&gt;
-&lt;p&gt;To create a user with only the packer privileges of the command above, enter:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pveum acl modify / -user &#39;infra_as_code@pve&#39; -role Packer
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If instead you want to create a user with full admin privileges, enter:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pveum acl modify / -user &#39;infra_as_code@pve&#39; -role Administrator
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&quot;modifying-config-auto-pkrvars-hcl&quot;&gt;Modifying config.auto.pkrvars.hcl&lt;/h3&gt;
-&lt;p&gt;On the provisioner machine change to &lt;code&gt;/root/GOAD/packer/proxmox/&lt;/code&gt; and copy the config.auto.pkrvars.hcl template file to a version for our use.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cp config.auto.pkrvars.hcl.template config.auto.pkrvars.hcl
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I next used a little trial and error to follow Mayfly277&#39;s instructions on modifying config.auto.pkrvars.hcl.  Mayfly277 says &amp;quot;&lt;em&gt;The config.auto.pkrvars.hcl file will contain all the informations [sic] needed by packer to contact the proxmox api.&lt;/em&gt;&amp;quot;  To interpret that a bit, I changed the following in the file:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&amp;quot;proxmox_url&amp;quot; -&amp;gt; I set this to the gateway of GOAD LAN &lt;code&gt;192.168.2.1:8006&lt;/code&gt; so that it&#39;d be translated by NAT to Proxmox as we completed in &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;part 1&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;quot;proxmox_username&amp;quot; -&amp;gt; change this to the user you created above&lt;/li&gt;
-&lt;li&gt;&amp;quot;proxmox_password&amp;quot; -&amp;gt; change this to the user you created above&lt;/li&gt;
-&lt;li&gt;&amp;quot;proxmox_node&amp;quot; -&amp;gt; changed to the name of the home Proxmox node&lt;/li&gt;
-&lt;li&gt;&amp;quot;proxmox_vm_storage&amp;quot; -&amp;gt; storage for the machines you&#39;ll create&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;creating-custom-isos-for-the-template&quot;&gt;Creating Custom ISOs for the Template&lt;/h3&gt;
-&lt;p&gt;For this step we&#39;ll create an ISO file for use with the template through a custom script that is located in the GOAD repository on the provisioner machine.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /root/GOAD/packer/proxmox/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;./build_proxmox_iso.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Mayfly277 &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files&quot;&gt;describes what&#39;s going on&lt;/a&gt; with the script and understands it far better than I do.  If you&#39;d like to understand the inner workings before running it, head over &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part2-packer/#prepare-iso-files&quot;&gt;there&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Once the script runs and the ISO file has been created, we&#39;ll transfer it to Proxmox with scp.  For this step, Mayfly277 remarks &amp;quot;&lt;em&gt;the cloudinit iso file is pretty large we will copy it from the proxmox ssh access&lt;/em&gt;.&amp;quot;  However, if you set up key-only access to the provisioner in the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-11-provisioner&quot;&gt;previous post in this series&lt;/a&gt;, you won&#39;t be able to use scp.  You can do the unthinkable and transfer the private key you use to access the provisioner container to your Proxmox host in order to do this.  But that&#39;d be a bad habit to get into, even if only on your LAN. It may be better practice to simply set up a password for SSH on the provisioner container.&lt;/p&gt;
-&lt;p&gt;To transfer using scp and a password, enter the Proxmox command line.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ssh goadproxmox
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;scp &amp;lt;SOME_PROXMOX_USER&amp;gt;@&amp;lt;SOME_PROXMOX_IP&amp;gt;:/root/GOAD/packer/proxmox/iso/scripts_withcloudinit.iso /var/lib/vz/template/iso/scripts_withcloudinit.iso
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now SSH into your Proxmox machine and download the &lt;a href=&quot;https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso&quot;&gt;virtio-win.iso&lt;/a&gt; file that has drivers for Windows VMs hosted on Linux hypervisors.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /var/lib/vz/template/iso 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;With that you should have ISOs named &amp;quot;scripts_withcloudinit.iso&amp;quot; and &amp;quot;virtio-win.iso&amp;quot; visible in your Proxmox WUI storage.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-11_10-14.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;modifying-packer-pkr-hcl&quot;&gt;Modifying packer.pkr.hcl&lt;/h3&gt;
-&lt;p&gt;Mayfly277 says &amp;quot;&lt;em&gt;A generic packer.pkr.hcl file is present in GOAD folder&lt;/em&gt; .&amp;quot;  That path is &lt;code&gt;/root/GOAD/packer/proxmox/packer.json.pkr.hcl&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;I modified the packer.pkr.hcl file so that the &amp;quot;vlan_tag&amp;quot; entry read &amp;quot;30&amp;quot; according to how I set up the networking in my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&quot;modifying-the-individual-computer-config-files&quot;&gt;Modifying the Individual Computer Config Files&lt;/h3&gt;
-&lt;p&gt;Next we&#39;ll modify the packer files for the individual templates.  Before we begin, it&#39;d be helpful to have the sha256 hashes for a couple of dependent files referenced in the packer files.  To collect those, head to the provisioner machine.&lt;/p&gt;
-&lt;p&gt;On the provisioner, change directories, and note the hashes produced by the following commands:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /root/GOAD/packer/proxmox/iso
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;sha256sum Autounattend_winserver2016_cloudinit.iso
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;sha256sum Autounattend_winserver2019_cloudinit.iso
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we&#39;ll modify the packer files, starting with the 2016 .hcl file:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /root/GOAD/packer/proxmox
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Use your favorite text editor to open &lt;code&gt;windows_server2016_proxmox_cloudinit.pkvars.hcl&lt;/code&gt; (I use vi/vim).&lt;/p&gt;
-&lt;p&gt;I left most settings in that file alone.  Do enter the hash you derived for the Autounattend_winserver2016_cloudinit.iso into the field &amp;quot;autounattend_checksum&amp;quot;.  I also had an issue when running Packer in the next step where the error message mentioned no file type.  Eventually I appended the following line to make it work:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;vm_disk_format = &amp;quot;qcow2&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then do the same process but using the second hash for the file windows_server2019_proxmox_cloudinit.pkvars.hcl.&lt;/p&gt;
-&lt;p&gt;Here are the specs for the two files that I ended up with.  The 2016 .hcl file appears below as the first screenshot, and the 2019 .hcl file appears below as the second.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-11_10-23.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-11_10-23_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;create-the-templates&quot;&gt;Create the Templates&lt;/h2&gt;
-&lt;p&gt;Now we&#39;re ready to launch the packer template builds for the 2016 and 2019 templates that will later be used to create the VMs.&lt;/p&gt;
-&lt;p&gt;Initialize packer,&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;packer init .
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Validate the file, and then build for each respectively.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;packer validate -var-file=windows_server2019_proxmox_cloudinit.pkvars.hcl .
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;packer build -var-file=windows_server2019_proxmox_cloudinit.pkvars.hcl .
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;packer validate -var-file=windows_server2016_proxmox_cloudinit.pkvars.hcl .
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;packer build -var-file=windows_server2016_proxmox_cloudinit.pkvars.hcl .
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If that all goes well, you should be able to see two template VMs in your Proxmox WUI that correspond to the 2016 and 2019 files we modified.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_15-41.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;template-creation-complete&quot;&gt;Template Creation Complete&lt;/h2&gt;
-&lt;p&gt;With that we&#39;ve created the templates and are ready to create machines with Terraform in the next entry of this series.&lt;/p&gt;
-&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
