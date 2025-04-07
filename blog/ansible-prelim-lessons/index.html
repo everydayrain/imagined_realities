@@ -113,20 +113,21 @@ Dark
 <p>One of the trickiest parts of getting started with Ansible has been figuring out how Ansible handles a remote host's password prompts for activities requiring sudo privileges. To remedy this, I created an <code>ansible-vault</code> file with the sudo password.</p>
 <p>The steps weren't complicated, but how they all fit together was unclear. First, I created a file that would store my password, encrypted, with the dedicated Ansible command.</p>
 <pre class="language-shell" tabindex="0"><code class="language-shell">ansible-vault create <span class="token operator">&lt;</span>SOME_FILE.yaml<span class="token operator">></span></code></pre>
-<p>When the command runs it'll prompted me to create an Ansible vault password for use in decrypting the file. I saved that Ansible Vault password somewhere safe.</p>
-<p>Then, to take advantage of that stored password when prompted by the remote host during Ansible's run I had to specify path to that password file in a playbook.</p>
-<p>Say, for example, I wanted to ensure the correct timezone was set on a remote host. I might create the following task in a playbook.</p>
+<p>When the command runs it prompted me to create an Ansible vault password for use in decrypting the file. I saved that Ansible Vault password somewhere safe.</p>
+<p>To take advantage of that stored password (i.e. when the remote host prompts during Ansible's run) I next had to specify the path to that password file in my playbook.</p>
+<p>Say, for example, I wanted to ensure the correct timezone was set on a remote host. I might create the following task in some playbook.</p>
 <pre class="language-yaml" tabindex="0"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Set timezone to Los_Angeles
  <span class="token key atrule">become</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
  <span class="token key atrule">community.general.timezone</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> America/Los_Angeles</code></pre>
-<p>The <code>become: true</code> ensures that the task will seek elevated privileges to carry out the timezone change, but it won't have the password for sudo. To add that, I included the following after <code>become:true</code>:</p>
+<p>The <code>become: true</code> ensures that the task will seek elevated privileges to carry out the timezone change, but it won't have the password for sudo on the remote host. To give Ansible the sudo password, I included the following after <code>become:true</code>:</p>
 <pre class="language-yaml" tabindex="0"><code class="language-yaml"> 
  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
   <span class="token key atrule">ansible_become_password</span><span class="token punctuation">:</span> <span class="token string">"{{ lookup('ansible.builtin.file', '/PATH/TO/SECRET/PASSWORD/FILE.yml') }}"</span>
  </code></pre>
-<p>The <code>ansible_become_password</code> variable ensured Ansible seeks out the password file I created to complete the sudo password prompt.</p>
-<p>Now I was ready to run the playbook. To run the Ansible playbook with that task, I made sure to add <code>--ask-vault-pass</code> as a parameter to the <code>ansible-playbook</code> command, ensuring Ansible would obtain the Vault password needed decrypt the file containing the sudo password when it reached the task.</p>
+<p>That <code>ansible_become_password</code> variable ensured Ansible sought out the password file I created to complete the sudo password prompt.</p>
+<p>Now I was ready to run the playbook.  The last piece involved making sure I added <code>--ask-vault-pass</code> as a parameter to the <code>ansible-playbook</code> command.  That ensured that Ansible would prompt me for the Vault password needed decrypt the file containing the sudo password and use the sudo password in setting the time.</p>
+<p>Simple right?</p>
 
 
 </heading-anchors>
