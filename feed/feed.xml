@@ -15,25 +15,25 @@
     <link href="https://christopherbauer.org/blog/ansible-prelim-lessons/" />
     <updated>2025-04-04T00:00:00Z</updated>
     <id>https://christopherbauer.org/blog/ansible-prelim-lessons/</id>
-    <content type="html">&lt;p&gt;Ansible has fair documentation. Many of the docs however focus narrowly on a given command and its functions. While this can be useful to a seasoned user, some, such as &lt;a href=&quot;https://docs.ansible.com/ansible/latest/vault_guide/index.html&quot; class=&quot;primary&quot;&gt;Ansible&#39;s Vault docs&lt;/a&gt;  don&#39;t provide the larger context on how a &lt;code&gt;ansible-vault&lt;/code&gt; encrypted sudo password is incorporated and deployed in a playbook in conjunction with the Ansible vault password.  In this post I&#39;m offering a quick write up of my understanding of this context from early in my study of Ansible.&lt;/p&gt;
+    <content type="html">&lt;p&gt;Ansible has fair documentation. Many of the docs however focus narrowly on a given command and its functions. While this can be useful to a seasoned user, some, such as &lt;a href=&quot;https://docs.ansible.com/ansible/latest/vault_guide/index.html&quot; class=&quot;primary&quot;&gt;Ansible&#39;s Vault docs&lt;/a&gt;  don&#39;t provide the larger context on how a &lt;code&gt;ansible-vault&lt;/code&gt; encrypted sudo password is incorporated and deployed in a playbook in conjunction with the Ansible vault password. In this post I&#39;m offering a quick write up of my understanding of this context from early in my study of Ansible.&lt;/p&gt;
 &lt;h2 id=&quot;when-sudo-requires-a-password&quot;&gt;When Sudo Requires a Password&lt;/h2&gt;
-&lt;p&gt;One of the trickiest parts of getting started with Ansible has been figuring out how Ansible handles a remote host&#39;s password prompts for activities requiring sudo privileges.  To remedy this, you&#39;ll create an ansible-vault file with the sudo password.&lt;/p&gt;
-&lt;p&gt;First, create a file that will store your password, encrypted, with the dedicated Ansible command.&lt;/p&gt;
+&lt;p&gt;One of the trickiest parts of getting started with Ansible has been figuring out how Ansible handles a remote host&#39;s password prompts for activities requiring sudo privileges. To remedy this, I created an &lt;code&gt;ansible-vault&lt;/code&gt; file with the sudo password.&lt;/p&gt;
+&lt;p&gt;The steps weren&#39;t complicated, but how they all fit together was unclear. First, I created a file that would store my password, encrypted, with the dedicated Ansible command.&lt;/p&gt;
 &lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;ansible-vault create &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;SOME_FILE.yaml&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;When the command runs it&#39;ll prompt you to create an Ansible vault password for use in decrypting the file.  You&#39;ll want to save that Ansible Vault password somewhere safe.&lt;/p&gt;
-&lt;p&gt;Then, to take advantage of that stored password when prompted by the remote host during Ansible&#39;s run you&#39;ll have to specify path to that password file in a playbook.&lt;/p&gt;
-&lt;p&gt;Say for example you wanted to ensure the correct timezone was set on a remote host.  You might create the following task in your playbook.&lt;/p&gt;
+&lt;p&gt;When the command runs it&#39;ll prompted me to create an Ansible vault password for use in decrypting the file. I saved that Ansible Vault password somewhere safe.&lt;/p&gt;
+&lt;p&gt;Then, to take advantage of that stored password when prompted by the remote host during Ansible&#39;s run I had to specify path to that password file in a playbook.&lt;/p&gt;
+&lt;p&gt;Say, for example, I wanted to ensure the correct timezone was set on a remote host. I might create the following task in a playbook.&lt;/p&gt;
 &lt;pre class=&quot;language-yaml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Set timezone to Los_Angeles
-  &lt;span class=&quot;token key atrule&quot;&gt;become&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;
-  &lt;span class=&quot;token key atrule&quot;&gt;community.general.timezone&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; America/Los_Angeles&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;become: true&lt;/code&gt; ensures that the task will seek elevated privileges to carry out the timezone change, but it won&#39;t have the password for sudo.  To add that, include the following below &lt;code&gt;become:true&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&quot;language-yaml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;  
-  &lt;span class=&quot;token key atrule&quot;&gt;vars&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;token key atrule&quot;&gt;ansible_become_password&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{{ lookup(&#39;ansible.builtin.file&#39;, &#39;/PATH/TO/SECRET/PASSWORD/FILE.yml&#39;) }}&quot;&lt;/span&gt;
-  &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;ansible_become_password&lt;/code&gt; variable will ensure Ansible seeks out the password file you&#39;ve created to complete the sudo password prompt.&lt;/p&gt;
-&lt;p&gt;Now you are ready to run the playbook.  To run the Ansible playbook with that task make sure that you enter &lt;code&gt;--ask-vault-pass&lt;/code&gt; as a parameter to the &lt;code&gt;ansible-playbook&lt;/code&gt; command to ensure that Ansible obtains the Vault password and so decrypt the file containing the sudo password.&lt;/p&gt;
+ &lt;span class=&quot;token key atrule&quot;&gt;become&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;
+ &lt;span class=&quot;token key atrule&quot;&gt;community.general.timezone&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; America/Los_Angeles&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;become: true&lt;/code&gt; ensures that the task will seek elevated privileges to carry out the timezone change, but it won&#39;t have the password for sudo. To add that, I included the following after &lt;code&gt;become:true&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-yaml&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt; 
+ &lt;span class=&quot;token key atrule&quot;&gt;vars&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;ansible_become_password&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{{ lookup(&#39;ansible.builtin.file&#39;, &#39;/PATH/TO/SECRET/PASSWORD/FILE.yml&#39;) }}&quot;&lt;/span&gt;
+ &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;ansible_become_password&lt;/code&gt; variable ensured Ansible seeks out the password file I created to complete the sudo password prompt.&lt;/p&gt;
+&lt;p&gt;Now I was ready to run the playbook. To run the Ansible playbook with that task, I made sure to add &lt;code&gt;--ask-vault-pass&lt;/code&gt; as a parameter to the &lt;code&gt;ansible-playbook&lt;/code&gt; command, ensuring Ansible would obtain the Vault password needed decrypt the file containing the sudo password when it reached the task.&lt;/p&gt;
 </content>
   </entry>
   <entry>
