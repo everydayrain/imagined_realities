@@ -16,7 +16,7 @@ Installing and configuring a {% linkprimary "Caddy", "https://caddyserver.com/" 
 
 ## Hostname Provisioning is Homeprod
 
-I've recently discovered how critical a reverse proxy is when using domain names and TLS. I've been homelabbing for a few years now, but I've only recently moved to making production-level services available to extended family. As any good homeprodder knows, that means hostnames instead of IPs and TLS. So far so good, just set up {% linkprimary "Nginx-Reverse-Proxy", "https://nginxproxymanager.com/" %} with Cloudflare DNS challenge and you're good to go, right? Well, my version of Nginx-Reverse-Proxy lived on a server I didn't keep powered on at production-level five nines. As the number of services I'm hosting has multiplied, and the number of users has also grown, I found myself in a situation where the sudden disappearance of a hostname immediately causes a lot of problems.
+I've recently discovered how critical a reverse proxy is when using domain names and TLS. I've been homelabbing for a few years now, but I've only recently moved to making production-level services available to extended family. As any good {% linkprimary "homeprodder", "https://awfulwoman.com/notes/2024/11/homeprod-not-homelab/" %} knows, that means hostnames instead of IPs and TLS. So far so good, just set up {% linkprimary "Nginx-Reverse-Proxy", "https://nginxproxymanager.com/" %} with Cloudflare DNS challenge and you're good to go, right? Well, my version of Nginx-Reverse-Proxy lived on a server I didn't keep powered on at production-level five nines. As the number of services I'm hosting has multiplied, and the number of users has also grown, I found myself in a situation where the sudden disappearance of a hostname immediately causes a lot of problems.
 
 If the hostname disappears, its as though the service has disappeared, and that is true not only for people unable to reach those services but also for automation. Any sort of monitoring solution will go a bit nuts if not made aware hostnames suddenly dropping off the radar, even if the underlying service is still responsive. Cron starts clogging up logs. Not to mention that I can no longer remember off-hand what the IP of a service is when there are dozens operating. That means manual troubleshooting when hostnames go missing is harder than it once was as well. Needless to say, it quickly became evident that offering hostnames by way of a reverse proxy needed to become a full time operation.
 
@@ -30,11 +30,12 @@ This guide will assume the reader is familiar with the linux command line, has a
 
 To use Caddy with the Cloudflare DNS you have to {% linkprimary "download a custom Caddy binary", "https://caddyserver.com/download" %} that builds in the dns.providers.cloudflare plugin to the finished product. Once you've downloaded the binary, you can use {% linkprimary "this docs page", "https://caddyserver.com/docs/running#manual-installation" %} for instructions on how to proceed.
 
-To quickly recap my steps, I placed the downloaded binary in my path and added a group and user with parameters tailored to Caddy. I made sure the binary in `/usr/bin/` was executable by world. Next I {% linkprimary "created a systemd unit file", "https://github.com/caddyserver/dist/blob/master/init/caddy.service" %}. According to {% linkprimary "the docs", "https://caddyserver.com/docs/running#manual-installation" %} , I selected the systemd caddy.service (non-api) unit file type, went to its github page, and manually entered that code into a file:`/etc/systemd/system/caddy.service`.
+To quickly recap my steps, I placed the downloaded binary in my path and added a group and user with parameters tailored to Caddy. I made sure the binary in `/usr/bin/` was executable by world. Next I {% linkprimary "created a systemd unit file", "https://github.com/caddyserver/dist/blob/master/init/caddy.service" %}. According to {% linkprimary "the docs", "https://caddyserver.com/docs/running#manual-installation" %}, I selected the systemd caddy.service (non-api) unit file type, went to its github page, and manually entered that code into a file:`/etc/systemd/system/caddy.service`.
 
 ## Creating the Caddyfile
 
 I then created a Caddyfile at `/etc/caddy/Caddyfile`, with the following initial wildcard certificate DNS request to Cloudflare based on [this format](https://caddyserver.com/docs/caddyfile/patterns#wildcard-certificates).  Below I offer an example of what this Caddyfile can look like.  The example sets up the DNS challenge for TLS and then creates proxies for hypothetical Plex and Nextcloud instances. Readers can add or modify according to their needs.
+
 
 ```shell
 *.example.com {
@@ -51,6 +52,10 @@ I then created a Caddyfile at `/etc/caddy/Caddyfile`, with the following initial
         handle @nextcloud {
                 reverse_proxy <NEXTCLOUD_IP:PORT>
         }
+
+        log {
+                output file /var/log/caddy/<SOME_FILENAME>.log
+        }
 }
 ```
 
@@ -58,4 +63,6 @@ Whenever you update that file, be sure to reload Caddy using `systemctl reload c
 
 ## Conclusion
 
-I spent a few more minutes than I would have liked trying to sort out the Caddyfile's particulars. They weren't hard to get right, but the documentation wasn't immediately clear either. Hope this saves you a few minutes somewhere down the line. Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}.
+I spent a few more minutes than I would have liked trying to sort out the Caddyfile's particulars. They weren't hard to get right, but the documentation wasn't immediately clear either. Hope this saves you a few minutes somewhere down the line. 
+
+Should you want to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}.
