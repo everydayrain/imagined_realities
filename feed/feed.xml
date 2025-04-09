@@ -5,11 +5,39 @@
   <subtitle>Cyber Security and Stray Thoughts.</subtitle>
   <link href="https://christopherbauer.org/feed/feed.xml" rel="self" />
   <link href="https://christopherbauer.org/" />
-  <updated>2025-04-04T00:00:00Z</updated>
+  <updated>2025-04-09T00:00:00Z</updated>
   <id>https://christopherbauer.org/</id>
   <author>
     <name>Christopher Bauer</name>
   </author>
+  <entry>
+    <title>Brief Thoughts on the 2025 Sophos Report</title>
+    <link href="https://christopherbauer.org/blog/sophos-2025/" />
+    <updated>2025-04-09T00:00:00Z</updated>
+    <id>https://christopherbauer.org/blog/sophos-2025/</id>
+    <content type="html">&lt;p&gt;This is reprint of my mastodon post of 4/7/25.&lt;/p&gt;
+&lt;p&gt;Okay, a couple of folks I follow have written about the 2025 Sophos Active Adversary Report but I want to underscore their thoughts and draw attention to few other items.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Regarding the &amp;quot;lede&amp;quot; about median dwell times falling to two days: its difficult to assess, when Sophos only offers a single simple statistical measure, the significance of that figure Simple statistics should always be reported together to give the reader a more accurate sense of were the median falls in the distribution.  With the median alone, I can&#39;t tell if its tightly coupled with the average or whether odd outliers were skewing things.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Others have commented, with good reason, on the prevalence of uncomplicated root causes such as credential compromise and exploits.  Sophos repeatedly and rightly bangs the MFA drum as well.  The majority of these cases seem like bread and butter stuff for blue teams.  That is not to pass blame but suggest that there&#39;s plenty to do before we get to super hackers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Speaking of MFA, 64% of victims did not have MFA configured in 2024.  This is the first shocking statistic.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;quot;logs were missing in 47% of cases&amp;quot; This is the second.  That figure is really striking to me, though the breakdown is not all down to attackers deleting their trails.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;business processes and change management vs security: I feel as though I hear quite a lot about how security is a cost center.  I think this report comes squarely down on the side of &amp;quot;if there isn&#39;t adequate security, there won&#39;t a business process to carry out.&amp;quot;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All in all an interesting report.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://news.sophos.com/en-us/2025/04/02/2025-sophos-active-adversary-report&quot; class=&quot;primary&quot;&gt;Here is the link&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Lessons Learned on Ansible Vault</title>
     <link href="https://christopherbauer.org/blog/ansible-prelim-lessons/" />
@@ -681,65 +709,6 @@ Your interface assignments will then look something like this:
 &lt;p&gt;Mayfly277 offers &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part4-ansible/#create-snapshots&quot;&gt;a bevy of bash variables and a for loop&lt;/a&gt; to create snapshots of the newly configured machines on the Proxmox command line. This is the faster way, though you can take snapshots manually by going to each of the five machines in the web user interface (WUI) and selecting the Snapshots option in the middle menu column and the &amp;quot;Take Snapshot&amp;quot; button.&lt;/p&gt;
 &lt;h2 id=&quot;configuration-complete&quot;&gt;Configuration Complete&lt;/h2&gt;
 &lt;p&gt;That wraps up the deployment section. Next we&#39;ll configure a vpn tunnel allowing us to connect an attacking machine to the internal network.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Installing Game of Active Directory on Proxmox: Part 4 - Terraform</title>
-    <link href="https://christopherbauer.org/blog/2024-11-17-goad-terraform/" />
-    <updated>2024-11-17T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2024-11-17-goad-terraform/</id>
-    <content type="html">&lt;p&gt;This is part 4 of of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-14-templates&quot;&gt;third installment&lt;/a&gt; I covered preparing templates and creating them in packer in preparation of creating the GOAD machines. In this post we&#39;ll deploy the domain and its machines using Terraform.&lt;/p&gt;
-&lt;p&gt;As I mentioned before, I&#39;m deeply indebted to Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
-&lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
-&lt;h3 id=&quot;proxmox&quot;&gt;Proxmox&lt;/h3&gt;
-&lt;p&gt;First, as Mayfly277 says, &amp;quot;we will go dirty&amp;quot; by giving admin privileges to the user we created in &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-14-templates&quot;&gt;part 3&lt;/a&gt;. On the command line of the Proxmox machine, change the infra_as_code user&#39;s privileges to admin.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pveum acl modify / -user &#39;infra_as_code@pve&#39; -role Administrator
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&quot;specifying-terraform-variables&quot;&gt;Specifying Terraform Variables&lt;/h3&gt;
-&lt;h4 id=&quot;variables-tf&quot;&gt;Variables.tf&lt;/h4&gt;
-&lt;p&gt;Next we&#39;re going to set up a Terraform file with some initial variables for the build on the provisional machine.&lt;/p&gt;
-&lt;p&gt;Log on to the provisioner.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ssh goadprovisioner
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Make an active copy of the Terraform variables file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cd /root/GOAD/ad/GOAD/providers/proxmox/terraform
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;cp variables.tf.template variables.tf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next we&#39;ll modify the file to our specifications. Mayfly277 &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part3-terraform/#configure-terraform&quot;&gt;lays out the full specifications&lt;/a&gt; in the code, so rather than reproduce the entire file, I&#39;ll simply review what I changed. I had to modify the following in the variables.tf file.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;the vlan tag (according to my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, yours may differ)&lt;/li&gt;
-&lt;li&gt;node name&lt;/li&gt;
-&lt;li&gt;gateway address&lt;/li&gt;
-&lt;li&gt;password&lt;/li&gt;
-&lt;li&gt;storage&lt;/li&gt;
-&lt;li&gt;id numbers for the vms created&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;goad-tf&quot;&gt;Goad.tf&lt;/h4&gt;
-&lt;p&gt;Now we&#39;ll modify the goad.tf file in the same directory.&lt;/p&gt;
-&lt;p&gt;I had to modify that file under the section starting with &lt;em&gt;&lt;code&gt;variable &amp;quot;vm_config&amp;quot;&lt;/code&gt;&lt;/em&gt;. I changed the static IPs of the five machines to reflect the VLAN subnet they were on (according to my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions this step will be unnecessary).&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-10-28_15-37.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;deploy-the-ad-vms&quot;&gt;Deploy the AD VMs&lt;/h2&gt;
-&lt;p&gt;Now we&#39;re ready to create the VM&#39;s using Terraform. We&#39;ll first initialize, then run a plan to create an output for the Terraform run.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;terraform init
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;terraform plan -out goad.plan
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we&#39;ll run the Terraform plan. Mayfly277 reports this took 25 minutes. That seems about what mine took. Also, I did have to run it more than once, but ultimately it did work.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;terraform apply &amp;quot;goad.plan&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you should see five new VMs withe the names you specified in goad.tf in the Proxmox web user interface.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-14_15-16.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Troubleshooting note: if you find that it takes an unacceptably long time to complete the Terraform build, ask yourself what storage you selected in &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-14-templates&quot;&gt;part 3&lt;/a&gt; when you modified the config.auto.pkrvars.hcl file. If it wasn&#39;t local-lvm, that might have something to do with it.&lt;/p&gt;
-&lt;h2 id=&quot;deployment-complete&quot;&gt;Deployment Complete&lt;/h2&gt;
-&lt;p&gt;That wraps up the deployment section. Next we&#39;ll configure the AD machines using Ansible.&lt;/p&gt;
-&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;Mayfly277&#39;s blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Orange-Cyberdefense&#39;s &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;quot; &amp;quot; &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/install_with_proxmox.md&quot;&gt;proxmox instructions&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </content>
   </entry>
 </feed>
