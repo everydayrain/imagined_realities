@@ -142,6 +142,10 @@ Dark
         handle @nextcloud <span class="token punctuation">{</span>
                 reverse_proxy <span class="token operator">&lt;</span>NEXTCLOUD_IP:PORT<span class="token operator">></span>
         <span class="token punctuation">}</span>
+
+        log <span class="token punctuation">{</span>
+                output <span class="token function">file</span> /var/log/caddy/<span class="token operator">&lt;</span>SOME_FILENAME<span class="token operator">></span>.log
+        <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>Whenever you update that file, be sure to reload Caddy using <code>systemctl reload caddy</code> rather than Caddy's command line commands.</p>
 <h2 id="conclusion">Conclusion</h2>

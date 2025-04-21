@@ -101,6 +101,10 @@
         handle @nextcloud &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
                 reverse_proxy &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;NEXTCLOUD_IP:PORT&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        log &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                output &lt;span class=&quot;token function&quot;&gt;file&lt;/span&gt; /var/log/caddy/&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;SOME_FILENAME&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;.log
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Whenever you update that file, be sure to reload Caddy using &lt;code&gt;systemctl reload caddy&lt;/code&gt; rather than Caddy&#39;s command line commands.&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
