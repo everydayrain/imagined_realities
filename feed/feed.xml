@@ -229,7 +229,7 @@ WantedBy=multi-user.target
 &lt;p&gt;With that, you should be able to connect.  Head back up to the hamburger in the top right and select &amp;quot;Home&amp;quot; from the drop down.  Now you should see a new clickable entry with your title for Kali.  Simply click and you should begin the connection process.  With any luck that will successfully connect and you&#39;re in business!&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;Installing Guacamole is a bit of an investment in your time, especially when you consider that Proxmox&#39;s SPICE option might work well for you.  For my circumstances however, it was worth it to build and write up this guide if only to build some familiarity with Guacamole.&lt;/p&gt;
-&lt;p&gt;If you&#39;d like to connect, feel free reach out on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;If you&#39;d like to connect, feel free to reach out on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon&lt;/a&gt; .&lt;/p&gt;
 </content>
   </entry>
   <entry>
