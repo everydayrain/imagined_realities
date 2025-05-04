@@ -26,7 +26,7 @@ Overview in Brief:
 
 ## What to do About Frequent Kali Crashes?
 
-When I was working on my OSCP certification, I frequently encountered Kali crashes.  For those unfamiliar, Kali crashes seem to be commonly accepted, as though they were a "fact of life" among Kali users.  In my case, downloading a bunch of exploit code probably didn't help stability of the OS, but I'd noticed that even fresh installs of Kali were sometimes wonky.  Maybe it was my IaaS/vm install method, I'm not laying blame here.  Bottom line was that I made sure I put in place an automated way to get a new copy of Kali up and running, typically through a VM.  This came to be seared into my brain as table stakes for running Kali.  
+When I was working on my OSCP certification, I frequently encountered Kali crashes.  For those unfamiliar, Kali crashes seem to be commonly accepted, as though they were a "fact of life" among Kali users.  In my case, downloading a bunch of exploit code probably didn't help stability of the OS, but I'd noticed that even fresh installs of Kali were sometimes wonky.  Maybe it was my IaC/VM install method, I'm not laying blame here.  Bottom line was that I made sure I put in place an automated way to get a new copy of Kali up and running, typically through a VM.  This came to be seared into my brain as table stakes for running Kali.  
 
 Up to now my solution to this combines Vagrant with VMWare Workstation on my primary machine.  Of course installing is only half the problem.  A fresh OS install still leaves you with a pile of work on configs and preference settings. What about my bespoke command notes and CLI history?  What about my CLI preferences  like vim keybinds, fzf search, or auto complete?  What about config files for tools like Feroxbuster or my Neovim config to make code easier to read?  There is a lot of provisioning required, as I'm sure readers know.  I've started moving my provisioning methods over to Ansible.  
 
@@ -431,4 +431,4 @@ With that, you should be able to connect.  Head back up to the hamburger in the 
 ## Conclusion
 Installing Guacamole is a bit of an investment in your time, especially when you consider that Proxmox's SPICE option might work well for you.  For my circumstances however, it was worth it to build and write up this guide if only to build some familiarity with Guacamole.  
 
-If you'd like to connect, feel free reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}.
+If you'd like to connect, feel free to reach out on {% linkprimary "Mastodon", "https://infosec.exchange/@anthro_packets" %}.
