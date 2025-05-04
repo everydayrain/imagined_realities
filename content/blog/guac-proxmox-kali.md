@@ -7,7 +7,8 @@ tags:
   - kali
   - guacamole
 ---
-{% imagesmall '/img/2025-05-03_10-48.png', "" %}
+
+{% imagesmall '/img/2025-05-03_10-48.png', '' %}
 
 In this post I describe why I installed Apache Guacamole (non-Docker) to connect to a Kali VM and how I did so.  I envision this post as part of a series in which I migrate from using Vagrant with VMWare workstation to Proxmox with OpenTofu and Ansible.
 
@@ -17,7 +18,7 @@ In this post I describe why I installed Apache Guacamole (non-Docker) to connect
 Overview in Brief:
 - {% linkprimary "What to do About Frequent Kali Crashes?", "https://christopherbauer.org/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes" %}
 - {% linkprimary "Solution Design", "https://christopherbauer.org/blog/guac-proxmox-kali/#solution-design" %}
-- {% linkprimary "No Docker?", "https://christopherbauer.org/blog/FILE_NAME/#HEADING" %}
+- {% linkprimary "No Docker?", "https://christopherbauer.org/blog/guac-proxmox-kali/#no-docker" %}
 - {% linkprimary "Install Guide", "https://christopherbauer.org/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole" %}
 
 <br> 

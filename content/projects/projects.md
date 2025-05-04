@@ -2,6 +2,8 @@
 title: Projects
 ---
 
+- {% linksecondary  "Addressing Kali Crashes - Guacamole for Remote Desktop with Proxmox VMs", "https://christopherbauer.org/blog/guac-proxmox-kali" %}
+
 - {% linksecondary  "Tips for Installing Graylog on a Proxmox VM", "https://christopherbauer.org/blog/graylog-revised/" %}
 
 - {% linksecondary  "Installing VSFTPD in a Proxmox Container", "https://christopherbauer.org/blog/2025-01-07-vsftpd/" %}
