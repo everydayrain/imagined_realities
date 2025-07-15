@@ -1,5 +1,5 @@
 ---
-title: Imagined Realities
+title: Christopher Carter Bauer
 description: Cyber Security and Stray Thoughts
 ---
 
