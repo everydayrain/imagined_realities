@@ -4,11 +4,10 @@ favicon: "/img/mug.svg"
 image: "/img/meow_tea2.png"
 language: "en"
 locale: "en_US"
-url: "https://christopherbauer.org"
+url: "https://christopherbauer.xyz"
 color: primary # use secondary , primary or contrast
 metasocial:
-  - twitter: "https://x.com/user"
-  - mastodon:
+  - mastodon: "https://infosec.exchange/@anthro_packets"
 # nav_title: "ImgReal"
 navbar:
   #- nav: "Home"
@@ -24,8 +23,8 @@ navbar:
 footer:
   text1: "and modified by"
   text2: Christopher Bauer
-  text2_link: https://christopherbauer.org
+  text2_link: https://christopherbauer.xyz
 author:
   name: "Christopher Bauer"
   email: "bauer.christopher@gmail.com"
-  url: "https://christopherbauer.org"
+  url: "https://christopherbauer.xyz"
