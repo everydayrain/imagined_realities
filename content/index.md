@@ -8,7 +8,7 @@ description: Cyber Security and Stray Thoughts
 
 {% image "/img/meow_tea2.png" , "Blob cat with tea" %}
 
-Hi and welcome to my blog.
+Hi and welcome to my website.
 
 <br>
 <br>
