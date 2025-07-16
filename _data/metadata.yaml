@@ -1,5 +1,5 @@
-title: "Imagined Realities"
-# description: "A blog by Chris Bauer"
+title: "Christopher Carter Bauer"
+# description: "A  Chris Bauer"
 favicon: "/img/mug.svg"
 image: "/img/meow_tea2.png"
 language: "en"
@@ -9,7 +9,7 @@ color: primary # use secondary , primary or contrast
 metasocial:
   - twitter: "https://x.com/user"
   - mastodon:
-nav_title: "ImgReal"
+# nav_title: "ImgReal"
 navbar:
   #- nav: "Home"
   #  link: "/"
