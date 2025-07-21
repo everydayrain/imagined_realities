@@ -13,7 +13,7 @@ In my former career I earned my Ph.D. in cultural anthropology from Rutgers Univ
 
 Regarding the webside, you can find out about its title from [this blog post](https://christopherbauer.org/blog/2020-6-17-firstpost/).
 
-This is the second iteration of Imagined Realities. In its current form, it is built using {% linkprimary "Eleventy", "https://www.11ty.dev/" %} and the _11ty-wisp_ theme created by {% linkprimary "Adam DJ Brett", "https://github.com/adamdjbrett/11ty-wisp" %}. I don't have a computer science background, so it will perhaps appear inelegant to someone with a trained eye. Still, it's fun learning and building along the way. I will endeavor to keep this site free of ads and trackers to the extent that such goals are within my control and abilities.
+This is the second iteration of this website, formerly called Imagined Realities. In its current form, it is built using {% linkprimary "Eleventy", "https://www.11ty.dev/" %} and the _11ty-wisp_ theme created by {% linkprimary "Adam DJ Brett", "https://github.com/adamdjbrett/11ty-wisp" %}. I don't have a computer science background, so it will perhaps appear inelegant to someone with a trained eye. Still, it's fun learning and building along the way. I will endeavor to keep this site free of ads and trackers to the extent that such goals are within my control and abilities.
 
 My dissertation is published with ProQuest dissertations and theses. You can also find it filed in [Rutgers' archive](https://doi.org/doi:10.7282/t3-zkh7-ab91).
 
