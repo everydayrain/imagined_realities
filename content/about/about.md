@@ -1,5 +1,5 @@
 ---
-title: About Me & Imagined Realities
+title: About Me
 description: ""
 ---
 
