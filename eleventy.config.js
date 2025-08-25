@@ -64,7 +64,7 @@ export default async function (eleventyConfig) {
 			language: "en",
 			title: "Imagined Realities",
 			subtitle: "Cyber Security and Stray Thoughts.",
-			base: "https://christopherbauer.org/",
+			base: "https://christopherbauer.xyz/",
 			author: {
 				name: "Christopher Bauer",
 			},
