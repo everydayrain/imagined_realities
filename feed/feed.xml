@@ -3,19 +3,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>Imagined Realities</title>
   <subtitle>Cyber Security and Stray Thoughts.</subtitle>
-  <link href="https://christopherbauer.org/feed/feed.xml" rel="self" />
-  <link href="https://christopherbauer.org/" />
+  <link href="https://christopherbauer.xyz/feed/feed.xml" rel="self" />
+  <link href="https://christopherbauer.xyz/" />
   <updated>2025-05-02T00:00:00Z</updated>
-  <id>https://christopherbauer.org/</id>
+  <id>https://christopherbauer.xyz/</id>
   <author>
     <name>Christopher Bauer</name>
   </author>
   <entry>
     <title>Addressing Kali Crashes - Guacamole for Remote Desktop with Proxmox VMs</title>
-    <link href="https://christopherbauer.org/blog/guac-proxmox-kali/" />
+    <link href="https://christopherbauer.xyz/blog/guac-proxmox-kali/" />
     <updated>2025-05-02T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/guac-proxmox-kali/</id>
-    <content type="html">&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2025-05-03_10-48.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    <id>https://christopherbauer.xyz/blog/guac-proxmox-kali/</id>
+    <content type="html">&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2025-05-03_10-48.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;In this post I describe why I installed Apache Guacamole (non-Docker) to connect to a Kali VM and how I did so.  I envision this post as part of a series in which I migrate from using Vagrant with VMWare workstation to Proxmox with OpenTofu and Ansible.&lt;/p&gt;
 &lt;br&gt; 
 &lt;br&gt;
@@ -148,9 +148,9 @@ mysql-password: &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&g
 &lt;p&gt;Reload everything.&lt;/p&gt;
 &lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl restart tomcat9 guacd mysql&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The web UI should already be up but now it can accept your credentials.  Check the website at &lt;code&gt;http://&amp;lt;HOST_IP&amp;gt;:8080/guacamole&lt;/code&gt; and login with &lt;code&gt;guacadmin:guacadmin&lt;/code&gt;.&lt;/p&gt;
-&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Once you sign in, you&#39;ll face a screen like the following.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.org/img/2025-05-01_13-57.png&quot; alt=&quot;Guac mainscreen&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Guac mainscreen&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
-&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Head to the upper right corner where there is a drop down for guacadmin and select settings. To change the guacadmin password, create a user, or delete users select the user tab.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.org/img/2025-05-01_13-57_1.png&quot; alt=&quot;Users tab&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Users tab&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
-&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Make a new user with all the permissions boxes ticked, sign out and then back in as the new user, and finally delete the guacadmin user (or at minimum change the gaucadmin password).&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.org/img/2025-05-01_13-58.png&quot; alt=&quot;User creation&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;User creation&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Once you sign in, you&#39;ll face a screen like the following.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.xyz/img/2025-05-01_13-57.png&quot; alt=&quot;Guac mainscreen&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Guac mainscreen&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Head to the upper right corner where there is a drop down for guacadmin and select settings. To change the guacadmin password, create a user, or delete users select the user tab.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.xyz/img/2025-05-01_13-57_1.png&quot; alt=&quot;Users tab&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Users tab&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Make a new user with all the permissions boxes ticked, sign out and then back in as the new user, and finally delete the guacadmin user (or at minimum change the gaucadmin password).&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.xyz/img/2025-05-01_13-58.png&quot; alt=&quot;User creation&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;User creation&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
 &lt;br&gt; 
 &lt;br&gt;
 &lt;h3 id=&quot;installing-tigervnc-on-kali&quot;&gt;Installing TigerVNC on Kali&lt;/h3&gt;
@@ -223,9 +223,9 @@ WantedBy=multi-user.target
 &lt;br&gt;
 &lt;h3 id=&quot;creating-a-connection-in-guac&quot;&gt;Creating a Connection in Guac&lt;/h3&gt;
 &lt;p&gt;For this section credit is due to &lt;a href=&quot;https://www.kali.org/docs/general-use/guacamole-kali-in-browser/&quot; class=&quot;primary&quot;&gt;the official Kali docs on Guac.&lt;/a&gt;&lt;/p&gt;
-&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;To create a connection to Kali, sign into Guac at the address you used above.   Head to the settings in the dropdown at the upper right, and look for the connections tab.  Clicking on that tab will open a new pane with fields for the connection details.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.org/img/2025-05-03_10-52.png&quot; alt=&quot;Connections tab&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Connections tab&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
-&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;The most important section is labeled PARAMETERS.  Look for the Network sub-section.  Enter your Kali IP or hostname and the port you noted from above in that section.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.org/img/2025-05-03_10-55.png&quot; alt=&quot;Connections editing pane&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Connections editing pane&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
-&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Then for the Authentication sub-section, enter the user in Kali that started the VNC server and the password you created.  Finally, under the Display sub-section go to the line for Color depth and select True color (32-bit).&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.org/img/2025-05-03_10-44.png&quot; alt=&quot;Connections editing pane&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Connections editing pane&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;To create a connection to Kali, sign into Guac at the address you used above.   Head to the settings in the dropdown at the upper right, and look for the connections tab.  Clicking on that tab will open a new pane with fields for the connection details.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.xyz/img/2025-05-03_10-52.png&quot; alt=&quot;Connections tab&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Connections tab&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;The most important section is labeled PARAMETERS.  Look for the Network sub-section.  Enter your Kali IP or hostname and the port you noted from above in that section.&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.xyz/img/2025-05-03_10-55.png&quot; alt=&quot;Connections editing pane&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Connections editing pane&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;p&gt;Then for the Authentication sub-section, enter the user in Kali that started the VNC server and the password you created.  Finally, under the Display sub-section go to the line for Color depth and select True color (32-bit).&lt;/p&gt;&lt;/div&gt;&lt;div&gt;&lt;img loading=&quot;lazy&quot; src=&quot;https://christopherbauer.xyz/img/2025-05-03_10-44.png&quot; alt=&quot;Connections editing pane&quot; &quot;=&quot;&quot;&gt;&lt;p&gt;&lt;cite&gt;&lt;small&gt;Connections editing pane&lt;/small&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
 &lt;p&gt;With that, you should be able to connect.  Head back up to the hamburger in the top right and select &amp;quot;Home&amp;quot; from the drop down.  Now you should see a new clickable entry with your title for Kali.  Simply click and you should begin the connection process.  With any luck that will successfully connect and you&#39;re in business!&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;Installing Guacamole is a bit of an investment in your time, especially when you consider that Proxmox&#39;s SPICE option might work well for you.  For my circumstances however, it was worth it to build and write up this guide if only to build some familiarity with Guacamole.&lt;/p&gt;
@@ -234,9 +234,9 @@ WantedBy=multi-user.target
   </entry>
   <entry>
     <title>Brief Thoughts on the 2025 Sophos Report</title>
-    <link href="https://christopherbauer.org/blog/sophos-2025/" />
+    <link href="https://christopherbauer.xyz/blog/sophos-2025/" />
     <updated>2025-04-09T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/sophos-2025/</id>
+    <id>https://christopherbauer.xyz/blog/sophos-2025/</id>
     <content type="html">&lt;p&gt;This is reprint of my mastodon post of 4/7/25.&lt;/p&gt;
 &lt;p&gt;Okay, a couple of folks I follow have written about the 2025 Sophos Active Adversary Report but I want to underscore their thoughts and draw attention to few other items.&lt;/p&gt;
 &lt;ul&gt;
@@ -262,9 +262,9 @@ WantedBy=multi-user.target
   </entry>
   <entry>
     <title>Lessons Learned on Ansible Vault</title>
-    <link href="https://christopherbauer.org/blog/ansible-prelim-lessons/" />
+    <link href="https://christopherbauer.xyz/blog/ansible-prelim-lessons/" />
     <updated>2025-04-04T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/ansible-prelim-lessons/</id>
+    <id>https://christopherbauer.xyz/blog/ansible-prelim-lessons/</id>
     <content type="html">&lt;p&gt;Ansible has fair documentation. Many of the docs however focus narrowly on a given command and its functions. While this can be useful to a seasoned user, some, such as &lt;a href=&quot;https://docs.ansible.com/ansible/latest/vault_guide/index.html&quot; class=&quot;primary&quot;&gt;Ansible&#39;s Vault docs&lt;/a&gt;  don&#39;t provide the larger context on how a &lt;code&gt;ansible-vault&lt;/code&gt; encrypted sudo password is incorporated and deployed in a playbook in conjunction with the Ansible vault password. In this post I&#39;m offering a quick write up of my understanding of this context from early in my study of Ansible.&lt;/p&gt;
 &lt;h2 id=&quot;when-sudo-requires-a-password&quot;&gt;When Sudo Requires a Password&lt;/h2&gt;
 &lt;p&gt;One of the trickiest parts of getting started with Ansible has been figuring out how Ansible handles a remote host&#39;s password prompts for activities requiring sudo privileges. To remedy this, I created an &lt;code&gt;ansible-vault&lt;/code&gt; file with the sudo password.&lt;/p&gt;
@@ -289,9 +289,9 @@ WantedBy=multi-user.target
   </entry>
   <entry>
     <title>Caddy Reverse Proxy with TLS and Cloudflare DNS Challenge - A Caddyfile Example</title>
-    <link href="https://christopherbauer.org/blog/caddy-rev-proxy/" />
+    <link href="https://christopherbauer.xyz/blog/caddy-rev-proxy/" />
     <updated>2025-03-27T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/caddy-rev-proxy/</id>
+    <id>https://christopherbauer.xyz/blog/caddy-rev-proxy/</id>
     <content type="html">&lt;p&gt;Installing and configuring a &lt;a href=&quot;https://caddyserver.com/&quot; class=&quot;primary&quot;&gt;Caddy&lt;/a&gt;  webserver from a binary with a Caddyfile for a reverse-proxy was a little more involved than I expected. This post clarifies a single stage of this process by illustrating how to configure a Caddyfile with an example for a reverse-proxy and TLS. This post won&#39;t cover building a Proxmox LXC container, obtaining an User API key from Cloudflare, or installing the Caddy custom binary.&lt;/p&gt;
 &lt;h2 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h2&gt;
 &lt;ul&gt;
@@ -336,9 +336,9 @@ WantedBy=multi-user.target
   </entry>
   <entry>
     <title>I&#39;m an Irked Docker Maintainer and Homeprodder</title>
-    <link href="https://christopherbauer.org/blog/docker-trouble/" />
+    <link href="https://christopherbauer.xyz/blog/docker-trouble/" />
     <updated>2025-03-26T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/docker-trouble/</id>
+    <id>https://christopherbauer.xyz/blog/docker-trouble/</id>
     <content type="html">&lt;p&gt;Pointing folks to tools for more insight into Docker containers.&lt;/p&gt;
 &lt;h2 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h2&gt;
 &lt;ul&gt;
@@ -363,11 +363,11 @@ WantedBy=multi-user.target
     &lt;span class=&quot;token key atrule&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;SOME_TAG&gt;&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;oxker-for-on-demand-log-viewing&quot;&gt;Oxker for On-Demand Log Viewing&lt;/h2&gt;
 &lt;p&gt;As an alternative, I ran across &lt;a href=&quot;https://github.com/mrjackwills/oxker&quot; class=&quot;primary&quot;&gt;Oxker&lt;/a&gt; , a &amp;quot;simple TUI to view and control docker containers.&amp;quot;  Oxker is run itself as a docker container.  If you are at all familiar with &lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot; class=&quot;primary&quot;&gt;LazyGit&lt;/a&gt;  then Oxker&#39;s TUI interface will be intuitive.  Oxker shares a lot in common with the more widely known tool, &lt;a href=&quot;https://github.com/jesseduffield/lazydocker&quot; class=&quot;primary&quot;&gt;LazyDocker&lt;/a&gt;  but in my tests LazyDocker was both ineffective in exposing logs on my machine and offered superfluous information (to me) regarding volumes and images.  Perhaps the former issue was an omitted parameter on my part, but since a log-first tool was what I was after as a matter of priority, I wasn&#39;t prepared to tinker and moved on quickly to Oxker.  It&#39;s a straightforward tool offering logs and some controls over containers.  The logs themselves are still single space and not colorized, but it is nice to see the layout orchestrated with cpu and memory stats this way.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2025-03-26_12-30.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2025-03-26_12-30.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;I favor running Oxker on the docker command line rather than as a compose file as I tend to use it ad-hoc rather than as a perpetual service and I don&#39;t store any data or configurations long-term.  The last parameter is if you&#39;d like to have the log entries appear with the local timestamp instead of GMT.&lt;/p&gt;
 &lt;pre class=&quot;language-cli&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock:ro --pull=always mrjackwills/oxker --timezone &lt;YOUR_TIMEZONE&gt;&lt;/YOUR_TIMEZONE&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;lazyjournal-for-on-demand-log-viewing&quot;&gt;Lazyjournal for On-Demand Log Viewing&lt;/h2&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2025-03-26_13-54.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2025-03-26_13-54.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 I saved the one with the most potential to fill my toolkit for last. &lt;a href=&quot;https://github.com/Lifailon/lazyjournal&quot; class=&quot;primary&quot;&gt;Lazyjournal&lt;/a&gt;  is well-known but new to me. Like Oxker it offers a Lazygit-style readout. This is a viewing TUI-based tool, it doesn&#39;t manipulate containers or give you system stats like Oxker above. While it is primarily pointed at journalctl entries, it also works with containers. The maintainers favor a download method of using a go binary with links to your path for Linux instances. I find Lazyjournal&#39;s interface a bit busy, especially when I&#39;m only after containers and have to shift through journalctl entries and syslog stuff.  However, I really like the formatted and colorized logs it offers and the filter is fast and a nice alternative to grepping through journalctl entries.
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;Well, I&#39;ve been using Oxker a lot lately, I think because of ease of getting to the logs.  As I said above, I am starting to use Lazyjournal a bit more, as I like how it aids in sifting through what can be a container&#39;s idiosyncratic log report information (its like you have to learn a new tech stack with each new container).  I hope this quick survey of tools to reveal Docker logs has been useful.  Should you want to connect, feel free reach out on &lt;a href=&quot;https://infosec.exchange/@anthro_packets&quot; class=&quot;primary&quot;&gt;Mastodon&lt;/a&gt; .&lt;/p&gt;
@@ -375,9 +375,9 @@ I saved the one with the most potential to fill my toolkit for last. &lt;a href=
   </entry>
   <entry>
     <title>Migrating Posts from Jekyll to 11ty with Python</title>
-    <link href="https://christopherbauer.org/blog/migrating_jekyll/" />
+    <link href="https://christopherbauer.xyz/blog/migrating_jekyll/" />
     <updated>2025-02-12T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/migrating_jekyll/</id>
+    <id>https://christopherbauer.xyz/blog/migrating_jekyll/</id>
     <content type="html">&lt;h4 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching&quot; class=&quot;primary&quot;&gt;Rationale for Switching&lt;/a&gt;&lt;/li&gt;
@@ -493,9 +493,9 @@ find_images&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;src_dir
   </entry>
   <entry>
     <title>Graylog on Proxmox with Ansible for Rsyslog Client Config</title>
-    <link href="https://christopherbauer.org/blog/graylog-revised/" />
+    <link href="https://christopherbauer.xyz/blog/graylog-revised/" />
     <updated>2025-01-24T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/graylog-revised/</id>
+    <id>https://christopherbauer.xyz/blog/graylog-revised/</id>
     <content type="html">&lt;p&gt;Content Overview&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#introduction&quot; class=&quot;primary&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
@@ -517,7 +517,7 @@ find_images&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;src_dir
 &lt;p&gt;I went with a VM because Graylog is a bit of a beast, requiring multiple different components and lots of RAM. I believe people have installed it on LXC containers, but I figured I&#39;d run into fewer problems this way. Well, at least fewer problems than I would otherwise. Not absent problems.&lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;first&lt;/strong&gt; issue was relatively trivial but time consuming to figure out. I figured I&#39;d put Graylog on the latest Ubuntu LTS (24.04). It took a full install cycle using the &lt;a href=&quot;https://wiki.ubuntu.com/Installer/FAQ&quot;&gt;Ubuntu Debian-Installer&lt;/a&gt; and troubleshooting to realize that MongoDB wouldn&#39;t play nice with that version. MongoDB is required for Graylog&#39;s function so this wasn&#39;t something I could figure out later. Lesson learned. As of this writing, I used 22.04.&lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;second&lt;/strong&gt; was that MongoDB&lt;a href=&quot;https://forum.proxmox.com/threads/mongo-db-5-0-not-install.95857/post-440005&quot;&gt; doesn&#39;t play nice with Proxmox&#39;s defaults&lt;/a&gt;. I had learned and subsequently forgotten this one from a previous encounter with MongoDB. In particular, I had to tweak an option that I otherwise never change regarding the processor, as MongoDB cannot work on the default selection of x86-64-v2-AES. In the VM creation guide, on the CPU tab, for &amp;quot;Type,&amp;quot; I had to set the processor to &lt;em&gt;host&lt;/em&gt; in order for it to function correctly in the VM.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2025-01-21_11-41.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2025-01-21_11-41.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;installation-and-configuration&quot;&gt;Installation &amp;amp; Configuration&lt;/h3&gt;
 &lt;p&gt;Regarding the install process, we&#39;ll work through four stages:&lt;/p&gt;
 &lt;ol&gt;
@@ -649,9 +649,9 @@ indices.query.bool.max_clause_count: 32768&quot;&lt;/span&gt; &lt;span class=&qu
   </entry>
   <entry>
     <title>Installing VSFTP in a Proxmox LXC Container Or: &quot;How I Learned the Lessons of the SysAdmin&quot;</title>
-    <link href="https://christopherbauer.org/blog/2025-01-07-vsftpd/" />
+    <link href="https://christopherbauer.xyz/blog/2025-01-07-vsftpd/" />
     <updated>2025-01-07T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2025-01-07-vsftpd/</id>
+    <id>https://christopherbauer.xyz/blog/2025-01-07-vsftpd/</id>
     <content type="html">&lt;p&gt;To make a long story short, I don&#39;t want my NAS to be multipurpose for reasons of admin. I only want it to be a backup server, nothing more. So I thought I&#39;d write up a quick primer on installing and configuring VSFTP in a Proxmox LXC container.&lt;/p&gt;
 &lt;h3 id=&quot;a-progression-to-the-sysadmin-perspective&quot;&gt;A Progression to the SysAdmin Perspective&lt;/h3&gt;
 &lt;p&gt;I don&#39;t think I have more services running than the next home-labatista on the block, but I do have an above average awareness of security and so I&#39;m assiduous about ensuring services are installed correctly, hardened, and everything from OS to apps are upgraded. That means that as the number of services I run grows, I find I&#39;m spending lots of time on admin. It&#39;s not that I don&#39;t like doing admin, its that I don&#39;t like doing lots of admin while being inefficient amidst growing workflows. As the VM and container workflows have multiplied, I&#39;ve looked to simplify things. While I&#39;m sure automation might help me here, I&#39;m seeking simplicity of a mental sort to start.&lt;/p&gt;
@@ -745,13 +745,13 @@ require_ssl_reuse=NO
   </entry>
   <entry>
     <title>Quick Pointer: Abusing DACL Fumbles using PowerView</title>
-    <link href="https://christopherbauer.org/blog/2024-12-12-pv-dacl-mods/" />
+    <link href="https://christopherbauer.xyz/blog/2024-12-12-pv-dacl-mods/" />
     <updated>2024-12-12T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2024-12-12-pv-dacl-mods/</id>
-    <content type="html">&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-12-11_10-09.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    <id>https://christopherbauer.xyz/blog/2024-12-12-pv-dacl-mods/</id>
+    <content type="html">&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-12-11_10-09.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Ever come across an edge description in Boodhound on DACL abuse? They tend to look something like the above.&lt;/p&gt;
 &lt;p&gt;The Windows abuse instructions on the edge tend to offer two ways to proceed, either using &lt;em&gt;net group&lt;/em&gt; from net.exe or PowerView. I&#39;ve always used the net.exe method, but they recommend PowerView because the opsec for net.exe is challenging.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-12-12_08-59.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-12-12_08-59.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;I was curious to play around with PowerView&#39;s &lt;em&gt;Add-DomainGroupMember&lt;/em&gt; to have another option in my toolbox and find out more about this improved opsec. Unfortunately, I&#39;ve run into this Bloodhound description enough times to know that the steps for the PowerView method aren&#39;t quite as clearly laid out in the Bloodhound description as they could be. I don&#39;t think it&#39;s Bloodhound&#39;s fault, as the &lt;a href=&quot;https://powersploit.readthedocs.io/en/latest/Recon/Add-DomainGroupMember/&quot; class=&quot;primary&quot;&gt;original instructions&lt;/a&gt;  aren&#39;t effusive by any means.&lt;/p&gt;
 &lt;h2 id=&quot;adding-an-existing-user-to-domain-admins-by-modifying-the-dacl&quot;&gt;Adding an Existing User to Domain Admins by Modifying the DACL&lt;/h2&gt;
 &lt;p&gt;To make it clearer, here are the steps to follow on a compromised domain-joined target. This will add an existing user (for which you have obtained a password), who already has DACL privileges over the Domain Admins group, to the Domain Admins group itself. For the sake of this example, lets say the user credentials we&#39;ve compromised and want to add to Domain Admins is &lt;code&gt;paul.atreides:spicyworm&lt;/code&gt; on a domain with a short name of &lt;em&gt;arrakis&lt;/em&gt;.&lt;/p&gt;
@@ -779,9 +779,9 @@ require_ssl_reuse=NO
   </entry>
   <entry>
     <title>Installing Game of Active Directory on Proxmox: Part 6 - OpenVPN</title>
-    <link href="https://christopherbauer.org/blog/2024-11-23-goad-vpn/" />
+    <link href="https://christopherbauer.xyz/blog/2024-11-23-goad-vpn/" />
     <updated>2024-11-23T00:00:00Z</updated>
-    <id>https://christopherbauer.org/blog/2024-11-23-goad-vpn/</id>
+    <id>https://christopherbauer.xyz/blog/2024-11-23-goad-vpn/</id>
     <content type="html">&lt;p&gt;This is part 6 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-17-goad-ansible&quot;&gt;fifth installment&lt;/a&gt; I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we&#39;ll setup the VPN server on pfSense to simulate an assumed breach.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement.&lt;/p&gt;
 &lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
@@ -790,12 +790,12 @@ require_ssl_reuse=NO
 &lt;h3 id=&quot;creating-the-ca&quot;&gt;Creating the CA&lt;/h3&gt;
 &lt;p&gt;One note before we start, Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;guide&lt;/a&gt; has some helpful graphics on his screenshots to draw your eye directly to what needs modifying. Should you get confused about what needs modifying in the following steps, head over there and you should be able to sort it out quickly.&lt;/p&gt;
 &lt;p&gt;The first step involves creating a certificate authority to issue a certificate. Go to the system menu and select the Certificates option.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-23_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-23.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-23_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-23.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Under the Authorities tab click the green Add button at the bottom, and it&#39;ll take to to the following page where you&#39;ll give a descriptive name and a common name. I&#39;ve used VLAN 30 (this is according to my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10).&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-24.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-24.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Click save and you should have something like this:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-25.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-25.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;create-the-certificate-server&quot;&gt;Create the Certificate Server&lt;/h3&gt;
 &lt;p&gt;Click the Certificates tab, and click the green Add button at the bottom. That&#39;ll bring up the new certificate page where you&#39;ll add:&lt;/p&gt;
 &lt;ul&gt;
@@ -806,47 +806,47 @@ require_ssl_reuse=NO
 &lt;li&gt;Select the server certificate type&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Then save.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-25_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-27.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-27_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-25_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-27.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-27_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Once you save the Certificates page will look like this:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-28.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-28.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;create-a-vpn-user&quot;&gt;Create a VPN User&lt;/h3&gt;
 &lt;p&gt;Now we&#39;ll create a local user who can access the VPN. Go to the System menu and select User Manager.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-28_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-28_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Under the Users tab, select the green Add button to create a new user.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-28_2.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-28_2.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Select a username and password, a descriptive name for the user certificate and select the CA you created.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-30.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-30.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Once you hit save the user page will look like this:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-31.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-31.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;create-the-open-vpn-service&quot;&gt;Create the Open VPN Service&lt;/h3&gt;
 &lt;p&gt;Now we&#39;ll create the service operating on the server. Go to the VPN menu and select OpenVPN.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-31_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-31_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Under the Servers tab, click on the Green add button. You&#39;ll make several modifications on this page. The first set are:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Change the description&lt;/li&gt;
 &lt;li&gt;Change Server mode to &amp;quot;Remote Access (SSL/TLS + User Auth)&amp;quot;&lt;/li&gt;
 &lt;li&gt;Enter &amp;quot;Local Database&amp;quot; into the Backend for authentication field&lt;/li&gt;
-&lt;li&gt;Change the local port to 2137&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-32.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;li&gt;Change the local port to 2137&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-32.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Modifications continued:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Change Peer Certificate Authority to the CA you created&lt;/li&gt;
-&lt;li&gt;Change Server certificate to the certificate you created&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-33.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;li&gt;Change Server certificate to the certificate you created&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-33.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Modifications continued:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Change IPv4 Tunnel Network to 10.10.10.0/24&lt;/li&gt;
 &lt;li&gt;Change IPv4 Local network to 192.168.30.0/24&lt;/li&gt;
-&lt;li&gt;Change concurent connections to 10&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-34.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;li&gt;Change concurent connections to 10&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-34.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Modifications continued:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Add the network configuration in the Topology dropdown to &amp;quot;net30 -- Isolated /30 network per client&amp;quot;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-35.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;li&gt;Add the network configuration in the Topology dropdown to &amp;quot;net30 -- Isolated /30 network per client&amp;quot;&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-35.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Finally, make sure:&lt;/p&gt;
@@ -855,45 +855,45 @@ require_ssl_reuse=NO
 &lt;li&gt;DNS server 1 reads 192.168.30.1 (this is according to my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10)&lt;/li&gt;
 &lt;li&gt;That the Custom options field under Advanced Configruation reads &amp;quot;auth-nocache&amp;quot;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-36.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-36_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-36.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-36_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;openvpn-client-export-package&quot;&gt;OpenVPN Client Export Package&lt;/h3&gt;
 &lt;p&gt;Now we&#39;ll search for and install the OpenVPN package for Client Export that&#39;ll add a new tab to the OpenVPN pages. Go to System and then Package Manager.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-37.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-37.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Enter &amp;quot;client-export&amp;quot; into the search term and click the green install button on the entry named &amp;quot;openvpn-client-export.&amp;quot;&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-37_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-37_2.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-37_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-37_2.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Next click the client export tab.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-38.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-38.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;That&#39;ll bring up a new page where we&#39;ll create the VPN certificate for export.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_13-47.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-47.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;This section of Mayfly277&#39;s guide was not clear on configuring the client export step. When mayfly277 says change the Host Name Resolution to &amp;quot;Other&amp;quot; in the exporting the client certificate step, there is a blurred image. In the context of these posts, where we&#39;re installing GOAD on a bare-metal instance of Proxmox with an existing true LAN, so we&#39;ll use &lt;em&gt;the IP of the Proxmox host&lt;/em&gt; for &amp;quot;Host Name.&amp;quot;&lt;/p&gt;
 &lt;p&gt;Once you&#39;ve done that, scoll to the bottom section OpenVPN clients and click under the Export column &amp;quot;Inline Configurations - Most Clients.&amp;quot; Download that certificate to your Kali/attack machine.&lt;/p&gt;
 &lt;h3 id=&quot;enable-the-ovpns1-interface&quot;&gt;Enable the ovpns1 Interface&lt;/h3&gt;
 &lt;p&gt;At this point there seemed to be something missing from Mayfly277&#39;s instructions. I eventually pieced together that I needed to enable the goadvpn interface with the help of &lt;a href=&quot;https://koller.ninja/proxmox-goad-lab&quot;&gt;this blog&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Head to the Interfaces menu and select assignments. There should now be an entry there called &amp;quot;goadvpn,&amp;quot; click on that blue name/link on the left side. That&#39;ll open up its page and make sure the Enable Interface box is checked, then change the description and click the green Apply Changes box that comes up.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_14-18.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_14-18.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 Your interface assignments will then look something like this:
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_14-18_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_14-18_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;You&#39;ll want to enable this interface before you get to the &amp;quot;Configure Firewall&amp;quot; steps.&lt;/p&gt;
 &lt;h3 id=&quot;firewall-rules-review&quot;&gt;Firewall Rules Review&lt;/h3&gt;
 &lt;p&gt;Honestly, the most challanging part of setting up GOAD was configuring the firewall rules, so take this review of my rules with a grain of salt. These work for me, but they took quite a bit of tinkering. I&#39;m not an expert at firewall rules, so if you spot an error, please let me know by direct messaging me on Mastodon.&lt;/p&gt;
 &lt;p&gt;The WAN rules:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_14-03.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_14-03.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;The LAN rules:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-23_10-18.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-23_10-18.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;The VLAN rules:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_14-24.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_14-24.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;The VPN rules:&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-17_14-37.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_14-37.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;Post-series edit:&lt;/em&gt; After writing up this series up and exploring on my own, I discovered that VLAN machines couldn&#39;t access the internet.  As a consquence, I couldn&#39;t make them call on my server to download payloads.  I looked into it, and as mentioned in &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/issues/177#issuecomment-1927681503&quot;&gt;this github issue&lt;/a&gt;, I think a rule is missing from the VLAN firewall.  To remedy the problem, I tried a number of targeted rules that essentially reversed the OVPN rule, to no effect. As a short-term workaround, I created an allow any any rule.  My VLAN rules are now kind of a mess, see below.&lt;/p&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-12-04_13-38.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-12-04_13-38.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;confirming-vpn-access-to-the-domain&quot;&gt;Confirming VPN Access to the Domain&lt;/h2&gt;
 &lt;p&gt;Now use &lt;code&gt;sudo openvpn &amp;lt;YOUR_CERTIFICATE&amp;gt;&lt;/code&gt; to connect, and it&#39;ll prompt you for the user and password you created. Once you do that, it should connect successfully.&lt;/p&gt;
 &lt;p&gt;To confirm you can reach the VLAN from your attacking machine, use NetExec to do a simple SMB sweep without a domain:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;nxc smb 192.168.&amp;lt;YOUR_VLAN&amp;gt;.&amp;lt;HERE&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.org/img/2024-11-23_10-09.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-23_10-09.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;concluding-the-series&quot;&gt;Concluding the Series&lt;/h2&gt;
 &lt;p&gt;With that, you&#39;ve confirmed that the domain is working and appropriately configured. You&#39;re now ready to pentest against the domain!&lt;/p&gt;
 &lt;p&gt;It&#39;s been a pleasure writing this up, and I hope someone finds it helpful.  If you do, please don&#39;t hesitate to leave me a note at Mastodon.&lt;/p&gt;
