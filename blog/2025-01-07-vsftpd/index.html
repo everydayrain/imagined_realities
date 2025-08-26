@@ -123,7 +123,7 @@ Dark
 <p>First, <a href="https://pve.proxmox.com/wiki/Linux_Container">create</a> an LXC container. This should be straightforward, and it's out of scope to cover the steps to inception here. Broadly speaking, I prefer using Ubuntu LTS container templates so I don't get caught out in a year or two when some breaking change requires that I upgrade the distro before I can upgrade the software.</p>
 <p>I prefer SSH keys for admin, so that first tab is a place where I tend to create and add a public key. Regarding memory and CPU, I erred on the lower side of things, with 1 core, 2048 RAM and default storage. I didn't put this particular LXC on a VLAN, though if you've already set up a VLAN bridge in Proxmox corresponding to your router's VLAN, then it is as simple as adding the VLAN tag in the networking tab.</p>
 <h3 id="install-and-config-of-vsftpd">Install &amp; Config of VSFTPD</h3>
-<p>Installation is the easy part. For Debian or Ubuntu, you need only use <code>apt install vsftp</code> to install using package manager.</p>
+<p>Installation is the easy part. For Debian or Ubuntu, you need only use <code>apt install vsftpd</code> to install using package manager.</p>
 <p>Before configuring, I changed the hosts file to specify connections only from an RFC 1918 IP address:</p>
 <pre><code># Allow all connections
 vsftpd: ALL
