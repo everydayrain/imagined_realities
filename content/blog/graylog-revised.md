@@ -8,10 +8,10 @@ tags:
 ---
 
 Content Overview
-- {% linkprimary "Introduction", "https://christopherbauer.org/blog/graylog-revised/#introduction" %}
-- {% linkprimary "Creating the VM", "https://christopherbauer.org/blog/graylog-revised/#creating-the-vm" %}
-- {% linkprimary "Installation & Configuration", "https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration" %}
-- {% linkprimary "Automating Client Rsyslog Configurations with Ansible", "https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" %}
+- {% linkprimary "Introduction", "https://christopherbauer.xyz/blog/graylog-revised/#introduction" %}
+- {% linkprimary "Creating the VM", "https://christopherbauer.xyz/blog/graylog-revised/#creating-the-vm" %}
+- {% linkprimary "Installation & Configuration", "https://christopherbauer.xyz/blog/graylog-revised/#installation-and-configuration" %}
+- {% linkprimary "Automating Client Rsyslog Configurations with Ansible", "https://christopherbauer.xyz/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" %}
 
 ### Introduction
 
@@ -121,7 +121,7 @@ indices.query.bool.max_clause_count: 32768" | sudo tee /etc/opensearch/opensearc
 
 #### Installing MongoDB
 
-Once I {% linkprimary "configured the vm properly", "http://christopherbauer.org/blog/graylog-revised/#creating-the-vm" %}, I followed [the official docs ](https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21) for an Ubuntu install without problems. Those same instructions appear here.
+Once I {% linkprimary "configured the vm properly", "http://christopherbauer.xyz/blog/graylog-revised/#creating-the-vm" %}, I followed [the official docs ](https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21) for an Ubuntu install without problems. Those same instructions appear here.
 
 Set a timezone.
 

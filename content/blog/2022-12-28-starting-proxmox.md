@@ -24,7 +24,7 @@ I think its plausible that my old standard HP desktop tower can handle life as a
 ### Preparing the Installation Media
 For any questions during the install, I followed instructions from the [official Proxmox documentation](https://pve.proxmox.com/pve-docs/chapter-pve-installation.html)
 
-I won't go into obtaining the Proxmox .iso and writing it to a USB drive.  Should you need help with that, there are plenty of guides to be found through an internet search.  Alternatively, one can adapt my instructions under "Creating the Bootable USB" found on [my blog here](https://christopherbauer.org/blog/2022-12-20-tumbleweed).
+I won't go into obtaining the Proxmox .iso and writing it to a USB drive.  Should you need help with that, there are plenty of guides to be found through an internet search.  Alternatively, one can adapt my instructions under "Creating the Bootable USB" found on [my blog here](https://christopherbauer.xyz/blog/2022-12-20-tumbleweed).
 
 #### A Brief Note on Ventoy
 [Ventoy](https://www.ventoy.net/en/index.html) is a handy little program to place on USBs to facilitate the install and organization of distro .iso files.

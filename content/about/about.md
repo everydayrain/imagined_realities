@@ -11,7 +11,7 @@ I'm switching careers to Cyber Security, and I'm mostly self-taught. I will be u
 
 In my former career I earned my Ph.D. in cultural anthropology from Rutgers University. I studied how indigenous groups and Internally Displaced Persons (IDPs) struggled for democratic representation in Peru. Prior to my time at Rutgers I earned an M.A. in Conflict Management in 2009 from the School of Advanced International Studies at Johns Hopkins University.
 
-Regarding the webside, you can find out about its title from [this blog post](https://christopherbauer.org/blog/2020-6-17-firstpost/).
+Regarding the webside, you can find out about its title from [this blog post](https://christopherbauer.xyz/blog/2020-6-17-firstpost/).
 
 This is the second iteration of this website, formerly called Imagined Realities. In its current form, it is built using {% linkprimary "Eleventy", "https://www.11ty.dev/" %} and the _11ty-wisp_ theme created by {% linkprimary "Adam DJ Brett", "https://github.com/adamdjbrett/11ty-wisp" %}. I don't have a computer science background, so it will perhaps appear inelegant to someone with a trained eye. Still, it's fun learning and building along the way. I will endeavor to keep this site free of ads and trackers to the extent that such goals are within my control and abilities.
 

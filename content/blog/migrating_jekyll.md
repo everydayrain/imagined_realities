@@ -8,11 +8,11 @@ tags:
 ---
 
 #### Overview in Brief
-- {% linkprimary "Rationale for Switching", "https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching" %}
-- {% linkprimary "Migrating Jekyll Posts", "https://christopherbauer.org/blog/migrating_jekyll/#migrating-jekyll-posts" %}
-- {% linkprimary "Removing the Layout Property", "https://christopherbauer.org/blog/migrating_jekyll/#removing-the-layout-property" %}
-- {% linkprimary "Rewriting Image Links", "https://christopherbauer.org/blog/migrating_jekyll/#rewriting-image-links" %}
-- {% linkprimary "Rewriting Self-Referring Links", "https://christopherbauer.org/blog/migrating_jekyll/#rewriting-self-referring-links" %}
+- {% linkprimary "Rationale for Switching", "https://christopherbauer.xyz/blog/migrating_jekyll/#rationale-for-switching" %}
+- {% linkprimary "Migrating Jekyll Posts", "https://christopherbauer.xyz/blog/migrating_jekyll/#migrating-jekyll-posts" %}
+- {% linkprimary "Removing the Layout Property", "https://christopherbauer.xyz/blog/migrating_jekyll/#removing-the-layout-property" %}
+- {% linkprimary "Rewriting Image Links", "https://christopherbauer.xyz/blog/migrating_jekyll/#rewriting-image-links" %}
+- {% linkprimary "Rewriting Self-Referring Links", "https://christopherbauer.xyz/blog/migrating_jekyll/#rewriting-self-referring-links" %}
 
 
 ### Rationale for Switching
@@ -114,7 +114,7 @@ find_images(src_dir)
 
 
 ### Rewriting Self-Referring Links
-This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.org and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.
+This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.xyz and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.
 
 ```python
 #!/bin/python3
@@ -134,7 +134,7 @@ def find_images(file_variable):
       link = blogpost.read()
       link = re.sub(
         r"https\:\/\/christopherbauer\.org\/(\d{4})\/(\d{2})\/(\d{2})\/(\w.*)\.html",
-        r"https://christopherbauer.org/blog/\1-\2-\3-\4",
+        r"https://christopherbauer.xyz/blog/\1-\2-\3-\4",
         link,
       )
       blogpost.seek(0)

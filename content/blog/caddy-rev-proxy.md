@@ -11,8 +11,8 @@ Installing and configuring a {% linkprimary "Caddy", "https://caddyserver.com/" 
 
 ## Overview in Brief
 
-- {% linkprimary "Downloading Caddy", "https://christopherbauer.org/blog/caddy-rev-proxy/#downloading-and-configuring-caddy" %}
-- {% linkprimary "Creating the Caddyfile", "https://christopherbauer.org/blog/caddy-rev-proxy/#creating-the-caddyfile" %}
+- {% linkprimary "Downloading Caddy", "https://christopherbauer.xyz/blog/caddy-rev-proxy/#downloading-and-configuring-caddy" %}
+- {% linkprimary "Creating the Caddyfile", "https://christopherbauer.xyz/blog/caddy-rev-proxy/#creating-the-caddyfile" %}
 
 ## Hostname Provisioning is Homeprod
 

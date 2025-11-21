@@ -16,10 +16,10 @@ In this post I describe why I installed Apache Guacamole (non-Docker) to connect
 </br>
 
 Overview in Brief:
-- {% linkprimary "What to do About Frequent Kali Crashes?", "https://christopherbauer.org/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes" %}
-- {% linkprimary "Solution Design", "https://christopherbauer.org/blog/guac-proxmox-kali/#solution-design" %}
-- {% linkprimary "No Docker?", "https://christopherbauer.org/blog/guac-proxmox-kali/#no-docker" %}
-- {% linkprimary "Install Guide", "https://christopherbauer.org/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole" %}
+- {% linkprimary "What to do About Frequent Kali Crashes?", "https://christopherbauer.xyz/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes" %}
+- {% linkprimary "Solution Design", "https://christopherbauer.xyz/blog/guac-proxmox-kali/#solution-design" %}
+- {% linkprimary "No Docker?", "https://christopherbauer.xyz/blog/guac-proxmox-kali/#no-docker" %}
+- {% linkprimary "Install Guide", "https://christopherbauer.xyz/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole" %}
 
 <br> 
 </br>
@@ -54,7 +54,7 @@ The only  part of this build that was complex was dealing with x11 on Kali to cr
 
 
 ### No Docker?
-I also dismissed the option of a Docker install method this time.  I chose to avoid docker for a variety of reasons, some of which {% linkprimary "I've talked about before", "https://christopherbauer.org/blog/docker-trouble/" %}.  In brief, when I create single-purpose servers like this, I usually reject Docker as I tend to think that I can tweak the server's settings to match the single piece of software I want to use to more tightly integrate the distro and the software.  Moreover, some enterprise-level software tends to run better directly on a machine (I'm thinking of Graylog as an example that suggests not using it's containerized version for production).  And last, I just find it easier to troubleshoot on a headless server if the software isn't also behind a container's isolation where there may or may not be the tools you need, and you may or may not be able to run standard Linux commands. 
+I also dismissed the option of a Docker install method this time.  I chose to avoid docker for a variety of reasons, some of which {% linkprimary "I've talked about before", "https://christopherbauer.xyz/blog/docker-trouble/" %}.  In brief, when I create single-purpose servers like this, I usually reject Docker as I tend to think that I can tweak the server's settings to match the single piece of software I want to use to more tightly integrate the distro and the software.  Moreover, some enterprise-level software tends to run better directly on a machine (I'm thinking of Graylog as an example that suggests not using it's containerized version for production).  And last, I just find it easier to troubleshoot on a headless server if the software isn't also behind a container's isolation where there may or may not be the tools you need, and you may or may not be able to run standard Linux commands. 
 
 <br> 
 </br>
@@ -412,7 +412,7 @@ sudo systemctl status vncserver@2
 #### Troubleshooting Service File Creation
 I struggled a bit with this section, in part because I ran the `vncserver` command with sudo at one point prior to setting up the Service File.  That caused a great deal of confusion as the server attempted repeated to find TigerVNC configs in the root directory.
 
-To remedy, I moved the ~/.vnc, ~/.Xauthority, ~/.Xresources and/or ~/.config/tigervnc files and directories to a backup location (or give them a `.bak` extension).  Then I uninstalled `tigervnc-standalone-server` and reinstalled.  Finally, I started over from the {% linkprimary "section above.", "https://christopherbauer.org/blog/guac-proxmox-kali/#installing-tigervnc-on-kali" %}
+To remedy, I moved the ~/.vnc, ~/.Xauthority, ~/.Xresources and/or ~/.config/tigervnc files and directories to a backup location (or give them a `.bak` extension).  Then I uninstalled `tigervnc-standalone-server` and reinstalled.  Finally, I started over from the {% linkprimary "section above.", "https://christopherbauer.xyz/blog/guac-proxmox-kali/#installing-tigervnc-on-kali" %}
 
 <br> 
 </br>

@@ -8,10 +8,10 @@ tags:
 ---
 Pointing folks to tools for more insight into Docker containers.  
 ## Overview in Brief
-- {% linkprimary "Context", "https://christopherbauer.org/blog/docker-trouble/#context-homelab-and-homeprod" %}
-- {% linkprimary "GELF", "https://christopherbauer.org/blog/docker-trouble/#gelf-for-graylog-servers" %}
-- {% linkprimary "Oxker", "https://christopherbauer.org/blog/docker-trouble/#oxker-for-on-demand-log-viewing" %}
-- {% linkprimary "Lazyjournal", "https://christopherbauer.org/blog/docker-trouble//#lazyjournal-for-on-demand-log-viewing" %}
+- {% linkprimary "Context", "https://christopherbauer.xyz/blog/docker-trouble/#context-homelab-and-homeprod" %}
+- {% linkprimary "GELF", "https://christopherbauer.xyz/blog/docker-trouble/#gelf-for-graylog-servers" %}
+- {% linkprimary "Oxker", "https://christopherbauer.xyz/blog/docker-trouble/#oxker-for-on-demand-log-viewing" %}
+- {% linkprimary "Lazyjournal", "https://christopherbauer.xyz/blog/docker-trouble//#lazyjournal-for-on-demand-log-viewing" %}
 
 ## Context: Homelab and Homeprod
 I've reached a milestone in the maturity of my homelab where a certain number of services are so integral to my family's routines as to be indispensable.  Perhaps this reflects maturation from "lab" to "production" that many enthusiasts before me have gone through, but the amount of administrative attention required has had me reconsidering the design of those services in the *prod* category.  
