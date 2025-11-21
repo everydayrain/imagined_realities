@@ -668,7 +668,7 @@ indices.query.bool.max_clause_count: 32768&quot;&lt;/span&gt; &lt;span class=&qu
 &lt;p&gt;I prefer SSH keys for admin, so that first tab is a place where I tend to create and add a public key. Regarding memory and CPU, I erred on the lower side of things, with 1 core, 2048 RAM and default storage. I didn&#39;t put this particular LXC on a VLAN, though if you&#39;ve already set up a VLAN bridge in Proxmox corresponding to your router&#39;s VLAN, then it is as simple as adding the VLAN tag in the networking tab.&lt;/p&gt;
 &lt;h3 id=&quot;install-and-config-of-vsftpd&quot;&gt;Install &amp;amp; Config of VSFTPD&lt;/h3&gt;
 &lt;p&gt;Installation is the easy part. For Debian or Ubuntu, you need only use &lt;code&gt;apt install vsftpd&lt;/code&gt; to install using package manager.&lt;/p&gt;
-&lt;p&gt;Before configuring, I changed the hosts file to specify connections only from an RFC 1918 IP address:&lt;/p&gt;
+&lt;p&gt;Before configuring, I changed the &lt;code&gt;/etc/hosts.allow&lt;/code&gt; file to specify connections only from an RFC 1918 IP address:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Allow all connections
 vsftpd: ALL
 # IP address range
@@ -692,7 +692,7 @@ vsftpd: 10.0.0.0/255.255.255.0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;chmod 555 /home
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you can create folders under that user that will: be writable for the FTP server.&lt;/p&gt;
+&lt;p&gt;Now you can create folders under that user that will be writable for the FTP server.&lt;/p&gt;
 &lt;p&gt;Then, set the FTP user&#39;s shell to false:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;usermod -s /bin/false SOME_NEW_USERNAME
 &lt;/code&gt;&lt;/pre&gt;
@@ -731,6 +731,7 @@ rsa_private_key_file=/etc/ssl/certs/vsftpd.pem
 # this is more secure but is not supported by many FTP clients, set to NO for better compatibility
 require_ssl_reuse=NO
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then create a folder under the user you&#39;ve designated for ftp, give it &lt;code&gt;r+w&lt;/code&gt; permissions and make sure its owned by that user.  Then add the following to the  &lt;code&gt;/etc/vsftpd.conf&lt;/code&gt; file.&lt;/p&gt;
 &lt;p&gt;That should be it. You can check the status is &lt;em&gt;enabled&lt;/em&gt; and &lt;em&gt;active&lt;/em&gt; by running:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;systemctl status vsftpd.service
 &lt;/code&gt;&lt;/pre&gt;

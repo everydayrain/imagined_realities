@@ -124,7 +124,7 @@ Dark
 <p>I prefer SSH keys for admin, so that first tab is a place where I tend to create and add a public key. Regarding memory and CPU, I erred on the lower side of things, with 1 core, 2048 RAM and default storage. I didn't put this particular LXC on a VLAN, though if you've already set up a VLAN bridge in Proxmox corresponding to your router's VLAN, then it is as simple as adding the VLAN tag in the networking tab.</p>
 <h3 id="install-and-config-of-vsftpd">Install &amp; Config of VSFTPD</h3>
 <p>Installation is the easy part. For Debian or Ubuntu, you need only use <code>apt install vsftpd</code> to install using package manager.</p>
-<p>Before configuring, I changed the hosts file to specify connections only from an RFC 1918 IP address:</p>
+<p>Before configuring, I changed the <code>/etc/hosts.allow</code> file to specify connections only from an RFC 1918 IP address:</p>
 <pre><code># Allow all connections
 vsftpd: ALL
 # IP address range
@@ -148,7 +148,7 @@ vsftpd: 10.0.0.0/255.255.255.0
 </code></pre>
 <pre><code>chmod 555 /home
 </code></pre>
-<p>Now you can create folders under that user that will: be writable for the FTP server.</p>
+<p>Now you can create folders under that user that will be writable for the FTP server.</p>
 <p>Then, set the FTP user's shell to false:</p>
 <pre><code>usermod -s /bin/false SOME_NEW_USERNAME
 </code></pre>
@@ -187,6 +187,7 @@ rsa_private_key_file=/etc/ssl/certs/vsftpd.pem
 # this is more secure but is not supported by many FTP clients, set to NO for better compatibility
 require_ssl_reuse=NO
 </code></pre>
+<p>Then create a folder under the user you've designated for ftp, give it <code>r+w</code> permissions and make sure its owned by that user.  Then add the following to the  <code>/etc/vsftpd.conf</code> file.</p>
 <p>That should be it. You can check the status is <em>enabled</em> and <em>active</em> by running:</p>
 <pre><code>systemctl status vsftpd.service
 </code></pre>
@@ -233,6 +234,6 @@ require_ssl_reuse=NO
 <p><em><small><small>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a></small></small></em> <small><small>and modified by</small></small> <a href="https://christopherbauer.xyz" style="font-size:11pt">Christopher Bauer</a></p>
         <p><small><small>The following link is designed to verify that I own the domain for use with the Mastodon social media platform:</small></small> <a rel="me noopener" href="https://infosec.exchange/@anthro_packets" style="font-size:11pt">Mastodon</a></p>
 </footer>
-<script type="module" src="/dist/gaaDfwsAbr.js"></script>
+<script type="module" src="/dist/nfmXldCUp2.js"></script>
 </body>
 </html>
