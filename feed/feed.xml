@@ -21,10 +21,10 @@
 &lt;br&gt;
 &lt;p&gt;Overview in Brief:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes&quot; class=&quot;primary&quot;&gt;What to do About Frequent Kali Crashes?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/guac-proxmox-kali/#solution-design&quot; class=&quot;primary&quot;&gt;Solution Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/guac-proxmox-kali/#no-docker&quot; class=&quot;primary&quot;&gt;No Docker?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole&quot; class=&quot;primary&quot;&gt;Install Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes&quot; class=&quot;primary&quot;&gt;What to do About Frequent Kali Crashes?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/guac-proxmox-kali/#solution-design&quot; class=&quot;primary&quot;&gt;Solution Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/guac-proxmox-kali/#no-docker&quot; class=&quot;primary&quot;&gt;No Docker?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole&quot; class=&quot;primary&quot;&gt;Install Guide&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;br&gt; 
 &lt;br&gt;
@@ -43,7 +43,7 @@
 &lt;p&gt;To build Guac, you&#39;ll install two primary parts: the server and what Apache calls the &amp;quot;client.&amp;quot;  I find this naming confusing given the traditional notion of a server and a remote client, versus a &amp;quot;web client&amp;quot; as they define here. I&#39;ll refer to them as the backend and web app frontend respectively.  I built Guac-Server/backend from source.  For the web app frontend I simply installed Tomcat9 and inserted the Apache-supplied .war file.&lt;/p&gt;
 &lt;p&gt;The only  part of this build that was complex was dealing with x11 on Kali to create automatic start up of TigerVNC.  But I&#39;ll get to that soon enough.  Installing the primary components went along pretty smoothly, though it was a bit complex.&lt;/p&gt;
 &lt;h3 id=&quot;no-docker&quot;&gt;No Docker?&lt;/h3&gt;
-&lt;p&gt;I also dismissed the option of a Docker install method this time.  I chose to avoid docker for a variety of reasons, some of which &lt;a href=&quot;https://christopherbauer.org/blog/docker-trouble/&quot; class=&quot;primary&quot;&gt;I&#39;ve talked about before&lt;/a&gt; .  In brief, when I create single-purpose servers like this, I usually reject Docker as I tend to think that I can tweak the server&#39;s settings to match the single piece of software I want to use to more tightly integrate the distro and the software.  Moreover, some enterprise-level software tends to run better directly on a machine (I&#39;m thinking of Graylog as an example that suggests not using it&#39;s containerized version for production).  And last, I just find it easier to troubleshoot on a headless server if the software isn&#39;t also behind a container&#39;s isolation where there may or may not be the tools you need, and you may or may not be able to run standard Linux commands.&lt;/p&gt;
+&lt;p&gt;I also dismissed the option of a Docker install method this time.  I chose to avoid docker for a variety of reasons, some of which &lt;a href=&quot;https://christopherbauer.xyz/blog/docker-trouble/&quot; class=&quot;primary&quot;&gt;I&#39;ve talked about before&lt;/a&gt; .  In brief, when I create single-purpose servers like this, I usually reject Docker as I tend to think that I can tweak the server&#39;s settings to match the single piece of software I want to use to more tightly integrate the distro and the software.  Moreover, some enterprise-level software tends to run better directly on a machine (I&#39;m thinking of Graylog as an example that suggests not using it&#39;s containerized version for production).  And last, I just find it easier to troubleshoot on a headless server if the software isn&#39;t also behind a container&#39;s isolation where there may or may not be the tools you need, and you may or may not be able to run standard Linux commands.&lt;/p&gt;
 &lt;br&gt; 
 &lt;br&gt;
 &lt;h2 id=&quot;guide-to-installing-apache-guacamole&quot;&gt;Guide to Installing Apache Guacamole&lt;/h2&gt;
@@ -218,7 +218,7 @@ WantedBy=multi-user.target
 &lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl status vncserver@2&lt;/code&gt;&lt;/pre&gt;
 &lt;h4 id=&quot;troubleshooting-service-file-creation&quot;&gt;Troubleshooting Service File Creation&lt;/h4&gt;
 &lt;p&gt;I struggled a bit with this section, in part because I ran the &lt;code&gt;vncserver&lt;/code&gt; command with sudo at one point prior to setting up the Service File.  That caused a great deal of confusion as the server attempted repeated to find TigerVNC configs in the root directory.&lt;/p&gt;
-&lt;p&gt;To remedy, I moved the ~/.vnc, ~/.Xauthority, ~/.Xresources and/or ~/.config/tigervnc files and directories to a backup location (or give them a &lt;code&gt;.bak&lt;/code&gt; extension).  Then I uninstalled &lt;code&gt;tigervnc-standalone-server&lt;/code&gt; and reinstalled.  Finally, I started over from the &lt;a href=&quot;https://christopherbauer.org/blog/guac-proxmox-kali/#installing-tigervnc-on-kali&quot; class=&quot;primary&quot;&gt;section above.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;To remedy, I moved the ~/.vnc, ~/.Xauthority, ~/.Xresources and/or ~/.config/tigervnc files and directories to a backup location (or give them a &lt;code&gt;.bak&lt;/code&gt; extension).  Then I uninstalled &lt;code&gt;tigervnc-standalone-server&lt;/code&gt; and reinstalled.  Finally, I started over from the &lt;a href=&quot;https://christopherbauer.xyz/blog/guac-proxmox-kali/#installing-tigervnc-on-kali&quot; class=&quot;primary&quot;&gt;section above.&lt;/a&gt;&lt;/p&gt;
 &lt;br&gt; 
 &lt;br&gt;
 &lt;h3 id=&quot;creating-a-connection-in-guac&quot;&gt;Creating a Connection in Guac&lt;/h3&gt;
@@ -295,8 +295,8 @@ WantedBy=multi-user.target
     <content type="html">&lt;p&gt;Installing and configuring a &lt;a href=&quot;https://caddyserver.com/&quot; class=&quot;primary&quot;&gt;Caddy&lt;/a&gt;  webserver from a binary with a Caddyfile for a reverse-proxy was a little more involved than I expected. This post clarifies a single stage of this process by illustrating how to configure a Caddyfile with an example for a reverse-proxy and TLS. This post won&#39;t cover building a Proxmox LXC container, obtaining an User API key from Cloudflare, or installing the Caddy custom binary.&lt;/p&gt;
 &lt;h2 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/caddy-rev-proxy/#downloading-and-configuring-caddy&quot; class=&quot;primary&quot;&gt;Downloading Caddy&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/caddy-rev-proxy/#creating-the-caddyfile&quot; class=&quot;primary&quot;&gt;Creating the Caddyfile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/caddy-rev-proxy/#downloading-and-configuring-caddy&quot; class=&quot;primary&quot;&gt;Downloading Caddy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/caddy-rev-proxy/#creating-the-caddyfile&quot; class=&quot;primary&quot;&gt;Creating the Caddyfile&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&quot;hostname-provisioning-is-homeprod&quot;&gt;Hostname Provisioning is Homeprod&lt;/h2&gt;
 &lt;p&gt;I&#39;ve recently discovered how critical a reverse proxy is when using domain names and TLS. I&#39;ve been homelabbing for a few years now, but I&#39;ve only recently moved to making production-level services available to extended family. As any good &lt;a href=&quot;https://awfulwoman.com/notes/2024/11/homeprod-not-homelab/&quot; class=&quot;primary&quot;&gt;homeprodder&lt;/a&gt;  knows, that means hostnames instead of IPs and TLS. So far so good, just set up &lt;a href=&quot;https://nginxproxymanager.com/&quot; class=&quot;primary&quot;&gt;Nginx-Reverse-Proxy&lt;/a&gt;  with Cloudflare DNS challenge and you&#39;re good to go, right? Well, my version of Nginx-Reverse-Proxy lived on a server I didn&#39;t keep powered on at production-level five nines. As the number of services I&#39;m hosting has multiplied, and the number of users has also grown, I found myself in a situation where the sudden disappearance of a hostname immediately causes a lot of problems.&lt;/p&gt;
@@ -342,10 +342,10 @@ WantedBy=multi-user.target
     <content type="html">&lt;p&gt;Pointing folks to tools for more insight into Docker containers.&lt;/p&gt;
 &lt;h2 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/docker-trouble/#context-homelab-and-homeprod&quot; class=&quot;primary&quot;&gt;Context&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/docker-trouble/#gelf-for-graylog-servers&quot; class=&quot;primary&quot;&gt;GELF&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/docker-trouble/#oxker-for-on-demand-log-viewing&quot; class=&quot;primary&quot;&gt;Oxker&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/docker-trouble//#lazyjournal-for-on-demand-log-viewing&quot; class=&quot;primary&quot;&gt;Lazyjournal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/docker-trouble/#context-homelab-and-homeprod&quot; class=&quot;primary&quot;&gt;Context&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/docker-trouble/#gelf-for-graylog-servers&quot; class=&quot;primary&quot;&gt;GELF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/docker-trouble/#oxker-for-on-demand-log-viewing&quot; class=&quot;primary&quot;&gt;Oxker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/docker-trouble//#lazyjournal-for-on-demand-log-viewing&quot; class=&quot;primary&quot;&gt;Lazyjournal&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&quot;context-homelab-and-homeprod&quot;&gt;Context: Homelab and Homeprod&lt;/h2&gt;
 &lt;p&gt;I&#39;ve reached a milestone in the maturity of my homelab where a certain number of services are so integral to my family&#39;s routines as to be indispensable.  Perhaps this reflects maturation from &amp;quot;lab&amp;quot; to &amp;quot;production&amp;quot; that many enthusiasts before me have gone through, but the amount of administrative attention required has had me reconsidering the design of those services in the &lt;em&gt;prod&lt;/em&gt; category.&lt;/p&gt;
@@ -380,11 +380,11 @@ I saved the one with the most potential to fill my toolkit for last. &lt;a href=
     <id>https://christopherbauer.xyz/blog/migrating_jekyll/</id>
     <content type="html">&lt;h4 id=&quot;overview-in-brief&quot;&gt;Overview in Brief&lt;/h4&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching&quot; class=&quot;primary&quot;&gt;Rationale for Switching&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#migrating-jekyll-posts&quot; class=&quot;primary&quot;&gt;Migrating Jekyll Posts&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#removing-the-layout-property&quot; class=&quot;primary&quot;&gt;Removing the Layout Property&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rewriting-image-links&quot; class=&quot;primary&quot;&gt;Rewriting Image Links&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/migrating_jekyll/#rewriting-self-referring-links&quot; class=&quot;primary&quot;&gt;Rewriting Self-Referring Links&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/migrating_jekyll/#rationale-for-switching&quot; class=&quot;primary&quot;&gt;Rationale for Switching&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/migrating_jekyll/#migrating-jekyll-posts&quot; class=&quot;primary&quot;&gt;Migrating Jekyll Posts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/migrating_jekyll/#removing-the-layout-property&quot; class=&quot;primary&quot;&gt;Removing the Layout Property&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/migrating_jekyll/#rewriting-image-links&quot; class=&quot;primary&quot;&gt;Rewriting Image Links&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/migrating_jekyll/#rewriting-self-referring-links&quot; class=&quot;primary&quot;&gt;Rewriting Self-Referring Links&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;rationale-for-switching&quot;&gt;Rationale for Switching&lt;/h3&gt;
 &lt;p&gt;I recently recreated my website using 11ty and ran into a few challenges transitioning my posts from Jekyll. Before I dig into how I solved them, allow me to recap my reasons for switching.&lt;/p&gt;
@@ -458,7 +458,7 @@ src_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cla
 
 find_images&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;src_dir&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&quot;rewriting-self-referring-links&quot;&gt;Rewriting Self-Referring Links&lt;/h3&gt;
-&lt;p&gt;This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.org and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.&lt;/p&gt;
+&lt;p&gt;This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.xyz and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.&lt;/p&gt;
 &lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;#!/bin/python3&lt;/span&gt;
 
 &lt;span class=&quot;token comment&quot;&gt;# Import modules&lt;/span&gt;
@@ -476,7 +476,7 @@ src_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cla
       link &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;read&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
       link &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; re&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sub&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
         &lt;span class=&quot;token string&quot;&gt;r&quot;https&#92;:&#92;/&#92;/christopherbauer&#92;.org&#92;/(&#92;d{4})&#92;/(&#92;d{2})&#92;/(&#92;d{2})&#92;/(&#92;w.*)&#92;.html&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;token string&quot;&gt;r&quot;https://christopherbauer.org/blog/&#92;1-&#92;2-&#92;3-&#92;4&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;r&quot;https://christopherbauer.xyz/blog/&#92;1-&#92;2-&#92;3-&#92;4&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
         link&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
       &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
       blogpost&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;seek&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
@@ -498,10 +498,10 @@ find_images&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;src_dir
     <id>https://christopherbauer.xyz/blog/graylog-revised/</id>
     <content type="html">&lt;p&gt;Content Overview&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#introduction&quot; class=&quot;primary&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#creating-the-vm&quot; class=&quot;primary&quot;&gt;Creating the VM&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration&quot; class=&quot;primary&quot;&gt;Installation &amp;amp; Configuration&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible&quot; class=&quot;primary&quot;&gt;Automating Client Rsyslog Configurations with Ansible&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/graylog-revised/#introduction&quot; class=&quot;primary&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/graylog-revised/#creating-the-vm&quot; class=&quot;primary&quot;&gt;Creating the VM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/graylog-revised/#installation-and-configuration&quot; class=&quot;primary&quot;&gt;Installation &amp;amp; Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://christopherbauer.xyz/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible&quot; class=&quot;primary&quot;&gt;Automating Client Rsyslog Configurations with Ansible&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;After some thought, I realized installing Graylog is sufficiently complicated that I&#39;m revising my original post to include installation steps.&lt;/p&gt;
@@ -558,7 +558,7 @@ action.auto_create_index: false
 plugins.security.disabled: true
 indices.query.bool.max_clause_count: 32768&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /etc/opensearch/opensearch.yml&lt;/code&gt;&lt;/pre&gt;
 &lt;h4 id=&quot;installing-mongodb&quot;&gt;Installing MongoDB&lt;/h4&gt;
-&lt;p&gt;Once I &lt;a href=&quot;http://christopherbauer.org/blog/graylog-revised/#creating-the-vm&quot; class=&quot;primary&quot;&gt;configured the vm properly&lt;/a&gt; , I followed &lt;a href=&quot;https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21&quot;&gt;the official docs &lt;/a&gt; for an Ubuntu install without problems. Those same instructions appear here.&lt;/p&gt;
+&lt;p&gt;Once I &lt;a href=&quot;http://christopherbauer.xyz/blog/graylog-revised/#creating-the-vm&quot; class=&quot;primary&quot;&gt;configured the vm properly&lt;/a&gt; , I followed &lt;a href=&quot;https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21&quot;&gt;the official docs &lt;/a&gt; for an Ubuntu install without problems. Those same instructions appear here.&lt;/p&gt;
 &lt;p&gt;Set a timezone.&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; timedatectl set-timezone UTC&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Install gnupg.&lt;/p&gt;
@@ -783,9 +783,9 @@ require_ssl_reuse=NO
     <link href="https://christopherbauer.xyz/blog/2024-11-23-goad-vpn/" />
     <updated>2024-11-23T00:00:00Z</updated>
     <id>https://christopherbauer.xyz/blog/2024-11-23-goad-vpn/</id>
-    <content type="html">&lt;p&gt;This is part 6 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-17-goad-ansible&quot;&gt;fifth installment&lt;/a&gt; I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we&#39;ll setup the VPN server on pfSense to simulate an assumed breach.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 6 of my series on &lt;a href=&quot;https://github.com/Orange-Cyberdefense/GOAD/tree/main&quot;&gt;Orange Cyberdefense&#39;s&lt;/a&gt; Game of Active Directory (GOAD) on Proxmox VE. In the &lt;a href=&quot;https://christopherbauer.xyz/blog/2024-11-17-goad-ansible&quot;&gt;fifth installment&lt;/a&gt; I covered how to use Ansible to configure the final domain layout and individual Windows VMs. In this post we&#39;ll setup the VPN server on pfSense to simulate an assumed breach.&lt;/p&gt;
 &lt;p&gt;As I mentioned before, I&#39;m deeply indebted to Mayfly277&#39;s &lt;a href=&quot;https://mayfly277.github.io/posts/GOAD-on-proxmox-part1-install/?ref=benheater.com&quot;&gt;canonical guide&lt;/a&gt;, and this post follows Mayfly277&#39;s work closely to provide readers with a resource to be used as a standalone or as a supplement.&lt;/p&gt;
-&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
+&lt;p&gt;Should you need more orientation to the context of this series, or on my rationale for creating it, see &lt;a href=&quot;https://christopherbauer.xyz/blog/2024-11-08-GOAD-networking&quot;&gt;first post&lt;/a&gt; in this series.&lt;/p&gt;
 &lt;p&gt;Mayfly277&#39;s instructions for this VPN section left me scratching my head at various points. I found two steps where my setup would fail if I followed his instructions on my machine. I&#39;ll make note of those deviations in what follows.&lt;/p&gt;
 &lt;h2 id=&quot;pfsense-and-openvpn&quot;&gt;pfSense &amp;amp; OpenVPN&lt;/h2&gt;
 &lt;h3 id=&quot;creating-the-ca&quot;&gt;Creating the CA&lt;/h3&gt;
@@ -793,7 +793,7 @@ require_ssl_reuse=NO
 &lt;p&gt;The first step involves creating a certificate authority to issue a certificate. Go to the system menu and select the Certificates option.&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-23_1.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-23.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Under the Authorities tab click the green Add button at the bottom, and it&#39;ll take to to the following page where you&#39;ll give a descriptive name and a common name. I&#39;ve used VLAN 30 (this is according to my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10).&lt;/p&gt;
+&lt;p&gt;Under the Authorities tab click the green Add button at the bottom, and it&#39;ll take to to the following page where you&#39;ll give a descriptive name and a common name. I&#39;ve used VLAN 30 (this is according to my &lt;a href=&quot;https://christopherbauer.xyz/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10).&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-24.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Click save and you should have something like this:&lt;/p&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-25.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
@@ -853,7 +853,7 @@ require_ssl_reuse=NO
 &lt;p&gt;Finally, make sure:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;DNS Server Enabled is checked&lt;/li&gt;
-&lt;li&gt;DNS server 1 reads 192.168.30.1 (this is according to my &lt;a href=&quot;https://christopherbauer.org/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10)&lt;/li&gt;
+&lt;li&gt;DNS server 1 reads 192.168.30.1 (this is according to my &lt;a href=&quot;https://christopherbauer.xyz/blog/2024-11-08-GOAD-networking&quot;&gt;unique arrangement&lt;/a&gt;, if you followed Mayfly277&#39;s instructions you&#39;d use 10)&lt;/li&gt;
 &lt;li&gt;That the Custom options field under Advanced Configruation reads &amp;quot;auth-nocache&amp;quot;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&quot;grid&quot;&gt;&lt;div&gt;&lt;img src=&quot;https://christopherbauer.xyz/img/2024-11-17_13-36.png&quot; loading=&quot;lazy&quot; title=&quot;&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;

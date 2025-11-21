@@ -118,10 +118,10 @@ Dark
 <br>
 <p>Overview in Brief:</p>
 <ul>
-<li><a href="https://christopherbauer.org/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes" class="primary">What to do About Frequent Kali Crashes?</a></li>
-<li><a href="https://christopherbauer.org/blog/guac-proxmox-kali/#solution-design" class="primary">Solution Design</a></li>
-<li><a href="https://christopherbauer.org/blog/guac-proxmox-kali/#no-docker" class="primary">No Docker?</a></li>
-<li><a href="https://christopherbauer.org/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole" class="primary">Install Guide</a></li>
+<li><a href="https://christopherbauer.xyz/blog/guac-proxmox-kali/#what-to-do-about-frequent-kali-crashes" class="primary">What to do About Frequent Kali Crashes?</a></li>
+<li><a href="https://christopherbauer.xyz/blog/guac-proxmox-kali/#solution-design" class="primary">Solution Design</a></li>
+<li><a href="https://christopherbauer.xyz/blog/guac-proxmox-kali/#no-docker" class="primary">No Docker?</a></li>
+<li><a href="https://christopherbauer.xyz/blog/guac-proxmox-kali/#guide-to-installing-apache-guacamole" class="primary">Install Guide</a></li>
 </ul>
 <br> 
 <br>
@@ -140,7 +140,7 @@ Dark
 <p>To build Guac, you'll install two primary parts: the server and what Apache calls the &quot;client.&quot;  I find this naming confusing given the traditional notion of a server and a remote client, versus a &quot;web client&quot; as they define here. I'll refer to them as the backend and web app frontend respectively.  I built Guac-Server/backend from source.  For the web app frontend I simply installed Tomcat9 and inserted the Apache-supplied .war file.</p>
 <p>The only  part of this build that was complex was dealing with x11 on Kali to create automatic start up of TigerVNC.  But I'll get to that soon enough.  Installing the primary components went along pretty smoothly, though it was a bit complex.</p>
 <h3 id="no-docker">No Docker?</h3>
-<p>I also dismissed the option of a Docker install method this time.  I chose to avoid docker for a variety of reasons, some of which <a href="https://christopherbauer.org/blog/docker-trouble/" class="primary">I've talked about before</a> .  In brief, when I create single-purpose servers like this, I usually reject Docker as I tend to think that I can tweak the server's settings to match the single piece of software I want to use to more tightly integrate the distro and the software.  Moreover, some enterprise-level software tends to run better directly on a machine (I'm thinking of Graylog as an example that suggests not using it's containerized version for production).  And last, I just find it easier to troubleshoot on a headless server if the software isn't also behind a container's isolation where there may or may not be the tools you need, and you may or may not be able to run standard Linux commands.</p>
+<p>I also dismissed the option of a Docker install method this time.  I chose to avoid docker for a variety of reasons, some of which <a href="https://christopherbauer.xyz/blog/docker-trouble/" class="primary">I've talked about before</a> .  In brief, when I create single-purpose servers like this, I usually reject Docker as I tend to think that I can tweak the server's settings to match the single piece of software I want to use to more tightly integrate the distro and the software.  Moreover, some enterprise-level software tends to run better directly on a machine (I'm thinking of Graylog as an example that suggests not using it's containerized version for production).  And last, I just find it easier to troubleshoot on a headless server if the software isn't also behind a container's isolation where there may or may not be the tools you need, and you may or may not be able to run standard Linux commands.</p>
 <br> 
 <br>
 <h2 id="guide-to-installing-apache-guacamole">Guide to Installing Apache Guacamole</h2>
@@ -315,7 +315,7 @@ WantedBy=multi-user.target
 <pre class="language-shell" tabindex="0"><code class="language-shell"><span class="token function">sudo</span> systemctl status vncserver@2</code></pre>
 <h4 id="troubleshooting-service-file-creation">Troubleshooting Service File Creation</h4>
 <p>I struggled a bit with this section, in part because I ran the <code>vncserver</code> command with sudo at one point prior to setting up the Service File.  That caused a great deal of confusion as the server attempted repeated to find TigerVNC configs in the root directory.</p>
-<p>To remedy, I moved the ~/.vnc, ~/.Xauthority, ~/.Xresources and/or ~/.config/tigervnc files and directories to a backup location (or give them a <code>.bak</code> extension).  Then I uninstalled <code>tigervnc-standalone-server</code> and reinstalled.  Finally, I started over from the <a href="https://christopherbauer.org/blog/guac-proxmox-kali/#installing-tigervnc-on-kali" class="primary">section above.</a></p>
+<p>To remedy, I moved the ~/.vnc, ~/.Xauthority, ~/.Xresources and/or ~/.config/tigervnc files and directories to a backup location (or give them a <code>.bak</code> extension).  Then I uninstalled <code>tigervnc-standalone-server</code> and reinstalled.  Finally, I started over from the <a href="https://christopherbauer.xyz/blog/guac-proxmox-kali/#installing-tigervnc-on-kali" class="primary">section above.</a></p>
 <br> 
 <br>
 <h3 id="creating-a-connection-in-guac">Creating a Connection in Guac</h3>

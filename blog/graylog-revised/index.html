@@ -112,10 +112,10 @@ Dark
 <p><time datetime="2025-01-24">24 January 2025</time></p>
 <p>Content Overview</p>
 <ul>
-<li><a href="https://christopherbauer.org/blog/graylog-revised/#introduction" class="primary">Introduction</a></li>
-<li><a href="https://christopherbauer.org/blog/graylog-revised/#creating-the-vm" class="primary">Creating the VM</a></li>
-<li><a href="https://christopherbauer.org/blog/graylog-revised/#installation-and-configuration" class="primary">Installation &amp; Configuration</a></li>
-<li><a href="https://christopherbauer.org/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" class="primary">Automating Client Rsyslog Configurations with Ansible</a></li>
+<li><a href="https://christopherbauer.xyz/blog/graylog-revised/#introduction" class="primary">Introduction</a></li>
+<li><a href="https://christopherbauer.xyz/blog/graylog-revised/#creating-the-vm" class="primary">Creating the VM</a></li>
+<li><a href="https://christopherbauer.xyz/blog/graylog-revised/#installation-and-configuration" class="primary">Installation &amp; Configuration</a></li>
+<li><a href="https://christopherbauer.xyz/blog/graylog-revised/#automating-client-rsyslog-configurations-with-ansible" class="primary">Automating Client Rsyslog Configurations with Ansible</a></li>
 </ul>
 <h3 id="introduction">Introduction</h3>
 <p>After some thought, I realized installing Graylog is sufficiently complicated that I'm revising my original post to include installation steps.</p>
@@ -172,7 +172,7 @@ action.auto_create_index: false
 plugins.security.disabled: true
 indices.query.bool.max_clause_count: 32768"</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/opensearch/opensearch.yml</code></pre>
 <h4 id="installing-mongodb">Installing MongoDB</h4>
-<p>Once I <a href="http://christopherbauer.org/blog/graylog-revised/#creating-the-vm" class="primary">configured the vm properly</a> , I followed <a href="https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21">the official docs </a> for an Ubuntu install without problems. Those same instructions appear here.</p>
+<p>Once I <a href="http://christopherbauer.xyz/blog/graylog-revised/#creating-the-vm" class="primary">configured the vm properly</a> , I followed <a href="https://go2docs.graylog.org/current/downloading_and_installing_graylog/ubuntu_installation.htm#aanchor21">the official docs </a> for an Ubuntu install without problems. Those same instructions appear here.</p>
 <p>Set a timezone.</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> timedatectl set-timezone UTC</code></pre>
 <p>Install gnupg.</p>

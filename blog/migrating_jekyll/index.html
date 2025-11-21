@@ -113,11 +113,11 @@ Dark
 <p><time datetime="2025-02-12">12 February 2025</time></p>
 <h4 id="overview-in-brief">Overview in Brief</h4>
 <ul>
-<li><a href="https://christopherbauer.org/blog/migrating_jekyll/#rationale-for-switching" class="primary">Rationale for Switching</a></li>
-<li><a href="https://christopherbauer.org/blog/migrating_jekyll/#migrating-jekyll-posts" class="primary">Migrating Jekyll Posts</a></li>
-<li><a href="https://christopherbauer.org/blog/migrating_jekyll/#removing-the-layout-property" class="primary">Removing the Layout Property</a></li>
-<li><a href="https://christopherbauer.org/blog/migrating_jekyll/#rewriting-image-links" class="primary">Rewriting Image Links</a></li>
-<li><a href="https://christopherbauer.org/blog/migrating_jekyll/#rewriting-self-referring-links" class="primary">Rewriting Self-Referring Links</a></li>
+<li><a href="https://christopherbauer.xyz/blog/migrating_jekyll/#rationale-for-switching" class="primary">Rationale for Switching</a></li>
+<li><a href="https://christopherbauer.xyz/blog/migrating_jekyll/#migrating-jekyll-posts" class="primary">Migrating Jekyll Posts</a></li>
+<li><a href="https://christopherbauer.xyz/blog/migrating_jekyll/#removing-the-layout-property" class="primary">Removing the Layout Property</a></li>
+<li><a href="https://christopherbauer.xyz/blog/migrating_jekyll/#rewriting-image-links" class="primary">Rewriting Image Links</a></li>
+<li><a href="https://christopherbauer.xyz/blog/migrating_jekyll/#rewriting-self-referring-links" class="primary">Rewriting Self-Referring Links</a></li>
 </ul>
 <h3 id="rationale-for-switching">Rationale for Switching</h3>
 <p>I recently recreated my website using 11ty and ran into a few challenges transitioning my posts from Jekyll. Before I dig into how I solved them, allow me to recap my reasons for switching.</p>
@@ -191,7 +191,7 @@ src_dir <span class="token operator">=</span> <span class="token string">"/home/
 
 find_images<span class="token punctuation">(</span>src_dir<span class="token punctuation">)</span></code></pre>
 <h3 id="rewriting-self-referring-links">Rewriting Self-Referring Links</h3>
-<p>This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.org and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.</p>
+<p>This script is virtually the same as the one above, it just uses a different regex to isolate links referring to https://christopherbauer.xyz and substitute the date format from forward slashes to dashes using groups. It has different variable names for the loops as well.</p>
 <pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment">#!/bin/python3</span>
 
 <span class="token comment"># Import modules</span>
@@ -209,7 +209,7 @@ src_dir <span class="token operator">=</span> <span class="token string">"/home/
       link <span class="token operator">=</span> blogpost<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
       link <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span>
         <span class="token string">r"https\:\/\/christopherbauer\.org\/(\d{4})\/(\d{2})\/(\d{2})\/(\w.*)\.html"</span><span class="token punctuation">,</span>
-        <span class="token string">r"https://christopherbauer.org/blog/\1-\2-\3-\4"</span><span class="token punctuation">,</span>
+        <span class="token string">r"https://christopherbauer.xyz/blog/\1-\2-\3-\4"</span><span class="token punctuation">,</span>
         link<span class="token punctuation">,</span>
       <span class="token punctuation">)</span>
       blogpost<span class="token punctuation">.</span>seek<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>

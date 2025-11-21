@@ -114,8 +114,8 @@ Dark
 <p>Installing and configuring a <a href="https://caddyserver.com/" class="primary">Caddy</a>  webserver from a binary with a Caddyfile for a reverse-proxy was a little more involved than I expected. This post clarifies a single stage of this process by illustrating how to configure a Caddyfile with an example for a reverse-proxy and TLS. This post won't cover building a Proxmox LXC container, obtaining an User API key from Cloudflare, or installing the Caddy custom binary.</p>
 <h2 id="overview-in-brief">Overview in Brief</h2>
 <ul>
-<li><a href="https://christopherbauer.org/blog/caddy-rev-proxy/#downloading-and-configuring-caddy" class="primary">Downloading Caddy</a></li>
-<li><a href="https://christopherbauer.org/blog/caddy-rev-proxy/#creating-the-caddyfile" class="primary">Creating the Caddyfile</a></li>
+<li><a href="https://christopherbauer.xyz/blog/caddy-rev-proxy/#downloading-and-configuring-caddy" class="primary">Downloading Caddy</a></li>
+<li><a href="https://christopherbauer.xyz/blog/caddy-rev-proxy/#creating-the-caddyfile" class="primary">Creating the Caddyfile</a></li>
 </ul>
 <h2 id="hostname-provisioning-is-homeprod">Hostname Provisioning is Homeprod</h2>
 <p>I've recently discovered how critical a reverse proxy is when using domain names and TLS. I've been homelabbing for a few years now, but I've only recently moved to making production-level services available to extended family. As any good <a href="https://awfulwoman.com/notes/2024/11/homeprod-not-homelab/" class="primary">homeprodder</a>  knows, that means hostnames instead of IPs and TLS. So far so good, just set up <a href="https://nginxproxymanager.com/" class="primary">Nginx-Reverse-Proxy</a>  with Cloudflare DNS challenge and you're good to go, right? Well, my version of Nginx-Reverse-Proxy lived on a server I didn't keep powered on at production-level five nines. As the number of services I'm hosting has multiplied, and the number of users has also grown, I found myself in a situation where the sudden disappearance of a hostname immediately causes a lot of problems.</p>
