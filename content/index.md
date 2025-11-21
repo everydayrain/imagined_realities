@@ -1,6 +1,6 @@
 ---
 title: Christopher Carter Bauer
-description: Cyber Security and Stray Thoughts
+description: Cyber security and stray thoughts
 ---
 
 <br>
